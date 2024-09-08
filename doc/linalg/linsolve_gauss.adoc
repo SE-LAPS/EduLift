@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: MIT
+// Copyright 2022 Martin Schröder <info@swedishembedded.com>
+// Consulting: https://swedishembedded.com/consulting
+// Simulation: https://swedishembedded.com/simulation
+// Training: https://swedishembedded.com/tag/training
+
+${insert("linsolve_gauss")}
+
+This operation finds a solution 'x' in equation:
+
+[stem]
+++++
+Ax = b
+++++
+
+It uses gaussian elimination to achieve this.
