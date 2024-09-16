@@ -1,0 +1,23 @@
+#!/bin/bash
+# SPDX-License-Identifier: Apache-2.0
+# Copyright (c) 2022 Martin Schröder <info@swedishembedded.com>
+# Consulting: https://swedishembedded.com/go
+# Training: https://swedishembedded.com/tag/training
+
+[[ -d build ]] && rm -rf build
+
+set -e
+
+mkdir -p build
+cd build
+cmake \
+	-DCHECK_CLANG_TIDY=ON \
+	..
+make -j8
+make docs | grep "warning:" && {
+	echo "There were documentation errors"
+	echo "Rerun 'make docs' again and check it"
+	exit 1
+}
+cpack
+cd ..
