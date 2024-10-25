@@ -1,0 +1,10 @@
+test_id,concept,question_no,question,option_a,option_b,option_c,option_d,answer
+test_1,python,1,What is Python?,snake species,A programming language,A type of food,A country in Asia,A programming language
+test_1,python,2,"How do you print ""Hello, World!"" in Python?","echo ""Hello, World!""","print(""Hello, World!"")","console.log(""Hello, World!"")","printf(""Hello, World!"")","print(""Hello, World!"")"
+test_1,python,3,What is the purpose of the `if` statement in Python?,To declare a variable,To define a function,To loop through a sequence,To make decisions based on conditions,To make decisions based on conditions
+test_1,sql,4,What SQL keyword is used to retrieve data from a table?,FETCH,SELECT,GET,SHOW,SELECT
+test_1,sql,5,How do you filter rows in SQL based on a specified condition?,GROUP BY,FILTER,WHERE,HAVING,WHERE
+test_1,sql,6,What SQL statement is used to insert new records into a table?,ADD,INSERT INTO,UPDATE,MODIFY,INSERT INTO
+test_1,machine learning,7,What is machine learning?,A type of robot,A way for computers to learn from data,A programming language,A mathematical equation,A way for computers to learn from data
+test_1,machine learning,8,What is the primary objective of training a machine learning model?,To write complex code automatically,To make predictions or decisions based on data,To replace human intuition,To perform calculations quickly,To make predictions or decisions based on data
+test_1,machine learning,9,"What does the term ""feature"" refer to in machine learning?",The correctness of predictions, The input variables or attributes used to make predictions,The speed of the model,The complexity of the model,The input variables or attributes used to make predictions
