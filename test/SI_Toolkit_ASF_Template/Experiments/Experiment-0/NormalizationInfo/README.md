@@ -1,1 +1,0 @@
-Calculated information on how to normalize input and output of neural networks will appear here.
