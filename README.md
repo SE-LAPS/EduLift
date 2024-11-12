@@ -8,30 +8,16 @@ This software is designed to help Sri Lankan students after they finish their or
 
 **📚 Table of Contents**
 
-1. 🌟 Key Technologies and Skills
-2. 🛠️ Installation
-3. 🚀 Usage
-4. ✨ Features
-5. 🤝 Contributing
-6. 📜 License
-7. 📧 Contact
+1. Key Technologies and Skills
+2. Installation
+3. Usage
+4. Features
+5. Contributing
+6. License
+7. Contact
 
 <br />
 
-**🌟 Key Technologies and Skills**
-- 🐍 Python
-- 🤖 TensorFlow
-- 🧠 Convolutional Neural Network (CNN)
-- 📚 Keras
-- 🧪 Scikit-learn
-- 👁️ OpenCV
-- 🖼️ Pillow
-- 🐘 PostgreSQL
-- 🔢 Numpy
-- 🗃️ Pandas
-- 🌐 Streamlit
-
-<br />
 
 **🛠️ Installation**
 
