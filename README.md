@@ -110,7 +110,15 @@ To use this project, follow these steps:
 Contributions to this project are welcome! If you encounter any issues or have suggestions for improvements, please feel free to submit a pull request.
 
 <br />
+<br/>
 
+## 👨‍💻Technologies and Tools
+Frontend: React Js
+Backend: Python (Flask) for API and ML model integration
+Database: PostgreSQL for relational data, Redis for caching, and NoSQL for unstructured data
+Machine Learning: TensorFlow/Keras for deep learning models, Scikit-learn for classical ML models
+Deployment: Cloud (AWS/GCP/Azure) with CI/CD for efficient updates
+Security: Use authentication protocols like OAuth 2.0 and secure encryption libraries for sensitive data
 
 ## 📝 License
     This project is licensed under the MIT License. See the LICENSE file for more details.
