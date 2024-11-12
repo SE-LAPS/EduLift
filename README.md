@@ -2,36 +2,22 @@
 
 **Introduction**
 
-🚀 Welcome to the Educational Management System (EduLift) repository! Developed as part of the IIT Internship Program, our project aims to revolutionize educational institutions' administrative and academic processes. By focusing on automation, seamless communication, and real-time insights, we strive to enhance the overall educational experience. In today's dynamic landscape, institutions face challenges like student admission, course management, and exam scheduling, including evaluation. Our EMS offers a centralized platform to automate key tasks, facilitate effortless communication, and provide valuable insights for data-driven decision-making. Join us in shaping the future of educational management by exploring the repository and contributing to its development.
+This software is designed to help Sri Lankan students after they finish their ordinary school examinations. It guides them in choosing the right career path, learning new skills, and finding opportunities like scholarships or jobs. The goal is to ensure they have a bright and successful future, no matter what they choose to do next.
 
 <br />
 
 **📚 Table of Contents**
 
-1. 🌟 Key Technologies and Skills
-2. 🛠️ Installation
-3. 🚀 Usage
-4. ✨ Features
-5. 🤝 Contributing
-6. 📜 License
-7. 📧 Contact
+1. Key Technologies and Skills
+2. Installation
+3. Usage
+4. Features
+5. Contributing
+6. License
+7. Contact
 
 <br />
 
-**🌟 Key Technologies and Skills**
-- 🐍 Python
-- 🤖 TensorFlow
-- 🧠 Convolutional Neural Network (CNN)
-- 📚 Keras
-- 🧪 Scikit-learn
-- 👁️ OpenCV
-- 🖼️ Pillow
-- 🐘 PostgreSQL
-- 🔢 Numpy
-- 🗃️ Pandas
-- 🌐 Streamlit
-
-<br />
 
 **🛠️ Installation**
 
@@ -110,7 +96,15 @@ To use this project, follow these steps:
 Contributions to this project are welcome! If you encounter any issues or have suggestions for improvements, please feel free to submit a pull request.
 
 <br />
+<br/>
 
+## 👨‍💻Technologies and Tools
+1️⃣ Frontend: React Js<br>
+2️⃣ Backend: Python (Flask) for API and ML model integration<br>
+3️⃣ Database: PostgreSQL for relational data, Redis for caching, and NoSQL for unstructured data<br>
+4️⃣ Machine Learning: TensorFlow/Keras for deep learning models, Scikit-learn for classical ML models<br>
+5️⃣ Deployment: Cloud (AWS/GCP/Azure) with CI/CD for efficient updates<br>
+6️⃣ Security: Use authentication protocols like OAuth 2.0 and secure encryption libraries for sensitive data
 
 ## 📝 License
     This project is licensed under the MIT License. See the LICENSE file for more details.
