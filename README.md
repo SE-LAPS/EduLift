@@ -2,7 +2,7 @@
 
 **Introduction**
 
-🚀 Welcome to the Educational Management System (EduLift) repository! Developed as part of the IIT Internship Program, our project aims to revolutionize educational institutions' administrative and academic processes. By focusing on automation, seamless communication, and real-time insights, we strive to enhance the overall educational experience. In today's dynamic landscape, institutions face challenges like student admission, course management, and exam scheduling, including evaluation. Our EMS offers a centralized platform to automate key tasks, facilitate effortless communication, and provide valuable insights for data-driven decision-making. Join us in shaping the future of educational management by exploring the repository and contributing to its development.
+This software is designed to help Sri Lankan students after they finish their ordinary school examinations. It guides them in choosing the right career path, learning new skills, and finding opportunities like scholarships or jobs. The goal is to ensure they have a bright and successful future, no matter what they choose to do next.
 
 <br />
 
@@ -113,12 +113,12 @@ Contributions to this project are welcome! If you encounter any issues or have s
 <br/>
 
 ## 👨‍💻Technologies and Tools
-Frontend: React Js
-Backend: Python (Flask) for API and ML model integration
-Database: PostgreSQL for relational data, Redis for caching, and NoSQL for unstructured data
-Machine Learning: TensorFlow/Keras for deep learning models, Scikit-learn for classical ML models
-Deployment: Cloud (AWS/GCP/Azure) with CI/CD for efficient updates
-Security: Use authentication protocols like OAuth 2.0 and secure encryption libraries for sensitive data
+1️⃣Frontend: React Js<br>
+2️⃣Backend: Python (Flask) for API and ML model integration<br>
+3️⃣Database: PostgreSQL for relational data, Redis for caching, and NoSQL for unstructured data<br>
+4️⃣Machine Learning: TensorFlow/Keras for deep learning models, Scikit-learn for classical ML models<br>
+5️⃣Deployment: Cloud (AWS/GCP/Azure) with CI/CD for efficient updates<br>
+6️⃣Security: Use authentication protocols like OAuth 2.0 and secure encryption libraries for sensitive data
 
 ## 📝 License
     This project is licensed under the MIT License. See the LICENSE file for more details.
