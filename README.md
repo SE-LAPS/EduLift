@@ -113,12 +113,12 @@ Contributions to this project are welcome! If you encounter any issues or have s
 <br/>
 
 ## 👨‍💻Technologies and Tools
-1️⃣Frontend: React Js<br>
-2️⃣Backend: Python (Flask) for API and ML model integration<br>
-3️⃣Database: PostgreSQL for relational data, Redis for caching, and NoSQL for unstructured data<br>
-4️⃣Machine Learning: TensorFlow/Keras for deep learning models, Scikit-learn for classical ML models<br>
-5️⃣Deployment: Cloud (AWS/GCP/Azure) with CI/CD for efficient updates<br>
-6️⃣Security: Use authentication protocols like OAuth 2.0 and secure encryption libraries for sensitive data
+1️⃣ Frontend: React Js<br>
+2️⃣ Backend: Python (Flask) for API and ML model integration<br>
+3️⃣ Database: PostgreSQL for relational data, Redis for caching, and NoSQL for unstructured data<br>
+4️⃣ Machine Learning: TensorFlow/Keras for deep learning models, Scikit-learn for classical ML models<br>
+5️⃣ Deployment: Cloud (AWS/GCP/Azure) with CI/CD for efficient updates<br>
+6️⃣ Security: Use authentication protocols like OAuth 2.0 and secure encryption libraries for sensitive data
 
 ## 📝 License
     This project is licensed under the MIT License. See the LICENSE file for more details.
