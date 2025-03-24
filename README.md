@@ -57,6 +57,12 @@ To use this project, follow these steps:
 
 <br />
 
+### 📸 Screens
+
+| SCREEN | SCREEN | SCREEN | SCREEN | SCREEN |
+|---------|------------|-------------|-------------|-------------|
+| ![Home](https://github.com/user-attachments/assets/660e5d58-6873-4d31-927a-72f47333321a) | ![Career Guidance](https://github.com/user-attachments/assets/f03023d7-d55d-453a-9bce-bfa16c50e00f) | ![Talent Identification](https://github.com/user-attachments/assets/5dd136e6-5d58-45b8-b80d-8c1a0d052b41) | ![Lecture](https://github.com/user-attachments/assets/b95e09d0-f229-4ef9-a48c-d412caa77ea0) | ![Test Management](https://github.com/user-attachments/assets/9bb2e40a-8d93-48a5-905c-3f190c25cd38)|
+
 **Features**
 
 **User Management:**
