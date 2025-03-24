@@ -1,4 +1,4 @@
-# 🎓 Educational Management System (EduLift)
+# 🎓 EduLift
 
 **Introduction**
 
