@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import Layout from '@/components/Layout';
 
 // Create a theme instance
 const theme = createTheme({
@@ -74,13 +75,24 @@ const theme = createTheme({
   },
 });
 
-export default function App({ Component, pageProps }: AppProps) {
+// Pages that don't need the layout wrapper
+const noLayoutPages = ['/login'];
+
+export default function App({ Component, pageProps, router }: AppProps) {
+  const shouldUseLayout = !noLayoutPages.includes(router.pathname);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <AuthProvider>
-          <Component {...pageProps} />
+          {shouldUseLayout ? (
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          ) : (
+            <Component {...pageProps} />
+          )}
         </AuthProvider>
       </LocalizationProvider>
     </ThemeProvider>
