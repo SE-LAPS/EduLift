@@ -1,143 +1,22 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
 
-// Define types
 interface User {
   id: number;
   username: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-  role: 'admin' | 'teacher' | 'assistant' | 'supersub' | 'student';
-  is_active: boolean;
+  role: string;
 }
 
 interface AuthContextType {
   user: User | null;
-  token: string | null;
-  loading: boolean;
-  error: string | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
-  isAuthenticated: boolean;
 }
 
-// Create context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// API base URL
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  // Check if token exists in localStorage on initial load
-  useEffect(() => {
-    const initAuth = async () => {
-      const storedToken = localStorage.getItem('token');
-      
-      if (storedToken) {
-        try {
-          // Check if token is expired
-          const decodedToken: any = jwtDecode(storedToken);
-          const currentTime = Date.now() / 1000;
-          
-          if (decodedToken.exp < currentTime) {
-            // Token expired, clear storage
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-            setToken(null);
-            setUser(null);
-          } else {
-            // Valid token
-            setToken(storedToken);
-            const storedUser = localStorage.getItem('user');
-            if (storedUser) {
-              setUser(JSON.parse(storedUser));
-            }
-            
-            // Set authorization header for all future requests
-            axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
-          }
-        } catch (error) {
-          // Invalid token
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-        }
-      }
-      
-      setLoading(false);
-    };
-
-    initAuth();
-  }, []);
-
-  // Login function
-  const login = async (username: string, password: string) => {
-    setLoading(true);
-    setError(null);
-    
-    try {
-      const response = await axios.post(`${API_URL}/api/auth/login`, {
-        username,
-        password
-      });
-      
-      const { access_token, user } = response.data;
-      
-      // Store token and user in localStorage
-      localStorage.setItem('token', access_token);
-      localStorage.setItem('user', JSON.stringify(user));
-      
-      // Update state
-      setToken(access_token);
-      setUser(user);
-      
-      // Set authorization header for all future requests
-      axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
-    } catch (error: any) {
-      setError(error.response?.data?.message || 'Login failed. Please check your credentials.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Logout function
-  const logout = () => {
-    // Remove token and user from localStorage
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    
-    // Update state
-    setToken(null);
-    setUser(null);
-    
-    // Remove authorization header
-    delete axios.defaults.headers.common['Authorization'];
-  };
-
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        token,
-        loading,
-        error,
-        login,
-        logout,
-        isAuthenticated: !!token
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
-};
-
-// Custom hook to use auth context
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
@@ -146,4 +25,110 @@ export const useAuth = () => {
   return context;
 };
 
-export default AuthContext; 
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    // Check if user is already logged in
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      checkUserSession();
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const checkUserSession = async () => {
+    try {
+      // This would be replaced with a real API call to validate the token
+      const userData = JSON.parse(localStorage.getItem('user') || '{}');
+      if (userData && userData.id) {
+        setUser(userData);
+      }
+    } catch (error) {
+      console.error('Session validation error:', error);
+      logout();
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const login = async (username: string, password: string) => {
+    try {
+      setIsLoading(true);
+      
+      // For development: Mock authentication
+      if (process.env.NODE_ENV === 'development') {
+        // Mock user data based on username
+        let mockUser: User;
+        
+        if (username === 'admin@edulift.com' && password === 'admin123') {
+          mockUser = { id: 1, username: 'admin@edulift.com', role: 'admin' };
+        } else if (username === 'teacher@edulift.com' && password === 'teacher123') {
+          mockUser = { id: 2, username: 'teacher@edulift.com', role: 'teacher' };
+        } else if (username === 'student@edulift.com' && password === 'student123') {
+          mockUser = { id: 3, username: 'student@edulift.com', role: 'student' };
+        } else if (username === 'assistant@edulift.com' && password === 'assistant123') {
+          mockUser = { id: 4, username: 'assistant@edulift.com', role: 'assistant' };
+        } else if (username === 'supersub@edulift.com' && password === 'supersub123') {
+          mockUser = { id: 5, username: 'supersub@edulift.com', role: 'supersub' };
+        } else {
+          throw new Error('Invalid credentials');
+        }
+        
+        const mockToken = 'mock-jwt-token-' + Math.random().toString(36).substring(2);
+        
+        localStorage.setItem('accessToken', mockToken);
+        localStorage.setItem('user', JSON.stringify(mockUser));
+        axios.defaults.headers.common['Authorization'] = `Bearer ${mockToken}`;
+        
+        setUser(mockUser);
+        return;
+      }
+      
+      // Production: Real API call
+      const response = await axios.post('/api/auth/login', { username, password });
+      const { access_token, user: userData } = response.data;
+      
+      localStorage.setItem('accessToken', access_token);
+      localStorage.setItem('user', JSON.stringify(userData));
+      axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+      
+      setUser(userData);
+    } catch (error: any) {
+      console.error('Login error:', error);
+      if (error.response) {
+        throw new Error(error.response.data.message || 'Authentication failed');
+      } else if (error.message) {
+        throw new Error(error.message);
+      } else {
+        throw new Error('Failed to login. Please check your credentials.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('user');
+    delete axios.defaults.headers.common['Authorization'];
+    setUser(null);
+  };
+
+  const value = {
+    user,
+    isAuthenticated: !!user,
+    isLoading,
+    login,
+    logout
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}; 
