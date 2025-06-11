@@ -1,21 +1,28 @@
-import '@/styles/globals.css';
+import React from 'react';
+import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import { AuthProvider } from '@/contexts/AuthContext';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { theme } from '../styles/theme';
+import { ThemeProvider } from '../contexts/ThemeContext';
+import { AuthProvider } from '../contexts/AuthContext';
+import Layout from '../components/Layout';
+import Head from 'next/head';
+import ChatbotComponent from '../components/Chatbot';
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <Head>
+          <title>EduLift - Educational Guidance Platform</title>
+          <meta name="description" content="EduLift - Guiding Sri Lankan students after their O/L examinations" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <Layout>
           <Component {...pageProps} />
-        </AuthProvider>
-      </LocalizationProvider>
+        </Layout>
+        <ChatbotComponent />
+      </AuthProvider>
     </ThemeProvider>
   );
 }
+
+export default App;
