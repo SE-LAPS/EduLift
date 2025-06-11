@@ -1,0 +1,33 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="100" fill="#E0F2FE"/>
+  
+  <!-- Face -->
+  <circle cx="100" cy="85" r="55" fill="#FFDBB9"/>
+  
+  <!-- Hair -->
+  <path d="M100 30C65 30 50 65 50 85C50 105 60 120 70 125C70 105 80 110 100 110C120 110 130 105 130 125C140 120 150 105 150 85C150 65 135 30 100 30Z" fill="#5E4132"/>
+  
+  <!-- Eyes -->
+  <ellipse cx="80" cy="80" rx="5" ry="7" fill="#3A3A3A"/>
+  <ellipse cx="120" cy="80" rx="5" ry="7" fill="#3A3A3A"/>
+  
+  <!-- Eyebrows -->
+  <path d="M75 70C75 70 80 65 85 70" stroke="#5E4132" stroke-width="2" fill="none"/>
+  <path d="M115 70C115 70 120 65 125 70" stroke="#5E4132" stroke-width="2" fill="none"/>
+  
+  <!-- Smile -->
+  <path d="M85 95C85 105 115 105 115 95" stroke="#C97B63" stroke-width="2" fill="none"/>
+  
+  <!-- Blush -->
+  <circle cx="75" cy="90" r="5" fill="#FFBABA" opacity="0.5"/>
+  <circle cx="125" cy="90" r="5" fill="#FFBABA" opacity="0.5"/>
+  
+  <!-- Clothing -->
+  <path d="M60 150C60 120 80 120 100 120C120 120 140 120 140 150" fill="#0057FF"/>
+  <path d="M60 150C60 140 80 135 100 135C120 135 140 140 140 150" fill="#0057FF"/>
+  
+  <!-- Necklace -->
+  <path d="M90 135C90 135 100 145 110 135" stroke="#FFD700" stroke-width="2" fill="none"/>
+  <circle cx="100" cy="140" r="2" fill="#FFD700"/>
+</svg> 
