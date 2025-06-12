@@ -28,6 +28,40 @@ import { useThemeContext } from '../contexts/ThemeContext';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import ThemeToggle from './ThemeToggle';
+import Image from 'next/image';
+
+// Create a waterfall animation component for the EduLift text
+interface WaterfallTextProps {
+  text: string;
+  color?: string;
+}
+
+const WaterfallText: React.FC<WaterfallTextProps> = ({ text, color = 'primary.main' }) => {
+  return (
+    <Box sx={{ display: 'inline-flex', overflow: 'hidden' }}>
+      {text.split('').map((char: string, index: number) => (
+        <Typography
+          key={index}
+          variant="inherit"
+          component="span"
+          sx={{
+            display: 'inline-block',
+            color,
+            fontWeight: 'inherit',
+            animation: `waterfall 2s infinite ease-in-out ${index * 0.15}s`,
+            '@keyframes waterfall': {
+              '0%': { transform: 'translateY(-20%)', opacity: 0.7 },
+              '50%': { transform: 'translateY(0)', opacity: 1 },
+              '100%': { transform: 'translateY(-20%)', opacity: 0.7 }
+            }
+          }}
+        >
+          {char}
+        </Typography>
+      ))}
+    </Box>
+  );
+};
 
 const Header = () => {
   const { isAuthenticated, user, logout } = useAuth();
@@ -75,7 +109,7 @@ const Header = () => {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        EduLift
+        <WaterfallText text="EduLift" />
       </Typography>
       <Divider />
       <List>
@@ -123,23 +157,41 @@ const Header = () => {
         <Container maxWidth="lg">
           <Toolbar disableGutters>
             {/* Logo */}
-            <Typography
-              variant="h6"
-              noWrap
+            <Box 
               component={Link}
               href="/"
               sx={{
                 mr: 2,
                 display: { xs: 'none', md: 'flex' },
-                fontWeight: 700,
-                color: 'primary.main',
+                alignItems: 'center',
                 textDecoration: 'none',
                 flexGrow: { xs: 1, md: 0 },
-                fontSize: { xs: '1.5rem', md: '1.75rem' },
               }}
             >
-              EduLift
-            </Typography>
+              <Box 
+                component="img" 
+                src="/images/edu.png" 
+                alt="EduLift Logo" 
+                sx={{ 
+                  height: 50, 
+                  mr: 1,
+                  transition: 'transform 0.3s ease',
+                  '&:hover': {
+                    transform: 'scale(1.05)'
+                  }
+                }} 
+              />
+              <Typography
+                variant="h6"
+                noWrap
+                sx={{
+                  fontWeight: 700,
+                  fontSize: { xs: '1.5rem', md: '1.75rem' },
+                }}
+              >
+                <WaterfallText text="EduLift" />
+              </Typography>
+            </Box>
 
             {/* Mobile menu icon */}
             {isMobile && (
@@ -189,21 +241,35 @@ const Header = () => {
             )}
 
             {/* Mobile logo */}
-            <Typography
-              variant="h6"
-              noWrap
+            <Box
               component={Link}
               href="/"
               sx={{
                 flexGrow: 1,
                 display: { xs: 'flex', md: 'none' },
-                fontWeight: 700,
-                color: 'primary.main',
+                alignItems: 'center',
                 textDecoration: 'none',
               }}
             >
-              EduLift
-            </Typography>
+              <Box 
+                component="img" 
+                src="/images/edu.png" 
+                alt="EduLift Logo" 
+                sx={{ 
+                  height: 55, 
+                  mr: 1 
+                }} 
+              />
+              <Typography
+                variant="h6"
+                noWrap
+                sx={{
+                  fontWeight: 700,
+                }}
+              >
+                <WaterfallText text="EduLift" />
+              </Typography>
+            </Box>
 
             {/* Desktop menu */}
             {!isMobile && (
