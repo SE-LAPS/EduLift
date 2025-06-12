@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Container, Typography, Grid, Card, CardContent, Button } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
 import WorkIcon from '@mui/icons-material/Work';
@@ -11,11 +11,14 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useThemeContext } from '../contexts/ThemeContext';
+import { useImageLoadNavigation } from '../utils/navigation';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 const Services = () => {
   const { mode } = useThemeContext();
+  const navigateWithImageLoad = useImageLoadNavigation();
+  const [isLoading, setIsLoading] = useState(false);
   
   // Initialize AOS animation library
   useEffect(() => {
@@ -26,6 +29,12 @@ const Services = () => {
     });
     AOS.refresh();
   }, []);
+  
+  // Handle navigation with image preloading
+  const handleNavigation = (route: string, imageUrl: string) => {
+    setIsLoading(true);
+    navigateWithImageLoad(route, imageUrl);
+  };
   
   // Main service categories
   const mainServices = [
@@ -126,8 +135,7 @@ const Services = () => {
                 variant="contained" 
                 color="primary"
                 size="large"
-                component={Link}
-                href="/contact"
+                onClick={() => handleNavigation('/contact', '/images/service.gif')}
                 sx={{ 
                   py: 1.5, 
                   px: 4, 
@@ -145,12 +153,20 @@ const Services = () => {
             <Grid item xs={12} md={6} data-aos="fade-left" sx={{ textAlign: 'center' }}>
               <Box 
                 component="img"
-                src="/images/hero-image.svg" 
+                src="/images/service.gif" 
                 alt="EduLift Services"
                 sx={{ 
                   maxWidth: '80%',
                   height: 'auto',
-                  filter: 'drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.15))'
+                  filter: 'drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.15))',
+                  borderRadius: '8px',
+                  animation: 'rotate 4s infinite ease-in-out',
+                  '@keyframes rotate': {
+                    '0%': { transform: 'rotate(0deg)' },
+                    '25%': { transform: 'rotate(1deg)' },
+                    '75%': { transform: 'rotate(-1deg)' },
+                    '100%': { transform: 'rotate(0deg)' }
+                  }
                 }}
               />
             </Grid>
@@ -208,8 +224,7 @@ const Services = () => {
                     variant="outlined" 
                     color="primary"
                     endIcon={<ArrowForwardIcon />}
-                    component={Link}
-                    href="/contact"
+                    onClick={() => handleNavigation('/contact', '/images/service.gif')}
                     sx={{ 
                       mt: 2,
                       textTransform: 'none',
@@ -276,19 +291,19 @@ const Services = () => {
               name: 'Dinesh Perera',
               role: 'University of Colombo',
               quote: 'The academic guidance services helped me choose the right subjects for A/Ls based on my strengths and interests.',
-              avatar: '/images/avatar-placeholder.jpg'
+              avatar: '/images/avatar1.svg'
             },
             {
               name: 'Priyanka Jayasinghe',
               role: 'IT Professional',
               quote: 'The career development program gave me clarity about my future path and helped me develop the skills needed for the tech industry.',
-              avatar: '/images/avatar-placeholder.jpg'
+              avatar: '/images/avatar2.svg'
             },
             {
               name: 'Ashan Fernando',
               role: 'Medical Student',
               quote: 'The mentorship network connected me with experienced medical professionals who guided me through the application process.',
-              avatar: '/images/avatar-placeholder.jpg'
+              avatar: '/images/avatar3.svg'
             }
           ].map((testimonial, index) => (
             <Grid item xs={12} md={4} key={index} data-aos="fade-up" data-aos-delay={index * 100}>
@@ -309,7 +324,9 @@ const Services = () => {
                         borderRadius: '50%',
                         mr: 2,
                         border: '2px solid',
-                        borderColor: 'primary.main'
+                        borderColor: 'primary.main',
+                        backgroundColor: 'background.paper',
+                        p: 0.5
                       }}
                     />
                     <Box>
@@ -356,8 +373,7 @@ const Services = () => {
               variant="contained" 
               color="primary"
               size="large"
-              component={Link}
-              href="/contact"
+              onClick={() => handleNavigation('/contact', '/images/service.gif')}
               sx={{ 
                 py: 1.5, 
                 px: 5, 
