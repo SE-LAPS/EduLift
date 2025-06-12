@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#E3F2FD" />
+  
+  <!-- Decorative Background Elements -->
+  <circle cx="100" cy="100" r="80" fill="#BBDEFB" opacity="0.6" />
+  <circle cx="700" cy="500" r="100" fill="#90CAF9" opacity="0.6" />
+  <circle cx="400" cy="50" r="30" fill="#64B5F6" opacity="0.4" />
+  <circle cx="750" cy="150" r="50" fill="#42A5F5" opacity="0.3" />
+  <circle cx="50" cy="450" r="40" fill="#2196F3" opacity="0.3" />
+  
+  <!-- Team of Educators -->
+  <!-- Person 1 -->
+  <g transform="translate(150, 200)">
+    <circle cx="0" cy="0" r="50" fill="#FFA726" />
+    <circle cx="-15" cy="-10" r="8" fill="white" />
+    <circle cx="15" cy="-10" r="8" fill="white" />
+    <circle cx="-15" cy="-10" r="4" fill="#5D4037" />
+    <circle cx="15" cy="-10" r="4" fill="#5D4037" />
+    <path d="M-20,15 Q0,30 20,15" fill="none" stroke="#5D4037" stroke-width="3" />
+    <rect x="-30" y="50" width="60" height="80" rx="5" fill="#4CAF50" />
+    <rect x="-50" y="60" width="20" height="60" rx="10" fill="#FFA726" />
+    <rect x="30" y="60" width="20" height="60" rx="10" fill="#FFA726" />
+  </g>
+  
+  <!-- Person 2 -->
+  <g transform="translate(300, 220)">
+    <circle cx="0" cy="0" r="45" fill="#FFCC80" />
+    <circle cx="-15" cy="-10" r="7" fill="white" />
+    <circle cx="15" cy="-10" r="7" fill="white" />
+    <circle cx="-15" cy="-10" r="3.5" fill="#5D4037" />
+    <circle cx="15" cy="-10" r="3.5" fill="#5D4037" />
+    <path d="M-20,15 Q0,30 20,15" fill="none" stroke="#5D4037" stroke-width="3" />
+    <rect x="-25" y="45" width="50" height="70" rx="5" fill="#3F51B5" />
+    <rect x="-45" y="55" width="20" height="50" rx="10" fill="#FFCC80" />
+    <rect x="25" y="55" width="20" height="50" rx="10" fill="#FFCC80" />
+  </g>
+  
+  <!-- Person 3 -->
+  <g transform="translate(450, 200)">
+    <circle cx="0" cy="0" r="50" fill="#A1887F" />
+    <circle cx="-15" cy="-10" r="8" fill="white" />
+    <circle cx="15" cy="-10" r="8" fill="white" />
+    <circle cx="-15" cy="-10" r="4" fill="#3E2723" />
+    <circle cx="15" cy="-10" r="4" fill="#3E2723" />
+    <path d="M-20,15 Q0,30 20,15" fill="none" stroke="#3E2723" stroke-width="3" />
+    <rect x="-30" y="50" width="60" height="80" rx="5" fill="#F44336" />
+    <rect x="-50" y="60" width="20" height="60" rx="10" fill="#A1887F" />
+    <rect x="30" y="60" width="20" height="60" rx="10" fill="#A1887F" />
+  </g>
+  
+  <!-- Person 4 -->
+  <g transform="translate(600, 220)">
+    <circle cx="0" cy="0" r="45" fill="#FFECB3" />
+    <circle cx="-15" cy="-10" r="7" fill="white" />
+    <circle cx="15" cy="-10" r="7" fill="white" />
+    <circle cx="-15" cy="-10" r="3.5" fill="#5D4037" />
+    <circle cx="15" cy="-10" r="3.5" fill="#5D4037" />
+    <path d="M-20,15 Q0,30 20,15" fill="none" stroke="#5D4037" stroke-width="3" />
+    <rect x="-25" y="45" width="50" height="70" rx="5" fill="#9C27B0" />
+    <rect x="-45" y="55" width="20" height="50" rx="10" fill="#FFECB3" />
+    <rect x="25" y="55" width="20" height="50" rx="10" fill="#FFECB3" />
+  </g>
+  
+  <!-- Educational Icons -->
+  <g transform="translate(150, 400)">
+    <circle cx="0" cy="0" r="40" fill="white" stroke="#1976D2" stroke-width="3" />
+    <text x="0" y="15" font-family="Arial" font-size="40" text-anchor="middle" fill="#1976D2">🎓</text>
+  </g>
+  
+  <g transform="translate(300, 400)">
+    <circle cx="0" cy="0" r="40" fill="white" stroke="#F44336" stroke-width="3" />
+    <text x="0" y="15" font-family="Arial" font-size="40" text-anchor="middle" fill="#F44336">📚</text>
+  </g>
+  
+  <g transform="translate(450, 400)">
+    <circle cx="0" cy="0" r="40" fill="white" stroke="#4CAF50" stroke-width="3" />
+    <text x="0" y="15" font-family="Arial" font-size="40" text-anchor="middle" fill="#4CAF50">🔍</text>
+  </g>
+  
+  <g transform="translate(600, 400)">
+    <circle cx="0" cy="0" r="40" fill="white" stroke="#FF9800" stroke-width="3" />
+    <text x="0" y="15" font-family="Arial" font-size="40" text-anchor="middle" fill="#FF9800">💡</text>
+  </g>
+  
+  <!-- Title -->
+  <text x="400" y="100" font-family="Arial" font-size="40" font-weight="bold" text-anchor="middle" fill="#0D47A1">Our Team of Educators</text>
+  
+  <!-- Animation -->
+  <style>
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    g:nth-child(n+6):nth-child(-n+9) {
+      animation: float 6s ease-in-out infinite;
+    }
+    g:nth-child(6) {
+      animation-delay: 0s;
+    }
+    g:nth-child(7) {
+      animation-delay: 1.5s;
+    }
+    g:nth-child(8) {
+      animation-delay: 3s;
+    }
+    g:nth-child(9) {
+      animation-delay: 4.5s;
+    }
+  </style>
+</svg> 
