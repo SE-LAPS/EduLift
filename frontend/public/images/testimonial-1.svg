@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <!-- Background -->
+  <circle cx="100" cy="100" r="100" fill="#1976D2" />
+  
+  <!-- Face -->
+  <circle cx="100" cy="85" r="55" fill="#FFCC80" />
+  
+  <!-- Hair -->
+  <path d="M45,85 Q45,45 100,45 Q155,45 155,85 Q155,90 150,95 L150,65 Q150,55 100,55 Q50,55 50,65 L50,95 Q45,90 45,85" fill="#5D4037" />
+  
+  <!-- Eyes -->
+  <circle cx="80" cy="80" r="8" fill="white" />
+  <circle cx="120" cy="80" r="8" fill="white" />
+  <circle cx="80" cy="80" r="4" fill="#5D4037" />
+  <circle cx="120" cy="80" r="4" fill="#5D4037" />
+  
+  <!-- Eyebrows -->
+  <path d="M70,70 Q80,65 90,70" fill="none" stroke="#5D4037" stroke-width="2" />
+  <path d="M110,70 Q120,65 130,70" fill="none" stroke="#5D4037" stroke-width="2" />
+  
+  <!-- Nose -->
+  <path d="M100,85 L95,100 L105,100" fill="#FFCC80" />
+  
+  <!-- Mouth -->
+  <path d="M80,110 Q100,120 120,110" fill="none" stroke="#5D4037" stroke-width="2" />
+  
+  <!-- Shirt/Uniform -->
+  <path d="M60,140 L50,200 L150,200 L140,140 Q120,150 100,150 Q80,150 60,140" fill="#0D47A1" />
+  
+  <!-- Collar -->
+  <path d="M70,140 L80,160 L100,150 L120,160 L130,140" fill="white" />
+  
+  <!-- Glasses -->
+  <circle cx="80" cy="80" r="12" fill="none" stroke="#5D4037" stroke-width="2" />
+  <circle cx="120" cy="80" r="12" fill="none" stroke="#5D4037" stroke-width="2" />
+  <path d="M92,80 L108,80" fill="none" stroke="#5D4037" stroke-width="2" />
+</svg> 
