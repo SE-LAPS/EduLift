@@ -132,27 +132,6 @@ const Register = () => {
         
         <Container maxWidth="lg">
           <Grid container spacing={6} alignItems="center" justifyContent="center">
-            <Grid 
-              item 
-              xs={12} 
-              md={6} 
-              sx={{ 
-                display: { xs: 'none', md: 'block' },
-                textAlign: 'center'
-              }}
-            >
-              <Box 
-                component="img"
-                src="/images/login-illustration.svg" 
-                alt="Register for EduLift"
-                sx={{ 
-                  maxWidth: '80%',
-                  height: 'auto',
-                  filter: 'drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.15))'
-                }}
-              />
-            </Grid>
-            
             <Grid item xs={12} sm={10} md={6} lg={6}>
               <Card 
                 className="hover-lift" 
@@ -398,6 +377,103 @@ const Register = () => {
                   </Box>
                 </CardContent>
               </Card>
+            </Grid>
+            
+            <Grid 
+              item 
+              xs={12} 
+              md={6} 
+              sx={{ 
+                display: { xs: 'none', md: 'block' },
+                textAlign: 'center'
+              }}
+            >
+              <Box 
+                sx={{ 
+                  position: 'relative',
+                  height: '500px',
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  overflow: 'hidden'
+                }}
+              >
+                <Box 
+                  className="register-image-container"
+                  sx={{ 
+                    position: 'relative', 
+                    width: '100%', 
+                    height: '100%',
+                    zIndex: 2,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}
+                >
+                  <style jsx global>{`
+                    @keyframes signup-pulse {
+                      0% { transform: scale(1); }
+                      50% { transform: scale(1.05); }
+                      100% { transform: scale(1); }
+                    }
+                    
+                    @keyframes signup-glow {
+                      0% { filter: drop-shadow(0 0 5px rgba(255, 92, 0, 0.3)); }
+                      50% { filter: drop-shadow(0 0 15px rgba(255, 92, 0, 0.6)); }
+                      100% { filter: drop-shadow(0 0 5px rgba(255, 92, 0, 0.3)); }
+                    }
+                    
+                    .register-image-container::before {
+                      content: '';
+                      position: absolute;
+                      inset: 0;
+                      background: ${mode === 'light' 
+                        ? 'radial-gradient(circle, rgba(255, 92, 0, 0.1) 0%, rgba(255,255,255,0) 70%)' 
+                        : 'radial-gradient(circle, rgba(255, 125, 51, 0.15) 0%, rgba(0,0,0,0) 70%)'};
+                      animation: signup-pulse 8s ease-in-out infinite;
+                      z-index: -1;
+                      border-radius: 50%;
+                      transform: scale(1.2);
+                    }
+                    
+                    .register-image-container img {
+                      animation: signup-glow 4s ease-in-out infinite;
+                      filter: ${mode === 'light' 
+                        ? 'drop-shadow(0 0 10px rgba(255, 92, 0, 0.4))' 
+                        : 'drop-shadow(0 0 10px rgba(255, 125, 51, 0.5))'};
+                      max-width: 90%;
+                      height: auto;
+                      border-radius: 12px;
+                      transform: scale(0.9);
+                      transition: all 0.5s ease;
+                    }
+                    
+                    .register-image-container:hover img {
+                      transform: scale(0.95);
+                    }
+                    
+                    @keyframes spread-signup {
+                      0% { transform: scale(0.9); filter: blur(0px); }
+                      50% { transform: scale(1.05); filter: blur(1px); }
+                      100% { transform: scale(0.9); filter: blur(0px); }
+                    }
+                  `}</style>
+                  <Box 
+                    component="img"
+                    src="/images/signup.gif" 
+                    alt="Register for EduLift"
+                    sx={{ 
+                      maxWidth: '90%',
+                      height: 'auto',
+                      animation: 'spread-signup 10s ease-in-out infinite',
+                      filter: mode === 'light' 
+                        ? 'drop-shadow(0 10px 25px rgba(255, 92, 0, 0.2))' 
+                        : 'drop-shadow(0 10px 25px rgba(255, 125, 51, 0.3)) brightness(0.9)',
+                    }}
+                  />
+                </Box>
+              </Box>
             </Grid>
           </Grid>
         </Container>
