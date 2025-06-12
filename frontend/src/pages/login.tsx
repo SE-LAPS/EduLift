@@ -71,15 +71,91 @@ const Login = () => {
               }}
             >
               <Box 
-                component="img"
-                src="/images/login-illustration.svg" 
-                alt="Login to EduLift"
                 sx={{ 
-                  maxWidth: '80%',
-                  height: 'auto',
-                  filter: 'drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.15))'
+                  position: 'relative',
+                  height: '450px',
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  overflow: 'hidden'
                 }}
-              />
+              >
+                <Box 
+                  className="login-image-container"
+                  sx={{ 
+                    position: 'relative', 
+                    width: '100%', 
+                    height: '100%',
+                    zIndex: 2,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}
+                >
+                  <style jsx global>{`
+                    @keyframes signin-pulse {
+                      0% { transform: scale(1); }
+                      50% { transform: scale(1.05); }
+                      100% { transform: scale(1); }
+                    }
+                    
+                    @keyframes signin-glow {
+                      0% { filter: drop-shadow(0 0 5px rgba(0, 87, 255, 0.3)); }
+                      50% { filter: drop-shadow(0 0 15px rgba(0, 87, 255, 0.6)); }
+                      100% { filter: drop-shadow(0 0 5px rgba(0, 87, 255, 0.3)); }
+                    }
+                    
+                    .login-image-container::before {
+                      content: '';
+                      position: absolute;
+                      inset: 0;
+                      background: ${mode === 'light' 
+                        ? 'radial-gradient(circle, rgba(0, 87, 255, 0.1) 0%, rgba(255,255,255,0) 70%)' 
+                        : 'radial-gradient(circle, rgba(66, 153, 225, 0.15) 0%, rgba(0,0,0,0) 70%)'};
+                      animation: signin-pulse 8s ease-in-out infinite;
+                      z-index: -1;
+                      border-radius: 50%;
+                      transform: scale(1.2);
+                    }
+                    
+                    .login-image-container img {
+                      animation: signin-glow 4s ease-in-out infinite;
+                      filter: ${mode === 'light' 
+                        ? 'drop-shadow(0 0 10px rgba(0, 87, 255, 0.4))' 
+                        : 'drop-shadow(0 0 10px rgba(66, 153, 225, 0.5))'};
+                      max-width: 100%;
+                      height: auto;
+                      border-radius: 12px;
+                      transform: scale(0.9);
+                      transition: all 0.5s ease;
+                    }
+                    
+                    .login-image-container:hover img {
+                      transform: scale(0.95);
+                    }
+                    
+                    @keyframes spread {
+                      0% { transform: scale(0.9); filter: blur(0px); }
+                      50% { transform: scale(1.05); filter: blur(1px); }
+                      100% { transform: scale(0.9); filter: blur(0px); }
+                    }
+                  `}</style>
+                  <Box 
+                    component="img"
+                    src="/images/signin.gif" 
+                    alt="Login to EduLift"
+                    sx={{ 
+                      maxWidth: '90%',
+                      height: 'auto',
+                      animation: 'spread 10s ease-in-out infinite',
+                      filter: mode === 'light' 
+                        ? 'drop-shadow(0 10px 25px rgba(0, 87, 255, 0.2))' 
+                        : 'drop-shadow(0 10px 25px rgba(66, 153, 225, 0.3)) brightness(0.9)',
+                    }}
+                  />
+                </Box>
+              </Box>
             </Grid>
             
             <Grid item xs={12} sm={10} md={6} lg={5}>
