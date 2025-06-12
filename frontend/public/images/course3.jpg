@@ -1,1 +1,14 @@
- 
+<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00B8A9;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#00D68F;stop-opacity:0.9" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="200" fill="url(#grad3)" />
+  <polygon points="320,30 350,80 290,80" fill="#FFFFFF" fill-opacity="0.1" />
+  <polygon points="50,140 80,180 20,180" fill="#FFFFFF" fill-opacity="0.1" />
+  <text x="30" y="80" font-family="Arial" font-size="24" font-weight="bold" fill="#FFFFFF">Digital Skills</text>
+  <text x="30" y="110" font-family="Arial" font-size="24" font-weight="bold" fill="#FFFFFF">for Students</text>
+  <path d="M30 125 L150 125" stroke="#FFFFFF" stroke-width="3" />
+</svg> 
