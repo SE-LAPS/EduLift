@@ -1,1 +1,5 @@
- 
+<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="200" fill="#E5E7EB" />
+  <path d="M200 80 L240 120 L200 160 L160 120 Z" fill="#9CA3AF" />
+  <text x="200" y="190" font-family="Arial" font-size="14" text-anchor="middle" fill="#4B5563">Course Image Placeholder</text>
+</svg> 
