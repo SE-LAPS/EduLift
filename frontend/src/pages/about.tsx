@@ -1,16 +1,21 @@
-import React, { useEffect } from 'react';
-import { Box, Container, Typography, Grid, Card, CardContent, Avatar, Divider } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Box, Container, Typography, Grid, Card, CardContent, Avatar, Divider, Button } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
 import PeopleIcon from '@mui/icons-material/People';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Head from 'next/head';
+import Link from 'next/link';
 import { useThemeContext } from '../contexts/ThemeContext';
+import { useImageLoadNavigation } from '../utils/navigation';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 const About = () => {
   const { mode } = useThemeContext();
+  const navigateWithImageLoad = useImageLoadNavigation();
+  const [isLoading, setIsLoading] = useState(false);
   
   // Initialize AOS animation library
   useEffect(() => {
@@ -21,6 +26,12 @@ const About = () => {
     });
     AOS.refresh();
   }, []);
+
+  // Handle navigation with image preloading
+  const handleNavigation = (route: string, imageUrl: string) => {
+    setIsLoading(true);
+    navigateWithImageLoad(route, imageUrl);
+  };
 
   return (
     <>
@@ -61,17 +72,43 @@ const About = () => {
                 Empowering Sri Lankan students to reach their full potential through
                 guidance, education, and opportunity.
               </Typography>
+              
+              <Button 
+                variant="contained" 
+                color="primary"
+                size="large"
+                onClick={() => handleNavigation('/contact', '/images/vision.gif')}
+                sx={{ 
+                  py: 1.5, 
+                  px: 4, 
+                  borderRadius: 2,
+                  textTransform: 'none',
+                  fontSize: '1rem'
+                }}
+                data-aos="fade-up"
+                data-aos-delay="200"
+                endIcon={<ArrowForwardIcon />}
+              >
+                Learn More
+              </Button>
             </Grid>
             
             <Grid item xs={12} md={6} data-aos="fade-left" sx={{ textAlign: 'center' }}>
               <Box 
                 component="img"
-                src="/images/hero-image.svg" 
+                src="/images/vision.gif" 
                 alt="EduLift Mission"
                 sx={{ 
                   maxWidth: '80%',
                   height: 'auto',
-                  filter: 'drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.15))'
+                  filter: 'drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.15))',
+                  borderRadius: '8px',
+                  animation: 'pulse 2s infinite ease-in-out',
+                  '@keyframes pulse': {
+                    '0%': { transform: 'scale(1)' },
+                    '50%': { transform: 'scale(1.05)' },
+                    '100%': { transform: 'scale(1)' }
+                  }
                 }}
               />
             </Grid>
@@ -85,12 +122,18 @@ const About = () => {
           <Grid item xs={12} md={6} data-aos="fade-up">
             <Box 
               component="img"
-              src="/images/hero-image.svg" 
+              src="/images/story.gif" 
               alt="Our Story"
               sx={{ 
                 width: '100%',
                 borderRadius: 3,
-                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)'
+                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
+                animation: 'float 3s infinite ease-in-out',
+                '@keyframes float': {
+                  '0%': { transform: 'translateY(0px)' },
+                  '50%': { transform: 'translateY(-10px)' },
+                  '100%': { transform: 'translateY(0px)' }
+                }
               }}
             />
           </Grid>
@@ -212,25 +255,25 @@ const About = () => {
               name: 'Dr. Amara Silva',
               role: 'Founder & Education Director',
               bio: 'With over 15 years of experience in education, Dr. Silva leads our academic initiatives.',
-              avatar: '/images/avatar-placeholder.jpg'
+              avatar: '/images/avatar1.svg'
             },
             {
               name: 'Rajiv Perera',
               role: 'Technology Lead',
               bio: 'Rajiv oversees our platform development and ensures our technology serves educational goals.',
-              avatar: '/images/avatar-placeholder.jpg'
+              avatar: '/images/avatar2.svg'
             },
             {
               name: 'Nisha Jayawardena',
               role: 'Student Success Manager',
               bio: 'Nisha works directly with students to ensure they receive personalized guidance and support.',
-              avatar: '/images/avatar-placeholder.jpg'
+              avatar: '/images/avatar3.svg'
             },
             {
               name: 'Malik Fernando',
               role: 'Career Counselor',
               bio: 'Malik helps students discover career paths aligned with their interests and strengths.',
-              avatar: '/images/avatar-placeholder.jpg'
+              avatar: '/images/avatar4.svg'
             }
           ].map((member, index) => (
             <Grid item xs={12} sm={6} md={3} key={index} data-aos="fade-up" data-aos-delay={index * 100}>
@@ -245,7 +288,9 @@ const About = () => {
                       mx: 'auto', 
                       mb: 2,
                       border: '3px solid',
-                      borderColor: 'primary.main'
+                      borderColor: 'primary.main',
+                      backgroundColor: 'background.paper',
+                      p: 0.5
                     }}
                   />
                   <Typography variant="h6" gutterBottom>
