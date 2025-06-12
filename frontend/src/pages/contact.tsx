@@ -318,8 +318,9 @@ const Contact = () => {
                           Our Location
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          123 Education Street, Learning City<br />
-                          CA 90210, United States
+                          NSBM Green University<br />
+                          Pitipana - Thalagala Rd, Homagama<br />
+                          Sri Lanka
                         </Typography>
                       </Box>
                     </Box>
@@ -331,7 +332,7 @@ const Contact = () => {
                           Call Us
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          +1 (555) 123-4567<br />
+                          +94 11 544 5000<br />
                           Monday to Friday, 9am to 5pm
                         </Typography>
                       </Box>
@@ -406,14 +407,14 @@ const Contact = () => {
           className="hover-lift"
         >
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.7152203584424!2d-118.34554548478376!3d34.06850998060504!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2b8d3b1e0287d%3A0x9cc32be17df028b8!2sAcademy%20Museum%20of%20Motion%20Pictures!5e0!3m2!1sen!2sus!4v1651271824247!5m2!1sen!2sus"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3961.575840369662!2d80.03899797455542!3d6.821334193176444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2523b05555555%3A0x546c34cd99f6f488!2sNSBM%20Green%20University!5e0!3m2!1sen!2slk!4v1686564271561!5m2!1sen!2slk"
             width="100%"
             height="100%"
             style={{ border: 0 }}
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title="EduLift Location"
+            title="EduLift Location at NSBM Green University"
           />
         </Box>
       </Box>
