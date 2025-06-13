@@ -15,7 +15,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
-  const { login, loading } = useAuth();
+  const { login, isLoading } = useAuth();
   const router = useRouter();
   const { mode } = useThemeContext();
 
@@ -26,8 +26,8 @@ const Login = () => {
     try {
       await login(email, password);
       router.push('/dashboard');
-    } catch (err) {
-      setError('Invalid email or password. Please try again.');
+    } catch (err: any) {
+      setError(err.message || 'Invalid email or password. Please try again.');
       console.error('Login error:', err);
     }
   };
@@ -246,81 +246,44 @@ const Login = () => {
                       variant="contained"
                       color="primary"
                       size="large"
-                      disabled={loading}
+                      disabled={isLoading}
                       sx={{ 
-                        py: 1.5,
-                        borderRadius: 2,
-                        textTransform: 'none',
-                        fontSize: '1rem'
+                        py: 1.5, 
+                        fontWeight: 600,
+                        position: 'relative',
+                        overflow: 'hidden',
+                        '&::after': {
+                          content: '""',
+                          position: 'absolute',
+                          top: 0,
+                          left: '-100%',
+                          width: '100%',
+                          height: '100%',
+                          background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+                          transition: 'all 0.5s',
+                        },
+                        '&:hover::after': {
+                          left: '100%',
+                        },
                       }}
                     >
-                      {loading ? 'Signing In...' : 'Sign In'}
+                      {isLoading ? 'Signing In...' : 'Sign In'}
                     </Button>
+                    
+                    <Box sx={{ mt: 3, textAlign: 'center' }}>
+                      <Typography variant="body2" component="span">
+                        Don't have an account?{' '}
+                        <MuiLink 
+                          component={Link}
+                          href="/register" 
+                          underline="hover"
+                          sx={{ fontWeight: 600 }}
+                        >
+                          Create one
+                        </MuiLink>
+                      </Typography>
+                    </Box>
                   </form>
-                  
-                  <Box sx={{ mt: 4, textAlign: 'center' }}>
-                    <Typography variant="body2" color="text.secondary">
-                      Don't have an account?{' '}
-                      <MuiLink 
-                        component={Link}
-                        href="/register"
-                        underline="hover"
-                        sx={{ fontWeight: 600 }}
-                      >
-                        Sign Up
-                      </MuiLink>
-                    </Typography>
-                  </Box>
-                  
-                  <Box sx={{ mt: 4, pt: 3, borderTop: 1, borderColor: 'divider' }}>
-                    <Typography variant="subtitle2" color="text.secondary" gutterBottom sx={{ textAlign: 'center' }}>
-                      Test Accounts
-                    </Typography>
-                    <Grid container spacing={2}>
-                      <Grid item xs={4}>
-                        <Button 
-                          fullWidth
-                          variant="outlined"
-                          size="small"
-                          onClick={() => {
-                            setEmail('admin@edulift.lk');
-                            setPassword('admin123');
-                          }}
-                          sx={{ textTransform: 'none' }}
-                        >
-                          Admin
-                        </Button>
-                      </Grid>
-                      <Grid item xs={4}>
-                        <Button 
-                          fullWidth
-                          variant="outlined"
-                          size="small"
-                          onClick={() => {
-                            setEmail('teacher@edulift.lk');
-                            setPassword('teacher123');
-                          }}
-                          sx={{ textTransform: 'none' }}
-                        >
-                          Teacher
-                        </Button>
-                      </Grid>
-                      <Grid item xs={4}>
-                        <Button 
-                          fullWidth
-                          variant="outlined"
-                          size="small"
-                          onClick={() => {
-                            setEmail('student@edulift.lk');
-                            setPassword('student123');
-                          }}
-                          sx={{ textTransform: 'none' }}
-                        >
-                          Student
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </Box>
                 </CardContent>
               </Card>
             </Grid>
