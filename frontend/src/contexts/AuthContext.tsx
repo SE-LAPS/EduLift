@@ -1,10 +1,14 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import axios from 'axios';
+import { authAPI } from '../utils/api';
 
 interface User {
   id: number;
   username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
   role: string;
+  is_active: boolean;
 }
 
 interface AuthContextType {
@@ -36,69 +40,101 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     // Check if user is already logged in
     const token = localStorage.getItem('accessToken');
-    if (token) {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      checkUserSession();
-    } else {
-      setIsLoading(false);
-    }
-  }, []);
-
-  const checkUserSession = async () => {
-    try {
-      // This would be replaced with a real API call to validate the token
-      const userData = JSON.parse(localStorage.getItem('user') || '{}');
-      if (userData && userData.id) {
-        setUser(userData);
+    const userData = localStorage.getItem('user');
+    
+    if (token && userData) {
+      try {
+        setUser(JSON.parse(userData));
+      } catch (error) {
+        console.error('Failed to parse user data:', error);
+        logout();
       }
-    } catch (error) {
-      console.error('Session validation error:', error);
-      logout();
-    } finally {
-      setIsLoading(false);
     }
-  };
+    
+    setIsLoading(false);
+  }, []);
 
   const login = async (username: string, password: string) => {
     try {
       setIsLoading(true);
       
       // For development: Mock authentication
-      if (process.env.NODE_ENV === 'development') {
+      if (process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_USE_MOCK === 'true') {
         // Mock user data based on username
         let mockUser: User;
         
         if (username === 'admin@edulift.com' && password === 'admin123') {
-          mockUser = { id: 1, username: 'admin@edulift.com', role: 'admin' };
+          mockUser = { 
+            id: 1, 
+            username: 'admin@edulift.com', 
+            email: 'admin@edulift.com',
+            first_name: 'Admin',
+            last_name: 'User',
+            role: 'admin',
+            is_active: true
+          };
         } else if (username === 'teacher@edulift.com' && password === 'teacher123') {
-          mockUser = { id: 2, username: 'teacher@edulift.com', role: 'teacher' };
+          mockUser = { 
+            id: 2, 
+            username: 'teacher@edulift.com', 
+            email: 'teacher@edulift.com',
+            first_name: 'Teacher',
+            last_name: 'User',
+            role: 'teacher',
+            is_active: true
+          };
         } else if (username === 'student@edulift.com' && password === 'student123') {
-          mockUser = { id: 3, username: 'student@edulift.com', role: 'student' };
+          mockUser = { 
+            id: 3, 
+            username: 'student@edulift.com', 
+            email: 'student@edulift.com',
+            first_name: 'Student',
+            last_name: 'User',
+            role: 'student',
+            is_active: true
+          };
         } else if (username === 'assistant@edulift.com' && password === 'assistant123') {
-          mockUser = { id: 4, username: 'assistant@edulift.com', role: 'assistant' };
+          mockUser = { 
+            id: 4, 
+            username: 'assistant@edulift.com',
+            email: 'assistant@edulift.com',
+            first_name: 'Assistant',
+            last_name: 'User',
+            role: 'assistant',
+            is_active: true
+          };
         } else if (username === 'supersub@edulift.com' && password === 'supersub123') {
-          mockUser = { id: 5, username: 'supersub@edulift.com', role: 'supersub' };
+          mockUser = { 
+            id: 5, 
+            username: 'supersub@edulift.com',
+            email: 'supersub@edulift.com',
+            first_name: 'Super',
+            last_name: 'Supervisor',
+            role: 'supersub',
+            is_active: true
+          };
         } else {
           throw new Error('Invalid credentials');
         }
         
         const mockToken = 'mock-jwt-token-' + Math.random().toString(36).substring(2);
+        const mockRefreshToken = 'mock-refresh-token-' + Math.random().toString(36).substring(2);
         
         localStorage.setItem('accessToken', mockToken);
+        localStorage.setItem('refreshToken', mockRefreshToken);
         localStorage.setItem('user', JSON.stringify(mockUser));
-        axios.defaults.headers.common['Authorization'] = `Bearer ${mockToken}`;
         
         setUser(mockUser);
         return;
       }
       
       // Production: Real API call
-      const response = await axios.post('/api/auth/login', { username, password });
-      const { access_token, user: userData } = response.data;
+      const response = await authAPI.login(username, password);
+      const { access_token, refresh_token, user: userData } = response.data;
       
       localStorage.setItem('accessToken', access_token);
+      localStorage.setItem('refreshToken', refresh_token);
       localStorage.setItem('user', JSON.stringify(userData));
-      axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
       
       setUser(userData);
     } catch (error: any) {
@@ -116,9 +152,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('user');
-    delete axios.defaults.headers.common['Authorization'];
+    authAPI.logout();
     setUser(null);
   };
 
