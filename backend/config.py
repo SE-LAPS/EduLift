@@ -15,13 +15,13 @@ class Config:
 class DevelopmentConfig(Config):
     """Development configuration"""
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.getenv('DEV_DATABASE_URL', 'postgresql://postgres:postgres@localhost/edulift_dev')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DEV_DATABASE_URL', 'sqlite:///edulift_dev.db')
     REDIS_URL = os.getenv('DEV_REDIS_URL', 'redis://localhost:6379/0')
 
 class TestingConfig(Config):
     """Testing configuration"""
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.getenv('TEST_DATABASE_URL', 'postgresql://postgres:postgres@localhost/edulift_test')
+    SQLALCHEMY_DATABASE_URI = os.getenv('TEST_DATABASE_URL', 'sqlite:///edulift_test.db')
     REDIS_URL = os.getenv('TEST_REDIS_URL', 'redis://localhost:6379/1')
 
 class ProductionConfig(Config):
