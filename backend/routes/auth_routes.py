@@ -9,6 +9,57 @@ from werkzeug.security import check_password_hash
 
 auth_bp = Blueprint('auth', __name__)
 
+@auth_bp.route('/register', methods=['POST'])
+def register():
+    """Register a new user"""
+    data = request.get_json()
+    
+    # Validate required fields
+    required_fields = ['username', 'email', 'password', 'first_name', 'last_name']
+    for field in required_fields:
+        if field not in data:
+            return jsonify({'message': f'Missing required field: {field}'}), 400
+    
+    # Check if username already exists
+    if User.query.filter_by(username=data['username']).first():
+        return jsonify({'message': 'Username already exists'}), 409
+    
+    # Check if email already exists
+    if User.query.filter_by(email=data['email']).first():
+        return jsonify({'message': 'Email already exists'}), 409
+    
+    # Default role is student unless specified and authorized
+    role = data.get('role', 'student')
+    
+    # Create new user
+    try:
+        new_user = User(
+            username=data['username'],
+            email=data['email'],
+            password=data['password'],
+            first_name=data['first_name'],
+            last_name=data['last_name'],
+            role=role
+        )
+        
+        db.session.add(new_user)
+        db.session.commit()
+        
+        # Create tokens
+        access_token = create_access_token(identity=new_user.id)
+        refresh_token = create_refresh_token(identity=new_user.id)
+        
+        return jsonify({
+            'message': 'User registered successfully',
+            'access_token': access_token,
+            'refresh_token': refresh_token,
+            'user': new_user.to_dict()
+        }), 201
+    
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'message': f'Registration failed: {str(e)}'}), 500
+
 @auth_bp.route('/login', methods=['POST'])
 def login():
     """Login endpoint"""
