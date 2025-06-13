@@ -3,32 +3,33 @@ import { Box, Container, Typography, TextField, Button, Grid, Card, CardContent,
 import EmailIcon from '@mui/icons-material/Email';
 import LockIcon from '@mui/icons-material/Lock';
 import PersonIcon from '@mui/icons-material/Person';
-import SchoolIcon from '@mui/icons-material/School';
+import BadgeIcon from '@mui/icons-material/Badge';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { useAuth } from '../contexts/AuthContext';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Head from 'next/head';
 import { useThemeContext } from '../contexts/ThemeContext';
+import { authAPI } from '../utils/api';
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    name: '',
+    username: '',
     email: '',
     password: '',
+    first_name: '',
+    last_name: '',
     confirmPassword: '',
     role: 'student',
-    grade: '',
-    school: ''
   });
   
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [isLoading, setIsLoading] = useState(false);
   
-  const { register, loading } = useAuth();
   const router = useRouter();
   const { mode } = useThemeContext();
 
@@ -53,8 +54,16 @@ const Register = () => {
   const validateForm = () => {
     const errors: Record<string, string> = {};
     
-    if (!formData.name.trim()) {
-      errors.name = 'Name is required';
+    if (!formData.first_name.trim()) {
+      errors.first_name = 'First name is required';
+    }
+    
+    if (!formData.last_name.trim()) {
+      errors.last_name = 'Last name is required';
+    }
+
+    if (!formData.username.trim()) {
+      errors.username = 'Username is required';
     }
     
     if (!formData.email.trim()) {
@@ -73,16 +82,13 @@ const Register = () => {
       errors.confirmPassword = 'Passwords do not match';
     }
     
-    if (formData.role === 'student' && !formData.grade) {
-      errors.grade = 'Grade is required for students';
-    }
-    
     return errors;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess(false);
     
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
@@ -90,12 +96,46 @@ const Register = () => {
       return;
     }
     
+    // Prepare data for API call
+    const userData = {
+      username: formData.username,
+      email: formData.email,
+      password: formData.password,
+      first_name: formData.first_name,
+      last_name: formData.last_name,
+      role: formData.role,
+    };
+    
     try {
-      await register(formData);
-      router.push('/login');
-    } catch (err) {
-      setError('Registration failed. Please try again.');
+      setIsLoading(true);
+      const response = await authAPI.register(userData);
+      setSuccess(true);
+      
+      // Optionally auto-login the user
+      if (response.data.access_token) {
+        localStorage.setItem('accessToken', response.data.access_token);
+        localStorage.setItem('refreshToken', response.data.refresh_token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        
+        // Redirect to dashboard after successful registration and login
+        setTimeout(() => {
+          router.push('/dashboard');
+        }, 1500);
+      } else {
+        // Redirect to login page after successful registration
+        setTimeout(() => {
+          router.push('/login');
+        }, 1500);
+      }
+    } catch (err: any) {
       console.error('Registration error:', err);
+      if (err.response && err.response.data) {
+        setError(err.response.data.message || 'Registration failed. Please try again.');
+      } else {
+        setError('Registration failed. Please try again.');
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -156,23 +196,71 @@ const Register = () => {
                     </Alert>
                   )}
                   
+                  {success && (
+                    <Alert severity="success" sx={{ mb: 3 }}>
+                      Registration successful! Redirecting...
+                    </Alert>
+                  )}
+                  
                   <form onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
-                      <Grid item xs={12}>
+                      <Grid item xs={12} sm={6}>
                         <TextField
                           fullWidth
-                          label="Full Name"
-                          name="name"
+                          label="First Name"
+                          name="first_name"
                           variant="outlined"
                           required
-                          value={formData.name}
+                          value={formData.first_name}
                           onChange={handleChange}
-                          error={!!formErrors.name}
-                          helperText={formErrors.name}
+                          error={!!formErrors.first_name}
+                          helperText={formErrors.first_name}
                           InputProps={{
                             startAdornment: (
                               <InputAdornment position="start">
                                 <PersonIcon color="primary" />
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </Grid>
+                      
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label="Last Name"
+                          name="last_name"
+                          variant="outlined"
+                          required
+                          value={formData.last_name}
+                          onChange={handleChange}
+                          error={!!formErrors.last_name}
+                          helperText={formErrors.last_name}
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <PersonIcon color="primary" />
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </Grid>
+                      
+                      <Grid item xs={12}>
+                        <TextField
+                          fullWidth
+                          label="Username"
+                          name="username"
+                          variant="outlined"
+                          required
+                          value={formData.username}
+                          onChange={handleChange}
+                          error={!!formErrors.username}
+                          helperText={formErrors.username}
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <BadgeIcon color="primary" />
                               </InputAdornment>
                             ),
                           }}
@@ -201,7 +289,7 @@ const Register = () => {
                         />
                       </Grid>
                       
-                      <Grid item xs={12} sm={6}>
+                      <Grid item xs={12}>
                         <TextField
                           fullWidth
                           label="Password"
@@ -234,7 +322,7 @@ const Register = () => {
                         />
                       </Grid>
                       
-                      <Grid item xs={12} sm={6}>
+                      <Grid item xs={12}>
                         <TextField
                           fullWidth
                           label="Confirm Password"
@@ -267,7 +355,7 @@ const Register = () => {
                         />
                       </Grid>
                       
-                      <Grid item xs={12} sm={6}>
+                      <Grid item xs={12}>
                         <FormControl fullWidth variant="outlined">
                           <InputLabel id="role-label">Role</InputLabel>
                           <Select
@@ -276,70 +364,11 @@ const Register = () => {
                             value={formData.role}
                             onChange={handleChange}
                             label="Role"
-                            startAdornment={
-                              <InputAdornment position="start">
-                                <PersonIcon color="primary" />
-                              </InputAdornment>
-                            }
                           >
                             <MenuItem value="student">Student</MenuItem>
                             <MenuItem value="teacher">Teacher</MenuItem>
-                            <MenuItem value="parent">Parent</MenuItem>
                           </Select>
                         </FormControl>
-                      </Grid>
-                      
-                      {formData.role === 'student' && (
-                        <Grid item xs={12} sm={6}>
-                          <FormControl 
-                            fullWidth 
-                            variant="outlined"
-                            error={!!formErrors.grade}
-                          >
-                            <InputLabel id="grade-label">Grade</InputLabel>
-                            <Select
-                              labelId="grade-label"
-                              name="grade"
-                              value={formData.grade}
-                              onChange={handleChange}
-                              label="Grade"
-                              startAdornment={
-                                <InputAdornment position="start">
-                                  <SchoolIcon color="primary" />
-                                </InputAdornment>
-                              }
-                            >
-                              {[...Array(13)].map((_, i) => (
-                                <MenuItem key={i + 1} value={`Grade ${i + 1}`}>
-                                  Grade {i + 1}
-                                </MenuItem>
-                              ))}
-                              <MenuItem value="O/L Completed">O/L Completed</MenuItem>
-                              <MenuItem value="A/L Completed">A/L Completed</MenuItem>
-                            </Select>
-                            {formErrors.grade && (
-                              <FormHelperText>{formErrors.grade}</FormHelperText>
-                            )}
-                          </FormControl>
-                        </Grid>
-                      )}
-                      
-                      <Grid item xs={12}>
-                        <TextField
-                          fullWidth
-                          label="School"
-                          name="school"
-                          variant="outlined"
-                          value={formData.school}
-                          onChange={handleChange}
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
-                                <SchoolIcon color="primary" />
-                              </InputAdornment>
-                            ),
-                          }}
-                        />
                       </Grid>
                     </Grid>
                     
@@ -349,32 +378,45 @@ const Register = () => {
                       variant="contained"
                       color="primary"
                       size="large"
-                      disabled={loading}
+                      disabled={isLoading}
                       sx={{ 
-                        mt: 3,
+                        mt: 3, 
                         py: 1.5,
-                        borderRadius: 2,
-                        textTransform: 'none',
-                        fontSize: '1rem'
+                        fontWeight: 600,
+                        position: 'relative',
+                        overflow: 'hidden',
+                        '&::after': {
+                          content: '""',
+                          position: 'absolute',
+                          top: 0,
+                          left: '-100%',
+                          width: '100%',
+                          height: '100%',
+                          background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+                          transition: 'all 0.5s',
+                        },
+                        '&:hover::after': {
+                          left: '100%',
+                        }, 
                       }}
                     >
-                      {loading ? 'Creating Account...' : 'Create Account'}
+                      {isLoading ? 'Creating Account...' : 'Create Account'}
                     </Button>
+                    
+                    <Box sx={{ mt: 3, textAlign: 'center' }}>
+                      <Typography variant="body2" component="span">
+                        Already have an account?{' '}
+                        <MuiLink 
+                          component={Link}
+                          href="/login" 
+                          underline="hover"
+                          sx={{ fontWeight: 600 }}
+                        >
+                          Sign in
+                        </MuiLink>
+                      </Typography>
+                    </Box>
                   </form>
-                  
-                  <Box sx={{ mt: 4, textAlign: 'center' }}>
-                    <Typography variant="body2" color="text.secondary">
-                      Already have an account?{' '}
-                      <MuiLink 
-                        component={Link}
-                        href="/login"
-                        underline="hover"
-                        sx={{ fontWeight: 600 }}
-                      >
-                        Sign In
-                      </MuiLink>
-                    </Typography>
-                  </Box>
                 </CardContent>
               </Card>
             </Grid>
@@ -391,7 +433,7 @@ const Register = () => {
               <Box 
                 sx={{ 
                   position: 'relative',
-                  height: '500px',
+                  height: '550px',
                   width: '100%',
                   display: 'flex',
                   justifyContent: 'center',
@@ -412,16 +454,16 @@ const Register = () => {
                   }}
                 >
                   <style jsx global>{`
-                    @keyframes signup-pulse {
+                    @keyframes register-pulse {
                       0% { transform: scale(1); }
                       50% { transform: scale(1.05); }
                       100% { transform: scale(1); }
                     }
                     
-                    @keyframes signup-glow {
-                      0% { filter: drop-shadow(0 0 5px rgba(255, 92, 0, 0.3)); }
-                      50% { filter: drop-shadow(0 0 15px rgba(255, 92, 0, 0.6)); }
-                      100% { filter: drop-shadow(0 0 5px rgba(255, 92, 0, 0.3)); }
+                    @keyframes register-glow {
+                      0% { filter: drop-shadow(0 0 5px rgba(0, 87, 255, 0.3)); }
+                      50% { filter: drop-shadow(0 0 15px rgba(0, 87, 255, 0.6)); }
+                      100% { filter: drop-shadow(0 0 5px rgba(0, 87, 255, 0.3)); }
                     }
                     
                     .register-image-container::before {
@@ -429,47 +471,24 @@ const Register = () => {
                       position: absolute;
                       inset: 0;
                       background: ${mode === 'light' 
-                        ? 'radial-gradient(circle, rgba(255, 92, 0, 0.1) 0%, rgba(255,255,255,0) 70%)' 
-                        : 'radial-gradient(circle, rgba(255, 125, 51, 0.15) 0%, rgba(0,0,0,0) 70%)'};
-                      animation: signup-pulse 8s ease-in-out infinite;
+                        ? 'radial-gradient(circle, rgba(0, 87, 255, 0.1) 0%, rgba(255,255,255,0) 70%)' 
+                        : 'radial-gradient(circle, rgba(66, 153, 225, 0.15) 0%, rgba(0,0,0,0) 70%)'};
+                      animation: register-pulse 8s ease-in-out infinite;
                       z-index: -1;
                       border-radius: 50%;
                       transform: scale(1.2);
-                    }
-                    
-                    .register-image-container img {
-                      animation: signup-glow 4s ease-in-out infinite;
-                      filter: ${mode === 'light' 
-                        ? 'drop-shadow(0 0 10px rgba(255, 92, 0, 0.4))' 
-                        : 'drop-shadow(0 0 10px rgba(255, 125, 51, 0.5))'};
-                      max-width: 90%;
-                      height: auto;
-                      border-radius: 12px;
-                      transform: scale(0.9);
-                      transition: all 0.5s ease;
-                    }
-                    
-                    .register-image-container:hover img {
-                      transform: scale(0.95);
-                    }
-                    
-                    @keyframes spread-signup {
-                      0% { transform: scale(0.9); filter: blur(0px); }
-                      50% { transform: scale(1.05); filter: blur(1px); }
-                      100% { transform: scale(0.9); filter: blur(0px); }
                     }
                   `}</style>
                   <Box 
                     component="img"
                     src="/images/signup.gif" 
-                    alt="Register for EduLift"
+                    alt="Create an EduLift Account"
                     sx={{ 
-                      maxWidth: '90%',
+                      maxWidth: '95%',
                       height: 'auto',
-                      animation: 'spread-signup 10s ease-in-out infinite',
                       filter: mode === 'light' 
-                        ? 'drop-shadow(0 10px 25px rgba(255, 92, 0, 0.2))' 
-                        : 'drop-shadow(0 10px 25px rgba(255, 125, 51, 0.3)) brightness(0.9)',
+                        ? 'drop-shadow(0 10px 25px rgba(0, 87, 255, 0.2))' 
+                        : 'drop-shadow(0 10px 25px rgba(66, 153, 225, 0.3)) brightness(0.9)',
                     }}
                   />
                 </Box>
