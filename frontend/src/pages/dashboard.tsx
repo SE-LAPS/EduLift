@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Container, Typography, Grid, Card, CardContent, Button, Avatar, Chip, LinearProgress, List, ListItem, ListItemIcon, ListItemText, Divider, IconButton } from '@mui/material';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import SchoolIcon from '@mui/icons-material/School';
@@ -11,26 +11,12 @@ import Head from 'next/head';
 import { useThemeContext } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useRouter } from 'next/router';
+import ProtectedRoute from '../components/ProtectedRoute';
 
 const Dashboard = () => {
   const { mode } = useThemeContext();
-  const { user, isAuthenticated, loading } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
-  
-  // Redirect if not authenticated
-  React.useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.push('/login');
-    }
-  }, [isAuthenticated, loading, router]);
-  
-  if (loading || !isAuthenticated) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <Typography>Loading...</Typography>
-      </Box>
-    );
-  }
   
   // Mock data for dashboard
   const courses = [
@@ -110,8 +96,21 @@ const Dashboard = () => {
       completed: false
     }
   ];
+
+  // Get user's display name
+  const getUserDisplayName = () => {
+    if (!user) return 'Student';
+    
+    return `${user.first_name} ${user.last_name}`;
+  };
   
-  return (
+  // Get user role for display
+  const getUserRole = () => {
+    if (!user || !user.role) return 'Student';
+    return user.role.charAt(0).toUpperCase() + user.role.slice(1);
+  };
+  
+  const dashboardContent = (
     <>
       <Head>
         <title>Dashboard | EduLift</title>
@@ -125,7 +124,7 @@ const Dashboard = () => {
             <Grid container spacing={3} alignItems="center">
               <Grid item xs={12} md={8}>
                 <Typography variant="h4" gutterBottom>
-                  Welcome back, <span className="gradient-text">{user?.name || 'Student'}</span>
+                  Welcome back, <span className="gradient-text">{getUserDisplayName()}</span>
                 </Typography>
                 <Typography variant="body1" color="text.secondary">
                   Track your progress, manage your tasks, and stay updated with upcoming events.
@@ -198,59 +197,68 @@ const Dashboard = () => {
                   </Button>
                 </Box>
                 
+                {/* Course Cards */}
                 <Grid container spacing={3}>
                   {courses.map((course) => (
-                    <Grid item xs={12} sm={6} md={4} key={course.id}>
-                      <Card className="hover-lift" sx={{ height: '100%' }}>
-                        <Box 
-                          sx={{ 
-                            height: 140, 
-                            background: `url(${course.image || '/images/course-placeholder.jpg'})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                            position: 'relative'
-                          }}
-                        >
+                    <Grid item xs={12} sm={6} md={6} key={course.id}>
+                      <Card className="hover-lift" sx={{ height: '100%', cursor: 'pointer' }}>
+                        <Box sx={{ position: 'relative', height: 140, overflow: 'hidden' }}>
                           <Box 
+                            component="img"
+                            src={course.image}
+                            alt={course.title}
                             sx={{ 
-                              position: 'absolute', 
-                              top: 10, 
-                              right: 10,
-                              bgcolor: 'background.paper',
-                              borderRadius: '50%'
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover',
                             }}
-                          >
+                          />
+                        </Box>
+                        <CardContent sx={{ p: 3 }}>
+                          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                            <Typography variant="h6" gutterBottom>
+                              {course.title}
+                            </Typography>
                             <IconButton size="small">
-                              <MoreVertIcon fontSize="small" />
+                              <MoreVertIcon />
                             </IconButton>
                           </Box>
-                        </Box>
-                        <CardContent sx={{ p: 2 }}>
-                          <Typography variant="h6" noWrap sx={{ mb: 1, fontWeight: 600 }}>
-                            {course.title}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                          <Typography variant="body2" color="text.secondary" gutterBottom>
                             Instructor: {course.instructor}
                           </Typography>
-                          <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                            <Box sx={{ flexGrow: 1, mr: 1 }}>
-                              <LinearProgress 
-                                variant="determinate" 
-                                value={course.progress} 
-                                sx={{ 
-                                  height: 8, 
-                                  borderRadius: 4,
-                                  bgcolor: mode === 'light' ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)'
-                                }} 
-                              />
+                          <Box sx={{ mt: 2 }}>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+                              <Typography variant="body2" fontWeight={600}>
+                                Progress
+                              </Typography>
+                              <Typography variant="body2" fontWeight={600}>
+                                {course.progress}%
+                              </Typography>
                             </Box>
-                            <Typography variant="body2" fontWeight={600} color="primary">
-                              {course.progress}%
-                            </Typography>
+                            <LinearProgress 
+                              variant="determinate" 
+                              value={course.progress} 
+                              sx={{ 
+                                height: 8, 
+                                borderRadius: 4,
+                                bgcolor: mode === 'light' ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.08)'
+                              }} 
+                            />
                           </Box>
-                          <Typography variant="caption" color="text.secondary">
-                            Due: {course.dueDate}
-                          </Typography>
+                          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
+                            <Chip 
+                              label={`Due: ${course.dueDate}`} 
+                              size="small" 
+                              variant="outlined"
+                            />
+                            <Button 
+                              size="small" 
+                              variant="text"
+                              sx={{ minWidth: 'auto' }}
+                            >
+                              Continue
+                            </Button>
+                          </Box>
                         </CardContent>
                       </Card>
                     </Grid>
@@ -272,162 +280,177 @@ const Dashboard = () => {
                   </Button>
                 </Box>
                 
-                <Grid container spacing={3}>
-                  {upcomingEvents.map((event) => (
-                    <Grid item xs={12} sm={6} key={event.id}>
-                      <Card className="hover-lift">
-                        <CardContent sx={{ p: 3 }}>
-                          <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
-                            <Box 
-                              sx={{ 
-                                p: 1.5, 
-                                borderRadius: 2, 
-                                bgcolor: mode === 'light' ? 'rgba(255, 92, 0, 0.1)' : 'rgba(249, 115, 22, 0.15)',
-                                color: 'secondary.main',
-                                mr: 2,
+                <Card className="hover-lift">
+                  <CardContent sx={{ p: 0 }}>
+                    <List sx={{ p: 0 }}>
+                      {upcomingEvents.map((event, index) => (
+                        <React.Fragment key={event.id}>
+                          <ListItem 
+                            sx={{ 
+                              py: 2, 
+                              px: 3,
+                              transition: 'all 0.2s ease',
+                              '&:hover': {
+                                bgcolor: mode === 'light' ? 'rgba(0, 0, 0, 0.03)' : 'rgba(255, 255, 255, 0.03)',
+                              }
+                            }}
+                          >
+                            <ListItemIcon>
+                              <Box sx={{ 
+                                bgcolor: mode === 'light' ? 'primary.light' : 'primary.dark',
+                                color: 'primary.main',
+                                width: 45,
+                                height: 45,
+                                borderRadius: 1,
                                 display: 'flex',
+                                flexDirection: 'column',
                                 alignItems: 'center',
-                                justifyContent: 'center'
+                                justifyContent: 'center',
+                                lineHeight: 1.2,
+                                mr: 2
+                              }}>
+                                <Typography variant="caption" fontWeight={600}>
+                                  {event.date.split(' ')[0]}
+                                </Typography>
+                                <Typography variant="caption" fontWeight={600}>
+                                  {event.date.split(' ')[1]}
+                                </Typography>
+                              </Box>
+                            </ListItemIcon>
+                            <ListItemText 
+                              primary={event.title}
+                              secondary={
+                                <>
+                                  <Typography variant="body2" component="span" display="block">
+                                    {event.time}
+                                  </Typography>
+                                  <Typography variant="body2" component="span" color="text.secondary">
+                                    {event.location}
+                                  </Typography>
+                                </>
+                              }
+                            />
+                            <Button 
+                              variant="outlined" 
+                              size="small"
+                              sx={{ 
+                                borderRadius: 6,
+                                minWidth: 80
                               }}
                             >
-                              <EventIcon />
-                            </Box>
-                            <Box sx={{ flexGrow: 1 }}>
-                              <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
-                                {event.title}
-                              </Typography>
-                              <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
-                                <strong>Date:</strong> {event.date}
-                              </Typography>
-                              <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
-                                <strong>Time:</strong> {event.time}
-                              </Typography>
-                              <Typography variant="body2" color="text.secondary">
-                                <strong>Location:</strong> {event.location}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
+                              Join
+                            </Button>
+                          </ListItem>
+                          {index < upcomingEvents.length - 1 && (
+                            <Divider />
+                          )}
+                        </React.Fragment>
+                      ))}
+                    </List>
+                  </CardContent>
+                </Card>
               </Box>
             </Grid>
             
             {/* Right Column */}
             <Grid item xs={12} md={4}>
-              {/* Profile Card */}
+              {/* Profile Summary */}
               <Card className="hover-lift" sx={{ mb: 4 }}>
-                <CardContent sx={{ p: 3, textAlign: 'center' }}>
+                <CardContent sx={{ textAlign: 'center', p: 3 }}>
                   <Avatar 
-                    src={user?.avatar || '/images/avatar-placeholder.jpg'} 
-                    alt={user?.name || 'Student'}
                     sx={{ 
                       width: 100, 
                       height: 100, 
                       mx: 'auto', 
                       mb: 2,
-                      border: '3px solid',
+                      border: 3,
                       borderColor: 'primary.main'
                     }}
-                  />
+                    alt={getUserDisplayName()}
+                    src="/images/avatar.jpg"
+                  >
+                    {getUserDisplayName().charAt(0)}
+                  </Avatar>
                   <Typography variant="h5" gutterBottom>
-                    {user?.name || 'Student Name'}
+                    {getUserDisplayName()}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary" gutterBottom>
-                    {user?.email || 'student@example.com'}
-                  </Typography>
-                  <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1, mb: 2 }}>
-                    <Chip 
-                      label="Student" 
-                      size="small" 
-                      color="primary" 
-                      sx={{ fontWeight: 500 }}
-                    />
-                    <Chip 
-                      label="Grade 11" 
-                      size="small" 
-                      color="secondary" 
-                      sx={{ fontWeight: 500 }}
-                    />
-                  </Box>
+                  <Chip 
+                    label={getUserRole()} 
+                    color="primary" 
+                    size="small"
+                    sx={{ mb: 2 }}
+                  />
                   <Button 
                     variant="outlined" 
-                    color="primary"
-                    fullWidth
-                    sx={{ 
-                      borderRadius: 2,
-                      textTransform: 'none',
-                      mt: 1
-                    }}
-                  >
-                    Edit Profile
-                  </Button>
-                </CardContent>
-              </Card>
-              
-              {/* Tasks Card */}
-              <Card className="hover-lift">
-                <CardContent sx={{ p: 3 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                    <Typography variant="h6" fontWeight={600}>
-                      Tasks & Assignments
-                    </Typography>
-                    <Button 
-                      size="small" 
-                      sx={{ textTransform: 'none' }}
-                    >
-                      View All
-                    </Button>
-                  </Box>
-                  
-                  <List sx={{ p: 0 }}>
-                    {tasks.map((task, index) => (
-                      <React.Fragment key={task.id}>
-                        <ListItem 
-                          sx={{ 
-                            px: 0,
-                            py: 1.5,
-                            opacity: task.completed ? 0.7 : 1
-                          }}
-                        >
-                          <ListItemIcon sx={{ minWidth: 40 }}>
-                            <CheckCircleIcon 
-                              color={task.completed ? "success" : "disabled"} 
-                            />
-                          </ListItemIcon>
-                          <ListItemText 
-                            primary={
-                              <Typography 
-                                variant="body1" 
-                                sx={{ 
-                                  textDecoration: task.completed ? 'line-through' : 'none',
-                                  fontWeight: task.completed ? 400 : 500
-                                }}
-                              >
-                                {task.title}
-                              </Typography>
-                            } 
-                            secondary={`Due: ${task.dueDate}`}
-                          />
-                        </ListItem>
-                        {index < tasks.length - 1 && <Divider />}
-                      </React.Fragment>
-                    ))}
-                  </List>
-                  
-                  <Button 
-                    variant="contained" 
-                    color="primary"
-                    fullWidth
+                    fullWidth 
+                    onClick={() => router.push('/profile')}
                     sx={{ 
                       mt: 2,
                       borderRadius: 2,
                       textTransform: 'none'
                     }}
                   >
-                    Add New Task
+                    View Profile
+                  </Button>
+                </CardContent>
+              </Card>
+              
+              {/* Tasks List */}
+              <Card className="hover-lift">
+                <CardContent sx={{ p: 3 }}>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                    <Typography variant="h6" fontWeight={600}>
+                      Tasks
+                    </Typography>
+                    <Button 
+                      size="small"
+                      sx={{ textTransform: 'none' }}
+                    >
+                      Add Task
+                    </Button>
+                  </Box>
+                  
+                  <List sx={{ p: 0 }}>
+                    {tasks.map((task) => (
+                      <ListItem 
+                        key={task.id} 
+                        sx={{ 
+                          px: 0, 
+                          py: 1,
+                          opacity: task.completed ? 0.7 : 1
+                        }}
+                        dense
+                      >
+                        <ListItemIcon sx={{ minWidth: 36 }}>
+                          <CheckCircleIcon 
+                            color={task.completed ? 'success' : 'disabled'} 
+                            sx={{ cursor: 'pointer' }}
+                          />
+                        </ListItemIcon>
+                        <ListItemText 
+                          primary={
+                            <Typography 
+                              variant="body1" 
+                              sx={{ 
+                                textDecoration: task.completed ? 'line-through' : 'none',
+                                color: task.completed ? 'text.secondary' : 'text.primary'
+                              }}
+                            >
+                              {task.title}
+                            </Typography>
+                          }
+                          secondary={`Due: ${task.dueDate}`}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                  
+                  <Button 
+                    fullWidth 
+                    variant="text" 
+                    sx={{ mt: 2, textTransform: 'none' }}
+                  >
+                    View All Tasks
                   </Button>
                 </CardContent>
               </Card>
@@ -437,6 +460,8 @@ const Dashboard = () => {
       </Box>
     </>
   );
+  
+  return <ProtectedRoute>{dashboardContent}</ProtectedRoute>;
 };
 
 export default Dashboard; 
