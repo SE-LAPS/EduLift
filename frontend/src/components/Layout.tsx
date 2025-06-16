@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import Header from './Header';
 import Footer from './Footer';
+import EnhancedScrollToTop from './EnhancedScrollToTop';
 import { Box } from '@mui/material';
 
 interface LayoutProps {
@@ -15,6 +16,7 @@ const Layout = ({ children }: LayoutProps) => {
         {children}
       </Box>
       <Footer />
+      <EnhancedScrollToTop />
     </Box>
   );
 };
