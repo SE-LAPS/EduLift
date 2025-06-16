@@ -11,6 +11,7 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { useThemeContext } from '../contexts/ThemeContext';
 import { authAPI } from '../utils/api';
+import { logApiError } from '../utils/debug';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -106,9 +107,12 @@ const Register = () => {
       role: formData.role,
     };
     
+    console.log('Registration attempt with data:', userData);
+    
     try {
       setIsLoading(true);
       const response = await authAPI.register(userData);
+      console.log('Registration successful:', response.data);
       setSuccess(true);
       
       // Optionally auto-login the user
@@ -128,11 +132,36 @@ const Register = () => {
         }, 1500);
       }
     } catch (err: any) {
-      console.error('Registration error:', err);
-      if (err.response && err.response.data) {
-        setError(err.response.data.message || 'Registration failed. Please try again.');
+      logApiError(err, 'Registration Error');
+      
+      // Detailed error handling
+      if (err.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error('Server error data:', err.response.data);
+        console.error('Server error status:', err.response.status);
+        console.error('Server error headers:', err.response.headers);
+        
+        if (err.response.status === 409) {
+          // Conflict - user already exists
+          if (err.response.data.message?.includes('Username')) {
+            setError('This username is already taken. Please choose another one.');
+          } else if (err.response.data.message?.includes('Email')) {
+            setError('This email address is already registered. Please use another one or login.');
+          } else {
+            setError(err.response.data.message || 'Registration failed. User already exists.');
+          }
+        } else {
+          setError(err.response.data.message || 'Registration failed. Please try again.');
+        }
+      } else if (err.request) {
+        // The request was made but no response was received
+        console.error('No response received:', err.request);
+        setError('Server not responding. Please check your connection and try again later.');
       } else {
-        setError('Registration failed. Please try again.');
+        // Something happened in setting up the request that triggered an Error
+        console.error('Error setting up request:', err.message);
+        setError('An error occurred. Please try again.');
       }
     } finally {
       setIsLoading(false);
