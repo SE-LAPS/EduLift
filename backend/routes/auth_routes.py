@@ -9,10 +9,21 @@ from werkzeug.security import check_password_hash
 
 auth_bp = Blueprint('auth', __name__)
 
+@auth_bp.route('/test', methods=['GET'])
+def test_endpoint():
+    """Test endpoint for API connectivity"""
+    return jsonify({
+        'status': 'success',
+        'message': 'API connection successful'
+    }), 200
+
 @auth_bp.route('/register', methods=['POST'])
 def register():
     """Register a new user"""
     data = request.get_json()
+    
+    # Print the received data for debugging
+    print(f"Registration request data: {data}")
     
     # Validate required fields
     required_fields = ['username', 'email', 'password', 'first_name', 'last_name']
@@ -58,6 +69,7 @@ def register():
     
     except Exception as e:
         db.session.rollback()
+        print(f"Registration error: {str(e)}")
         return jsonify({'message': f'Registration failed: {str(e)}'}), 500
 
 @auth_bp.route('/login', methods=['POST'])
