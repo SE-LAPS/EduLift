@@ -7,6 +7,7 @@ import Layout from '../components/Layout';
 import Head from 'next/head';
 import ChatbotComponent from '../components/Chatbot';
 import WaveCursor from '../components/WaveCursor';
+import RainbowAnimation from '../components/RainbowAnimation';
 import { Box } from '@mui/material';
 
 function App({ Component, pageProps }: AppProps) {
@@ -58,6 +59,7 @@ function App({ Component, pageProps }: AppProps) {
             </Layout>
             <ChatbotComponent />
             <WaveCursor />
+            <RainbowAnimation />
           </>
         )}
       </AuthProvider>
