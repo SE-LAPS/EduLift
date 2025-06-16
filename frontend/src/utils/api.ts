@@ -1,11 +1,13 @@
 import axios from 'axios';
+import { logApiError, logApiRequest, logApiResponse } from './debug';
 
 // Create axios instance with default config
 const api = axios.create({
-  baseURL: process.env.API_URL || 'http://localhost:5000/api',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api',
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true
 });
 
 // Request interceptor for adding auth token
@@ -16,14 +18,25 @@ api.interceptors.request.use((config) => {
       config.headers.Authorization = `Bearer ${token}`;
     }
   }
+  
+  // Log the request for debugging
+  logApiRequest(config);
+  
   return config;
 });
 
 // Response interceptor for handling common errors
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Log the response for debugging
+    logApiResponse(response);
+    return response;
+  },
   async (error) => {
     const originalRequest = error.config;
+    
+    // Log the error for debugging
+    logApiError(error);
 
     // Handle token expiration
     if (
@@ -41,8 +54,9 @@ api.interceptors.response.use(
           throw new Error('No refresh token available');
         }
 
-        const response = await axios.post('/api/auth/refresh', {}, {
-          headers: { 'Authorization': `Bearer ${refreshToken}` }
+        const response = await axios.post('http://localhost:5000/api/auth/refresh', {}, {
+          headers: { 'Authorization': `Bearer ${refreshToken}` },
+          withCredentials: true
         });
 
         const { access_token } = response.data;
