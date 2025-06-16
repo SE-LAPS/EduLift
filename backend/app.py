@@ -19,8 +19,8 @@ def create_app(config_name='development'):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
     
-    # Initialize extensions
-    CORS(app)
+    # Initialize extensions with explicit CORS configuration
+    CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
     db.init_app(app)
     migrate.init_app(app, db)
     jwt = JWTManager(app)
