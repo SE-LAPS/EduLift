@@ -10,7 +10,7 @@ import WaveCursor from '../components/WaveCursor';
 import RainbowAnimation from '../components/RainbowAnimation';
 import { Box } from '@mui/material';
 
-function App({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -67,4 +67,4 @@ function App({ Component, pageProps }: AppProps) {
   );
 }
 
-export default App;
+export default MyApp;
