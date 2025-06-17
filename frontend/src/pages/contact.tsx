@@ -395,12 +395,13 @@ const Contact = () => {
         {/* Full-width Map Section */}
         <Box 
           sx={{ 
-            mt: 8,
+            mt: 6,
             width: '100%',
             position: 'relative',
-            height: { xs: '350px', md: '450px' },
+            height: { xs: '350px', md: '500px' },
             overflow: 'hidden',
-            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)'
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)',
+            marginBottom: '2px'
           }} 
           data-aos="fade-up" 
           data-aos-delay="700"
