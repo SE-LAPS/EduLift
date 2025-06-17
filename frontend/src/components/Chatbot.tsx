@@ -623,10 +623,10 @@ export const ChatbotComponent: React.FC = () => {
                 ⚙️
               </Box>
             </IconButton>
-            <IconButton onClick={toggleDrawer} sx={{ color: 'white' }}>
-              <CloseIcon />
-            </IconButton>
-          </Box>
+          <IconButton onClick={toggleDrawer} sx={{ color: 'white' }}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
         </Box>
 
         {/* Education Stage Selector */}
@@ -805,4 +805,4 @@ export const ChatbotComponent: React.FC = () => {
   );
 };
 
-export default ChatbotComponent;
+export default ChatbotComponent; 
