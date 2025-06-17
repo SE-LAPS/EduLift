@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { ThemeProvider as MuiThemeProvider, createTheme, Theme, PaletteMode } from '@mui/material/styles';
+import { ThemeProvider as MuiThemeProvider, createTheme, Theme } from '@mui/material/styles';
+import type { PaletteMode } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 
 // Define the light and dark theme palettes
@@ -254,26 +255,32 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
 
   // Effect to load the saved theme preference from localStorage
   useEffect(() => {
-    const savedMode = localStorage.getItem('themeMode') as PaletteMode | null;
-    if (savedMode) {
-      setMode(savedMode);
-    } else {
-      // Check if user prefers dark mode
-      const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setMode(prefersDarkMode ? 'dark' : 'light');
+    if (typeof window !== 'undefined') {
+      const savedMode = localStorage.getItem('themeMode') as PaletteMode | null;
+      if (savedMode) {
+        setMode(savedMode);
+      } else {
+        // Check if user prefers dark mode
+        const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        setMode(prefersDarkMode ? 'dark' : 'light');
+      }
     }
   }, []);
 
   // Effect to update the body data attribute for CSS selectors
   useEffect(() => {
-    document.body.setAttribute('data-mui-color-scheme', mode);
+    if (typeof document !== 'undefined') {
+      document.body.setAttribute('data-mui-color-scheme', mode);
+    }
   }, [mode]);
 
   // Function to toggle between light and dark mode
   const toggleColorMode = () => {
-    setMode((prevMode) => {
+    setMode((prevMode: PaletteMode) => {
       const newMode = prevMode === 'light' ? 'dark' : 'light';
-      localStorage.setItem('themeMode', newMode);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('themeMode', newMode);
+      }
       return newMode;
     });
   };
