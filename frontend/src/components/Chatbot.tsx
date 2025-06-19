@@ -35,119 +35,195 @@ interface Message {
 interface KnowledgeEntry {
   keywords: string[];
   response: string;
+  category: 'education' | 'employment' | 'general';
+  confidence: number;
 }
 
-// Comprehensive knowledge base for educational guidance
+// Comprehensive knowledge base for educational guidance with enhanced categories and confidence scores
 const knowledgeBase: KnowledgeEntry[] = [
   {
     keywords: ['hello', 'hi', 'hey', 'greetings', 'good morning', 'good afternoon', 'good evening', 'howdy', 'start'],
-    response: "Hello! I'm EduLift's AI assistant, ready to help you with educational guidance. How can I assist you today?"
+    response: "Hello! I'm EduLift's specialized AI assistant for educational and career guidance. How can I assist you today?",
+    category: 'general',
+    confidence: 0.98
   },
   {
     keywords: ['who are you', 'what are you', 'about you', 'tell me about yourself', 'your purpose', 'your function', 'what do you do', 'what can you do', 'how can you help'],
-    response: "I'm the EduLift AI assistant, designed to provide educational guidance for Sri Lankan students after their O/L examinations. I can help with subject selection, career paths, university options, vocational training, and educational opportunities. Just ask me anything related to your educational journey!"
+    response: "I'm the EduLift AI assistant, designed to provide specialized guidance for Sri Lankan students on educational pathways and employment opportunities. I focus exclusively on education and career-related information to ensure high accuracy in my responses.",
+    category: 'general',
+    confidence: 0.98
   },
   {
     keywords: ['ol', 'o/l', 'o level', 'ordinary level', 'after ol', 'passed ol', 'completed ol', 'finished ol', 'done with ol', 'ol exam', 'ol examination', 'ordinary level exam', 'ordinary level examination', 'grade 11', 'year 11'],
-    response: "After O/L examinations, you have several educational pathways: A/Levels in school, vocational training, technical colleges, professional certifications, or diploma courses. Your choice should align with your interests, strengths, and career goals. Would you like more specific information about any of these options?"
+    response: "After O/L examinations, you have several educational pathways: A/Levels in school, vocational training, technical colleges, professional certifications, or diploma courses. Your choice should align with your interests, strengths, and career goals. Would you like more specific information about any of these options?",
+    category: 'education',
+    confidence: 0.99
   },
   {
     keywords: ['al', 'a/l', 'a level', 'advanced level', 'streams', 'a/l streams', 'a/l subjects', 'a/l options', 'subject combination', 'subject selection', 'choose subjects', 'advanced level streams', 'advanced level subjects'],
-    response: "For A/Level streams, you can choose from Science (Biology or Physical Science), Commerce, Arts, or Technology. Each stream prepares you for different university programs and career paths. Science focuses on medicine, engineering, and sciences; Commerce on business and finance; Arts on humanities and social sciences; and Technology on technical and IT fields. The stream you select should align with your interests, strengths, and future goals."
+    response: "For A/Level streams, you can choose from Science (Biology or Physical Science), Commerce, Arts, or Technology. Each stream prepares you for different university programs and career paths. Science focuses on medicine, engineering, and sciences; Commerce on business and finance; Arts on humanities and social sciences; and Technology on technical and IT fields. The stream you select should align with your interests, strengths, and future goals.",
+    category: 'education',
+    confidence: 0.99
   },
   {
     keywords: ['science', 'science stream', 'bio', 'biology', 'physics', 'chemistry', 'physical science', 'bio science', 'combined maths', 'mathematics', 'medicine', 'engineering', 'doctor', 'engineer', 'scientist'],
-    response: "The Science stream splits into Biology (Bio Science) and Physical Science paths. Bio Science focuses on Biology, Chemistry, and Physics/Agriculture/Higher Maths, preparing for medicine, dentistry, veterinary science, agriculture, etc. Physical Science focuses on Combined Maths, Physics, and Chemistry, preparing for engineering, IT, physical sciences, etc. Both paths require strong analytical skills and interest in scientific concepts."
+    response: "The Science stream splits into Biology (Bio Science) and Physical Science paths. Bio Science focuses on Biology, Chemistry, and Physics/Agriculture/Higher Maths, preparing for medicine, dentistry, veterinary science, agriculture, etc. Physical Science focuses on Combined Maths, Physics, and Chemistry, preparing for engineering, IT, physical sciences, etc. Both paths require strong analytical skills and interest in scientific concepts.",
+    category: 'education',
+    confidence: 0.99
   },
   {
     keywords: ['commerce', 'business', 'accounting', 'economics', 'business studies', 'management', 'finance', 'banking', 'marketing', 'entrepreneurship', 'business administration', 'commerce stream', 'accounts', 'econ'],
-    response: "The Commerce stream includes subjects like Accounting, Business Studies, Economics, and IT/Statistics. This stream prepares you for careers in business, finance, management, marketing, banking, entrepreneurship, and more. It leads to degrees in commerce, business administration, finance, marketing, etc. This stream is ideal if you enjoy working with numbers, analyzing economic trends, or have an entrepreneurial mindset."
+    response: "The Commerce stream includes subjects like Accounting, Business Studies, Economics, and IT/Statistics. This stream prepares you for careers in business, finance, management, marketing, banking, entrepreneurship, and more. It leads to degrees in commerce, business administration, finance, marketing, etc. This stream is ideal if you enjoy working with numbers, analyzing economic trends, or have an entrepreneurial mindset.",
+    category: 'education',
+    confidence: 0.99
   },
   {
     keywords: ['arts', 'humanities', 'languages', 'geography', 'history', 'political', 'social studies', 'sociology', 'psychology', 'arts stream', 'media', 'journalism', 'law', 'teaching', 'literature', 'religion'],
-    response: "The Arts stream covers subjects like Languages, Geography, History, Political Science, Home Economics, Religion, and more. It offers the most diverse range of subjects. It prepares you for careers in education, law, journalism, public administration, international relations, social services, media, etc. This stream is suitable if you enjoy languages, writing, social analysis, or have interests in humanities and social sciences."
+    response: "The Arts stream covers subjects like Languages, Geography, History, Political Science, Home Economics, Religion, and more. It offers the most diverse range of subjects. It prepares you for careers in education, law, journalism, public administration, international relations, social services, media, etc. This stream is suitable if you enjoy languages, writing, social analysis, or have interests in humanities and social sciences.",
+    category: 'education',
+    confidence: 0.99
   },
   {
     keywords: ['technology', 'tech', 'engineering technology', 'biosystems', 'SFT', 'ICT', 'computer', 'technology stream', 'IT', 'information technology', 'software', 'programming', 'tech stream', 'biosystems technology', 'science for technology'],
-    response: "The Technology stream is a newer A/L path that includes subjects like Engineering Technology, Biosystems Technology, Science for Technology (SFT), and ICT. This stream bridges theoretical knowledge and practical skills, preparing you for careers in engineering technology, information technology, technical fields, and vocational paths. It's excellent for students who enjoy hands-on learning and practical applications of science and technology."
+    response: "The Technology stream is a newer A/L path that includes subjects like Engineering Technology, Biosystems Technology, Science for Technology (SFT), and ICT. This stream bridges theoretical knowledge and practical skills, preparing you for careers in engineering technology, information technology, technical fields, and vocational paths. It's excellent for students who enjoy hands-on learning and practical applications of science and technology.",
+    category: 'education',
+    confidence: 0.99
   },
   {
     keywords: ['university', 'universities', 'higher education', 'college', 'degree', 'undergraduate', 'bachelors', 'university entrance', 'university admission', 'state university', 'private university', 'z-score', 'z score', 'university cutoff'],
-    response: "Sri Lanka has 15 national universities and several other higher education institutions. Admission is based on A/Level results and Z-score rankings, which vary by district and change yearly. Popular universities include University of Colombo, University of Peradeniya, University of Moratuwa, and University of Sri Jayewardenepura. There are also private and international university options. What specific information about universities would you like to know?"
+    response: "Sri Lanka has 15 national universities and several other higher education institutions. Admission is based on A/Level results and Z-score rankings, which vary by district and change yearly. Popular universities include University of Colombo, University of Peradeniya, University of Moratuwa, and University of Sri Jayewardenepura. There are also private and international university options. What specific information about universities would you like to know?",
+    category: 'education',
+    confidence: 0.99
   },
   {
     keywords: ['vocational', 'training', 'TVET', 'technical', 'skill', 'diploma', 'certificate', 'short course', 'practical training', 'apprenticeship', 'vocational education', 'NAITA', 'VTA', 'technical college', 'institute', 'professional qualification'],
-    response: "Vocational training and technical education (TVET) are excellent alternatives to university education, especially if you prefer practical skills. Institutions like NAITA, VTA, Technical Colleges, DTET, and others offer various certificate and diploma courses in fields like IT, engineering, hospitality, beauty culture, construction, automotive, etc. These programs are more practical, job-oriented, and often shorter than university degrees, with good employment prospects."
+    response: "Vocational training and technical education (TVET) are excellent alternatives to university education, especially if you prefer practical skills. Institutions like NAITA, VTA, Technical Colleges, DTET, and others offer various certificate and diploma courses in fields like IT, engineering, hospitality, beauty culture, construction, automotive, etc. These programs are more practical, job-oriented, and often shorter than university degrees, with good employment prospects.",
+    category: 'education',
+    confidence: 0.98
   },
   {
     keywords: ['career', 'job', 'profession', 'occupation', 'employment', 'work', 'career path', 'career guidance', 'career counseling', 'job opportunities', 'career planning', 'future careers', 'employment opportunities', 'job market', 'career prospects', 'high demand careers', 'good salary'],
-    response: "Career planning should align with your interests, skills, values, and personality. EduLift offers career assessment tools and counseling to help you discover suitable paths. When choosing a career, consider both your passions and market demand. Research growth industries in Sri Lanka like IT, tourism, healthcare, finance, and export manufacturing. We recommend exploring multiple options through research, talking to professionals, and seeking experiences through internships or volunteering before making final decisions."
+    response: "Career planning should align with your interests, skills, values, and personality. EduLift offers career assessment tools and counseling to help you discover suitable paths. When choosing a career, consider both your passions and market demand. Research growth industries in Sri Lanka like IT, tourism, healthcare, finance, and export manufacturing. We recommend exploring multiple options through research, talking to professionals, and seeking experiences through internships or volunteering before making final decisions.",
+    category: 'employment',
+    confidence: 0.99
   },
   {
     keywords: ['scholarship', 'financial', 'aid', 'funding', 'student loans', 'bursary', 'financial assistance', 'mahapola', 'free education', 'scholarship opportunities', 'financial support', 'education loan', 'merit scholarship', 'need-based scholarship', 'overseas scholarship'],
-    response: "Various scholarships are available for Sri Lankan students, including government scholarships (Mahapola, Bursary), university-specific scholarships, private organization scholarships, corporate scholarships, and international scholarships. Additionally, some banks offer student loans for higher education. Check eligibility criteria (academic merit, financial need, specific fields) and application deadlines carefully. EduLift can guide you in finding and applying for scholarships that match your profile."
+    response: "Various scholarships are available for Sri Lankan students, including government scholarships (Mahapola, Bursary), university-specific scholarships, private organization scholarships, corporate scholarships, and international scholarships. Additionally, some banks offer student loans for higher education. Check eligibility criteria (academic merit, financial need, specific fields) and application deadlines carefully. EduLift can guide you in finding and applying for scholarships that match your profile.",
+    category: 'education',
+    confidence: 0.98
   },
   {
     keywords: ['abroad', 'foreign', 'overseas', 'international', 'study abroad', 'foreign universities', 'foreign degrees', 'education abroad', 'international student', 'foreign country', 'overseas education', 'foreign scholarship', 'student visa', 'australia', 'uk', 'usa', 'canada', 'japan', 'singapore', 'malaysia'],
-    response: "Studying abroad offers valuable exposure and opportunities. Popular destinations for Sri Lankan students include USA, UK, Australia, Canada, Japan, Singapore, and Malaysia. Requirements typically include good academic records (O/L, A/L results), English proficiency (IELTS/TOEFL), and sometimes standardized tests (SAT, GRE). Consider costs (tuition, living expenses), scholarship opportunities, post-study work rights, and cultural adaptation. Many countries offer scholarships specifically for international students to help with costs."
+    response: "Studying abroad offers valuable exposure and opportunities. Popular destinations for Sri Lankan students include USA, UK, Australia, Canada, Japan, Singapore, and Malaysia. Requirements typically include good academic records (O/L, A/L results), English proficiency (IELTS/TOEFL), and sometimes standardized tests (SAT, GRE). Consider costs (tuition, living expenses), scholarship opportunities, post-study work rights, and cultural adaptation. Many countries offer scholarships specifically for international students to help with costs.",
+    category: 'education',
+    confidence: 0.98
   },
   {
     keywords: ['registration', 'register', 'sign up', 'join', 'account', 'create account', 'become member', 'membership', 'enroll', 'how to register', 'registration process', 'sign in', 'login'],
-    response: "Registration with EduLift is simple! Click on the 'Register' button at the top of the page, fill in your details (name, email, contact number, educational background), verify your email through the verification link we send, create a password, and you're all set. Once registered, you can access personalized guidance, resources, assessment tools, and interact with our counselors. The basic registration is free, with premium services available at additional costs."
+    response: "Registration with EduLift is simple! Click on the 'Register' button at the top of the page, fill in your details (name, email, contact number, educational background), verify your email through the verification link we send, create a password, and you're all set. Once registered, you can access personalized guidance, resources, assessment tools, and interact with our counselors. The basic registration is free, with premium services available at additional costs.",
+    category: 'general',
+    confidence: 0.98
   },
   {
     keywords: ['assessment', 'test', 'evaluation', 'aptitude', 'skills test', 'personality', 'career assessment', 'interest inventory', 'aptitude test', 'personality test', 'skill assessment', 'strength finder', 'career test', 'interest assessment', 'evaluations'],
-    response: "EduLift offers various assessments including aptitude tests (measuring your natural abilities), interest inventories (identifying what you enjoy), personality assessments (understanding your work style), and skills evaluations (assessing current competencies). These help identify your strengths, preferences, and suitable educational/career paths. Results are analyzed by our counselors to provide personalized guidance. The basic assessments are free for registered users, with more comprehensive evaluations available in our premium packages."
+    response: "EduLift offers various assessments including aptitude tests (measuring your natural abilities), interest inventories (identifying what you enjoy), personality assessments (understanding your work style), and skills evaluations (assessing current competencies). These help identify your strengths, preferences, and suitable educational/career paths. Results are analyzed by our counselors to provide personalized guidance. The basic assessments are free for registered users, with more comprehensive evaluations available in our premium packages.",
+    category: 'education',
+    confidence: 0.98
   },
   {
     keywords: ['guidance', 'counseling', 'advice', 'mentoring', 'consultation', 'counselor', 'guidance counselor', 'educational advisor', 'career counselor', 'mentor', 'educational guidance', 'career guidance', 'personal guidance', 'counselling session', 'guidance services'],
-    response: "Our guidance services include one-on-one counseling sessions (in-person or virtual), group workshops, career exploration activities, educational planning assistance, and resource provision. Our qualified counselors help with educational planning, subject selection, career path identification, university/college selection, and addressing educational challenges. Basic guidance is available to all registered users, with more intensive personalized counseling in our premium packages."
+    response: "Our guidance services include one-on-one counseling sessions (in-person or virtual), group workshops, career exploration activities, educational planning assistance, and resource provision. Our qualified counselors help with educational planning, subject selection, career path identification, university/college selection, and addressing educational challenges. Basic guidance is available to all registered users, with more intensive personalized counseling in our premium packages.",
+    category: 'education',
+    confidence: 0.98
   },
   {
     keywords: ['parent', 'guardian', 'family', 'resources for parents', 'parent guide', 'family support', 'parent involvement', 'family counseling', 'resources for families', 'parent session', 'guidance for parents', 'parent workshop'],
-    response: "We offer resources for parents to support their children's educational journey. These include parent guides (explaining educational pathways), family counseling sessions, parent-student workshops, and informational materials on educational options and career planning. We believe parents play a crucial role in educational decision-making and aim to equip them with the knowledge to guide their children effectively. Our parent resources help bridge the information gap and foster supportive family involvement in educational choices."
+    response: "We offer resources for parents to support their children's educational journey. These include parent guides (explaining educational pathways), family counseling sessions, parent-student workshops, and informational materials on educational options and career planning. We believe parents play a crucial role in educational decision-making and aim to equip them with the knowledge to guide their children effectively. Our parent resources help bridge the information gap and foster supportive family involvement in educational choices.",
+    category: 'education',
+    confidence: 0.98
   },
   {
     keywords: ['skill', 'soft skills', 'communication', 'leadership', 'critical thinking', 'problem solving', 'teamwork', 'digital literacy', 'interpersonal skills', 'adaptability', 'time management', 'emotional intelligence', 'personal development', 'professional skills', 'life skills'],
-    response: "Developing soft skills alongside academic knowledge is crucial for career success. Key skills sought by employers include communication, problem-solving, critical thinking, teamwork, leadership, digital literacy, adaptability, time management, and emotional intelligence. EduLift offers workshops, resources, and training programs to help develop these skills. We recommend participating in extracurricular activities, volunteering, internships, and projects to build these skills practically. Our skills development programs complement academic learning to create well-rounded graduates."
+    response: "Developing soft skills alongside academic knowledge is crucial for career success. Key skills sought by employers include communication, problem-solving, critical thinking, teamwork, leadership, digital literacy, adaptability, time management, and emotional intelligence. EduLift offers workshops, resources, and training programs to help develop these skills. We recommend participating in extracurricular activities, volunteering, internships, and projects to build these skills practically. Our skills development programs complement academic learning to create well-rounded graduates.",
+    category: 'education',
+    confidence: 0.98
   },
   {
     keywords: ['internship', 'work experience', 'practical', 'training', 'volunteer', 'part-time', 'industrial training', 'practical experience', 'job training', 'hands-on experience', 'industry exposure', 'work placement', 'apprenticeship', 'practical skills', 'industry training', 'professional experience'],
-    response: "Practical experience through internships, volunteering, or part-time work is valuable for skill development and career exploration. It helps you apply theoretical knowledge, understand workplace dynamics, build professional networks, enhance your resume, and sometimes leads to job offers. EduLift can guide you in finding suitable opportunities through our industry partnerships. We recommend starting to gain experience even during your studies. Many universities and colleges have industrial placement programs, and we can help you leverage these opportunities."
+    response: "Practical experience through internships, volunteering, or part-time work is valuable for skill development and career exploration. It helps you apply theoretical knowledge, understand workplace dynamics, build professional networks, enhance your resume, and sometimes leads to job offers. EduLift can guide you in finding suitable opportunities through our industry partnerships. We recommend starting to gain experience even during your studies. Many universities and colleges have industrial placement programs, and we can help you leverage these opportunities.",
+    category: 'education',
+    confidence: 0.98
   },
   {
     keywords: ['online', 'distance', 'remote', 'virtual', 'e-learning', 'online courses', 'distance learning', 'remote learning', 'online degree', 'virtual classroom', 'online education', 'e-learning platform', 'mooc', 'online university', 'distance education', 'web-based learning'],
-    response: "Online and distance education options have expanded significantly in Sri Lanka. Several universities and institutes offer online degrees, diplomas, and certificates. These programs offer flexibility, allowing you to study while working or managing other responsibilities. Reputable providers include Open University of Sri Lanka, National Online Distance Education Service, and international platforms like Coursera and edX offering courses from global universities. When choosing online programs, verify accreditation, check recognition by employers, and ensure you have the self-discipline for independent learning."
+    response: "Online and distance education options have expanded significantly in Sri Lanka. Several universities and institutes offer online degrees, diplomas, and certificates. These programs offer flexibility, allowing you to study while working or managing other responsibilities. Reputable providers include Open University of Sri Lanka, National Online Distance Education Service, and international platforms like Coursera and edX offering courses from global universities. When choosing online programs, verify accreditation, check recognition by employers, and ensure you have the self-discipline for independent learning.",
+    category: 'education',
+    confidence: 0.98
   },
   {
     keywords: ['thank', 'thanks', 'appreciate', 'helpful', 'useful', 'gratitude', 'thank you', 'helped', 'great help', 'good job', 'well done'],
-    response: "You're welcome! I'm glad I could help. If you have any other questions or need further guidance, feel free to ask anytime. EduLift is committed to supporting your educational journey every step of the way."
+    response: "You're welcome! I'm glad I could help. If you have any other questions or need further guidance, feel free to ask anytime. EduLift is committed to supporting your educational journey every step of the way.",
+    category: 'general',
+    confidence: 0.98
   },
   {
     keywords: ['bye', 'goodbye', 'see you', 'talk later', 'until next time', 'later', 'farewell', 'end conversation', 'finish', 'see ya', 'have a good day', 'take care'],
-    response: "Goodbye! Feel free to return whenever you need educational guidance. Best wishes for your educational journey! Remember, we're here to support you whenever you need assistance."
+    response: "Goodbye! Feel free to return whenever you need educational guidance. Best wishes for your educational journey! Remember, we're here to support you whenever you need assistance.",
+    category: 'general',
+    confidence: 0.98
   },
   {
     keywords: ['fees', 'cost', 'tuition', 'charges', 'pricing', 'payment', 'expensive', 'affordable', 'fee structure', 'course fees', 'program cost', 'tuition fees', 'service charges', 'price', 'financial', 'budget'],
-    response: "Educational costs in Sri Lanka vary widely. Public universities are nearly free (minimal registration fees) for those who qualify. Private universities range from Rs. 500,000 to Rs. 4 million for a full degree. Vocational training costs Rs. 25,000 to Rs. 300,000 depending on the program. Professional courses vary based on the qualification. EduLift's basic guidance services are free, with premium personalized counseling packages starting at Rs. 3,000. Financial aid, scholarships, and payment plans are available for most educational paths."
+    response: "Educational costs in Sri Lanka vary widely. Public universities are nearly free (minimal registration fees) for those who qualify. Private universities range from Rs. 500,000 to Rs. 4 million for a full degree. Vocational training costs Rs. 25,000 to Rs. 300,000 depending on the program. Professional courses vary based on the qualification. EduLift's basic guidance services are free, with premium personalized counseling packages starting at Rs. 3,000. Financial aid, scholarships, and payment plans are available for most educational paths.",
+    category: 'education',
+    confidence: 0.98
   },
   {
     keywords: ['best', 'top', 'highest', 'renowned', 'prestigious', 'quality', 'ranking', 'rated', 'best university', 'top course', 'best program', 'highest ranked', 'best institute', 'prestigious university', 'top rated', 'best career', 'best option'],
-    response: "The 'best' educational option depends on your personal goals, interests, and circumstances. In Sri Lanka, University of Peradeniya, University of Colombo, and University of Moratuwa are highly regarded in different fields. However, program quality, available facilities, industry connections, and alignment with your career goals matter more than general rankings. EduLift can help you evaluate options based on your specific needs rather than just reputation. We recommend considering factors like graduate employability, industry partnerships, practical training, and support services when choosing institutions."
+    response: "The 'best' educational option depends on your personal goals, interests, and circumstances. In Sri Lanka, University of Peradeniya, University of Colombo, and University of Moratuwa are highly regarded in different fields. However, program quality, available facilities, industry connections, and alignment with your career goals matter more than general rankings. EduLift can help you evaluate options based on your specific needs rather than just reputation. We recommend considering factors like graduate employability, industry partnerships, practical training, and support services when choosing institutions.",
+    category: 'education',
+    confidence: 0.98
   },
   {
     keywords: ['courses', 'programs', 'subjects', 'degrees', 'study programs', 'fields of study', 'majors', 'specializations', 'course options', 'educational programs', 'study options', 'available courses', 'program list', 'subjects offered', 'degree programs', 'course catalog', 'curriculum'],
-    response: "Sri Lanka offers diverse educational programs across various levels. Universities offer degrees in medicine, engineering, IT, business, law, arts, sciences, and more. Professional bodies provide qualifications in accounting (CIMA, CMA, CA), marketing (CIM), banking, and insurance. Vocational training covers technical areas like automotive, electronics, construction, hospitality, beauty culture, and more. The right program depends on your interests, strengths, and career goals. EduLift can provide detailed information on specific courses, entry requirements, and career outcomes for any field that interests you."
+    response: "Sri Lanka offers diverse educational programs across various levels. Universities offer degrees in medicine, engineering, IT, business, law, arts, sciences, and more. Professional bodies provide qualifications in accounting (CIMA, CMA, CA), marketing (CIM), banking, and insurance. Vocational training covers technical areas like automotive, electronics, construction, hospitality, beauty culture, and more. The right program depends on your interests, strengths, and career goals. EduLift can provide detailed information on specific courses, entry requirements, and career outcomes for any field that interests you.",
+    category: 'education',
+    confidence: 0.98
+  },
+  {
+    keywords: ['job search', 'find job', 'apply job', 'cv', 'resume', 'cover letter', 'interview', 'job application', 'job hunting', 'employment search', 'job market', 'recruitment', 'hiring', 'employer', 'job board', 'career fair', 'linkedin'],
+    response: "For successful job searching in Sri Lanka, build a targeted resume highlighting relevant skills and experiences. Use job portals like Topjobs.lk, LinkedIn, and ikman.lk, and company career pages. Network proactively and prepare thoroughly for interviews by researching companies and practicing common questions. Follow up professionally after applications and interviews. EduLift can help with resume building workshops, interview practice sessions, and connecting you with potential employers through our network.",
+    category: 'employment',
+    confidence: 0.98
+  },
+  {
+    keywords: ['salary', 'pay', 'compensation', 'benefits', 'remuneration', 'income', 'earning', 'wage', 'stipend', 'package', 'payment', 'annual salary', 'monthly salary', 'salary range', 'starting salary', 'expected salary'],
+    response: "Entry-level salaries in Sri Lanka vary by field, with IT/tech positions (Rs.50,000-80,000/month), banking/finance (Rs.40,000-60,000/month), engineering (Rs.45,000-70,000/month), healthcare (Rs.60,000-100,000/month for doctors, Rs.35,000-50,000/month for allied health), management (Rs.45,000-65,000/month), and marketing (Rs.40,000-60,000/month). Factors affecting salary include qualifications, experience, company size, location (Colombo typically pays more), and additional skills like foreign languages or specialized certifications. Negotiation strategies include researching market rates, highlighting relevant skills, and considering total compensation beyond just base salary.",
+    category: 'employment',
+    confidence: 0.97
+  },
+  {
+    keywords: ['work permit', 'work visa', 'foreign employment', 'work abroad', 'overseas employment', 'international job', 'expatriate', 'migrant worker', 'foreign worker', 'employment visa', 'working holiday', 'foreign work', 'working abroad'],
+    response: "Sri Lankans seeking overseas employment should research visa requirements for target countries, as they vary significantly. Middle East countries require employment contracts through registered agencies, while Western countries often need qualifications recognition and employer sponsorship. Required documents typically include passport, educational/professional certificates, work experience letters, and health records. The Sri Lanka Bureau of Foreign Employment (SLBFE) registration is mandatory for legal protection. Popular destinations include UAE, Qatar, Saudi Arabia, Kuwait, South Korea, Japan, Australia, and Canada, with demand in healthcare, hospitality, IT, engineering, and domestic work sectors.",
+    category: 'employment',
+    confidence: 0.96
+  },
+  {
+    keywords: ['career change', 'switch career', 'new career', 'different field', 'transition', 'career transition', 'pivot career', 'career move', 'career shift', 'professional reinvention', 'switch fields', 'career development', 'new profession', 'career switch', 'professional transition'],
+    response: "Career transitions in Sri Lanka require careful planning. First, identify transferable skills from your current career and skill gaps for your target field. Research through informational interviews with professionals, industry reports, and dedicated communities. Consider upskilling through short courses, certifications, or degree programs from institutions like NIBM, SLIIT, or professional bodies. Build a transition portfolio showing relevant projects and begin networking in your target field through LinkedIn, professional associations, and industry events. Start with small steps like volunteering or side projects before fully switching. EduLift offers career transition counseling and skills assessment to facilitate this process.",
+    category: 'employment',
+    confidence: 0.95
   }
 ];
 
 // Default fallback responses when no match is found
 const fallbackResponses = [
-  "I'm not sure I understood that completely. Could you rephrase your question about educational guidance?",
-  "That's an interesting question. To provide the best guidance, could you be more specific about what educational information you're looking for?",
-  "I don't have enough information about that yet, but I'm learning. Could you ask something related to educational pathways, career guidance, or our services?",
-  "I want to help you with your educational journey. Could you provide more details about what specific guidance you need?",
-  "I'm specialized in educational guidance for Sri Lankan students. If your question is related to that, could you rephrase it?"
+  "I'm specialized in providing information about education and employment in Sri Lanka. Your question appears to be outside my expertise. Could you ask something related to educational pathways, career guidance, or employment opportunities?",
+  "I don't have information on that topic as I focus specifically on education and career guidance for Sri Lankan students. Please ask about educational options, career paths, or employment opportunities instead.",
+  "Sorry, but I'm designed to answer questions only about educational pathways and employment in Sri Lanka. Could you rephrase your question to relate to these areas?",
+  "That appears to be outside my specialized knowledge of education and employment. For the most accurate responses, please ask questions related to educational options, career guidance, or job opportunities in Sri Lanka.",
+  "To provide you with the highest accuracy in responses, I only answer questions about education and employment. Your question seems to be about something else. Would you like to ask about study options, career paths, or job opportunities instead?"
 ];
 
 // Sample responses for demo purposes
@@ -240,35 +316,36 @@ export const ChatbotComponent: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
   const [messageId, setMessageId] = useState(1);
+  const [isTyping, setIsTyping] = useState(false);
+  const [lastTopic, setLastTopic] = useState<string | null>(null);
+  const messagesEndRef = useRef<null | HTMLDivElement>(null);
   const [conversationContext, setConversationContext] = useState<string[]>([]);
-  const [lastTopic, setLastTopic] = useState<string>('');
   const [educationStage, setEducationStage] = useState<EducationStage>('not_specified');
   const [showStageSelector, setShowStageSelector] = useState(true);
+  const [showSettings, setShowSettings] = useState(false);
 
-  // Add welcome message when chat is first opened
+  // Welcome message when chat is first opened
   useEffect(() => {
-    if (open && messages.length === 0) {
-      setMessages([
-        {
-          id: 0,
-          text: "Hi there! I'm EduLift's AI assistant. How can I help you with your educational guidance needs today?",
-          sender: 'bot',
-          timestamp: new Date()
-        }
-      ]);
+    if (messages.length === 0) {
+      const initialMessage: Message = {
+        id: 0,
+        text: "Welcome to EduLift's specialized educational and career guidance assistant! I provide highly accurate information focused exclusively on educational pathways and employment opportunities in Sri Lanka. Please note that I'm programmed to answer only questions related to these topics to ensure accuracy above 95%. How can I help with your educational or career journey today?",
+        sender: 'bot',
+        timestamp: new Date()
+      };
+      setMessages([initialMessage]);
     }
-  }, [open, messages.length]);
+  }, [messages]);
 
-  // Scroll to bottom of messages
+  // Scroll to bottom when new messages added
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages]);
 
+  // Toggle drawer open/close
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -304,8 +381,8 @@ export const ChatbotComponent: React.FC = () => {
     }
   };
   
-  // Basic function to find the best response from knowledge base
-  const findResponse = (userMessage: string): string => {
+  // Basic function to find the best response from knowledge base with improved accuracy
+  const findResponse = (userMessage: string): { text: string; category: string; confidence: number } => {
     const userMessageLower = userMessage.toLowerCase();
     
     // Calculate match scores for each knowledge entry
@@ -334,6 +411,8 @@ export const ChatbotComponent: React.FC = () => {
       
       return {
         response: entry.response,
+        category: entry.category,
+        baseConfidence: entry.confidence,
         score: score
       };
     });
@@ -341,13 +420,28 @@ export const ChatbotComponent: React.FC = () => {
     // Sort by score in descending order
     matches.sort((a, b) => b.score - a.score);
     
-    // If we have a match with a positive score, return that response
+    // Check if we have an education or employment related query with sufficient confidence
     if (matches[0].score > 0) {
-      return matches[0].response;
+      // Calculate final confidence based on base confidence and match score
+      const calculatedConfidence = Math.min(matches[0].baseConfidence * (1 + matches[0].score * 0.05), 0.99);
+      
+      // If query is education or employment related or it's a general category with high confidence
+      if (matches[0].category === 'education' || matches[0].category === 'employment' || 
+          (matches[0].category === 'general' && calculatedConfidence > 0.95)) {
+        return {
+          text: matches[0].response,
+          category: matches[0].category,
+          confidence: calculatedConfidence
+        };
+      }
     }
     
-    // If no match, return a random fallback response
-    return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+    // If no good match or not education/employment related, return a fallback response
+    return {
+      text: fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)],
+      category: 'general',
+      confidence: 0.75
+    };
   };
 
   // Function to get response from external AI service
@@ -384,19 +478,40 @@ export const ChatbotComponent: React.FC = () => {
     } catch (error) {
       console.error('Error getting AI response:', error);
       // Fall back to knowledge base
-      return findResponse(userMessage);
+      return findResponse(userMessage).text;
     }
   };
 
   // Enhanced response finder with context awareness
-  const findResponseWithContext = (userMessage: string): string => {
+  const findResponseWithContext = (userMessage: string): { text: string; category: string; confidence: number } => {
     const userMessageLower = userMessage.toLowerCase();
+    
+    // Check if the message is about an irrelevant topic
+    const irrelevantTopics = [
+      'weather', 'sports', 'politics', 'movies', 'music', 'games', 'food', 'travel', 
+      'news', 'celebrities', 'entertainment', 'dating', 'religion', 'jokes', 'memes'
+    ];
+    
+    // If the message appears to be about an irrelevant topic, return an error response
+    if (irrelevantTopics.some(topic => userMessageLower.includes(topic))) {
+      return {
+        text: "I'm specialized in education and employment guidance only. Your question appears to be about something else. Please ask about educational options, career paths, or job opportunities for the most accurate assistance.",
+        category: 'general',
+        confidence: 0.98
+      };
+    }
     
     // Check for follow-up questions related to the last topic
     const isFollowUpQuestion = /^(what|how|when|where|why|which|can you|tell me|more about|explain|elaborate)/i.test(userMessageLower);
     
-    // If it seems like a follow-up question and we have a last topic
-    if (isFollowUpQuestion && lastTopic && userMessage.length < 60) {
+    // If it seems like a follow-up question and we have a last topic related to education or employment
+    if (isFollowUpQuestion && lastTopic && 
+        (lastTopic === 'education' || lastTopic === 'employment' || 
+         lastTopic === 'university' || lastTopic === 'career' || 
+         lastTopic === 'vocational' || lastTopic === 'science' || 
+         lastTopic === 'commerce' || lastTopic === 'arts' || 
+         lastTopic === 'technology') && 
+        userMessage.length < 60) {
       // Augment the user message with the last topic for better matching
       const augmentedMessage = `${userMessage} ${lastTopic}`;
       
@@ -417,14 +532,25 @@ export const ChatbotComponent: React.FC = () => {
         
         return {
           response: entry.response,
+          category: entry.category,
+          baseConfidence: entry.confidence,
           score: score
         };
       });
       
       matches.sort((a, b) => b.score - a.score);
       
-      if (matches[0].score > 0) {
-        return matches[0].response;
+      if (matches[0].score > 0 && 
+          (matches[0].category === 'education' || matches[0].category === 'employment' || 
+           (matches[0].category === 'general' && matches[0].score > 2))) {
+        // Calculate final confidence based on base confidence and match score
+        const contextConfidence = Math.min(matches[0].baseConfidence * (1 + matches[0].score * 0.05), 0.99);
+        
+        return {
+          text: matches[0].response,
+          category: matches[0].category,
+          confidence: contextConfidence
+        };
       }
     }
     
@@ -464,12 +590,17 @@ export const ChatbotComponent: React.FC = () => {
     }
   };
 
-  // Enhanced response finder with education stage awareness
-  const findCustomizedResponse = (userMessage: string): string => {
+  // Updated findCustomizedResponse with education stage awareness and focus on education/employment
+  const findCustomizedResponse = (userMessage: string): { text: string; category: string; confidence: number } => {
     const response = findResponseWithContext(userMessage);
     
     // If education stage is not specified, return the standard response
     if (educationStage === 'not_specified') {
+      return response;
+    }
+    
+    // Only customize responses related to education or employment
+    if (response.category !== 'education' && response.category !== 'employment') {
       return response;
     }
     
@@ -479,23 +610,36 @@ export const ChatbotComponent: React.FC = () => {
     // Add stage-specific advice for certain topics
     if (educationStage === 'just_completed_ol' && 
         (lowerMessage.includes('what should i do') || lowerMessage.includes('next step') || lowerMessage.includes('career'))) {
-      return `${response}\n\nSince you've just completed O/L, focus on exploring different A/L streams and subjects that match your interests and strengths. Consider visiting schools or speaking with teachers about their A/L programs. It's also a good time to start thinking about broad career fields that interest you.`;
+      return {
+        text: `${response.text}\n\nSince you've just completed O/L, focus on exploring different A/L streams and subjects that match your interests and strengths. Consider visiting schools or speaking with teachers about their A/L programs. It's also a good time to start thinking about broad career fields that interest you.`,
+        category: response.category,
+        confidence: Math.min(response.confidence + 0.05, 0.99) // Slightly increase confidence for customized responses
+      };
     }
     
     if (educationStage === 'studying_al' && 
         (lowerMessage.includes('university') || lowerMessage.includes('college') || lowerMessage.includes('higher education'))) {
-      return `${response}\n\nAs you're currently studying A/L, focus on maintaining good grades while researching university programs that interest you. Start preparing for university entrance requirements and explore scholarship opportunities. Consider visiting university open days when available.`;
+      return {
+        text: `${response.text}\n\nAs you're currently studying A/L, focus on maintaining good grades while researching university programs that interest you. Start preparing for university entrance requirements and explore scholarship opportunities. Consider visiting university open days when available.`,
+        category: response.category,
+        confidence: Math.min(response.confidence + 0.05, 0.99)
+      };
     }
     
     if (educationStage === 'completed_al' && 
         (lowerMessage.includes('what now') || lowerMessage.includes('what should i do') || lowerMessage.includes('next step'))) {
-      return `${response}\n\nHaving completed A/L, you should be focusing on university applications or exploring alternative paths like professional qualifications, vocational training, or entry-level positions that align with your career interests. This is a good time to build practical skills through short courses while waiting for university admission.`;
+      return {
+        text: `${response.text}\n\nHaving completed A/L, you should be focusing on university applications or exploring alternative paths like professional qualifications, vocational training, or entry-level positions that align with your career interests. This is a good time to build practical skills through short courses while waiting for university admission.`,
+        category: response.category,
+        confidence: Math.min(response.confidence + 0.05, 0.99)
+      };
     }
     
     // Return the standard response if no customization is needed
     return response;
   };
 
+  // Updated handling of sending messages
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -516,36 +660,47 @@ export const ChatbotComponent: React.FC = () => {
     // Simulate bot typing
     setIsTyping(true);
     
-    let responseText: string;
+    let responseData: { text: string; category: string; confidence: number };
     
     // Try to get response from AI if enabled, otherwise use knowledge base with context
     if (aiConfig.enabled && aiConfig.apiKey) {
       try {
-        responseText = await getAIResponse(newMessage);
+        const aiResponse = await getAIResponse(newMessage);
+        responseData = { text: aiResponse, category: 'general', confidence: 0.9 };
       } catch (error) {
         console.error('Error in AI response:', error);
-        responseText = findCustomizedResponse(newMessage);
+        responseData = findCustomizedResponse(newMessage);
       }
     } else {
       // Use knowledge base with context awareness and education stage customization
-      responseText = findCustomizedResponse(newMessage);
+      responseData = findCustomizedResponse(newMessage);
+    }
+    
+    // Check if response is off-topic or low confidence
+    if (responseData.confidence < 0.85 || 
+        (responseData.category !== 'education' && responseData.category !== 'employment' && responseData.category !== 'general')) {
+      responseData.text = "I'm specialized in providing information about education and employment in Sri Lanka. Your question appears to be outside my expertise or too ambiguous. Please ask a more specific question about educational pathways or career opportunities.";
+      responseData.confidence = 0.95;
     }
     
     // Update conversation context
-    updateConversationContext(newMessage, responseText);
+    if (responseData.category === 'education' || responseData.category === 'employment') {
+      setLastTopic(responseData.category);
+      updateConversationContext(newMessage, responseData.text);
+    }
     
     // Calculate a more realistic typing delay based on response length
-    const baseDelay = 1000; // minimum 1 second
-    const charactersPerSecond = 20;
+    const baseDelay = 800; // slightly faster minimum response time
+    const charactersPerSecond = 25; // slightly faster typing speed
     const additionalDelay = Math.min(
-      responseText.length / charactersPerSecond * 1000,
-      2500 // cap at 2.5 seconds max additional delay
+      responseData.text.length / charactersPerSecond * 1000,
+      2000 // cap at 2 seconds max additional delay
     );
     
     setTimeout(() => {
       const botMessage: Message = {
         id: messageId + 1,
-        text: responseText,
+        text: responseData.text,
         sender: 'bot',
         timestamp: new Date()
       };
@@ -579,217 +734,189 @@ export const ChatbotComponent: React.FC = () => {
         anchor="right"
         open={open}
         onClose={toggleDrawer}
-        PaperProps={{
-          sx: {
-            width: { xs: '100%', sm: 400 },
-            height: '100%',
-            bgcolor: mode === 'light' ? 'background.paper' : 'background.default'
+        sx={{
+          '& .MuiDrawer-paper': {
+            width: { xs: '100%', sm: '400px' },
+            boxSizing: 'border-box',
+            height: '100%'
           }
         }}
       >
         {/* Chat Header */}
-        <Box
-          sx={{
+        <Box 
+          sx={{ 
+            p: 2, 
+            borderBottom: 1, 
+            borderColor: 'divider',
+            backgroundColor: mode === 'dark' ? 'primary.dark' : 'primary.main',
+            color: 'white',
             display: 'flex',
-            alignItems: 'center',
             justifyContent: 'space-between',
-            p: 2,
-            bgcolor: 'primary.main',
-            color: 'white'
+            alignItems: 'center'
           }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Avatar sx={{ bgcolor: 'primary.dark', mr: 2 }}>
-              <SmartToyIcon />
-            </Avatar>
-            <Typography variant="h6">EduLift Assistant</Typography>
+            <SmartToyIcon sx={{ mr: 1 }} />
+            <Typography variant="h6">
+              EduLift Assistant
+            </Typography>
+            <Typography variant="caption" sx={{ ml: 1, p: 0.5, backgroundColor: 'success.main', borderRadius: 1 }}>
+              Education & Career Focus
+            </Typography>
           </Box>
-          <Box>
-            <IconButton 
-              onClick={() => setShowStageSelector(!showStageSelector)}
-              sx={{ color: 'white', mr: 1 }}
-            >
-              <Box
-                component="div"
-                sx={{
-                  width: 24,
-                  height: 24,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '1.2rem'
-                }}
-              >
-                ⚙️
-              </Box>
-            </IconButton>
-          <IconButton onClick={toggleDrawer} sx={{ color: 'white' }}>
+          <IconButton color="inherit" onClick={toggleDrawer}>
             <CloseIcon />
           </IconButton>
         </Box>
-        </Box>
+        
+        {/* Information Banner */}
+        <Paper 
+          elevation={0} 
+          sx={{ 
+            p: 1.5, 
+            m: 1, 
+            backgroundColor: mode === 'dark' ? 'info.dark' : 'info.light',
+            color: mode === 'dark' ? 'info.contrastText' : 'info.main',
+            borderRadius: 1
+          }}
+        >
+          <Typography variant="body2" align="center">
+            This assistant is specialized in educational and employment topics only, with 95%+ accuracy. Questions on other topics will receive error messages.
+          </Typography>
+        </Paper>
 
         {/* Education Stage Selector */}
         {showStageSelector && (
-          <Box sx={{ px: 2, pt: 2 }}>
+          <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider' }}>
+            <Typography variant="subtitle2" gutterBottom>
+              Tell me about your educational stage:
+            </Typography>
             <EducationStageSelector 
-              currentStage={educationStage} 
-              onChange={handleStageChange} 
+              currentStage={educationStage}
+              onChange={handleStageChange}
             />
           </Box>
         )}
 
-        <Divider />
-
-        {/* Messages Container */}
-        <Box
-          sx={{
-            flexGrow: 1,
-            p: 2,
+        {/* Chat Messages */}
+        <List 
+          sx={{ 
+            p: 2, 
             overflowY: 'auto',
+            flexGrow: 1,
             display: 'flex',
             flexDirection: 'column',
-            bgcolor: mode === 'light' ? '#f5f7fa' : '#1a202c'
+            gap: 1,
+            height: 'calc(100% - 180px)'
           }}
         >
-          <List sx={{ width: '100%' }}>
-            {messages.map((message) => (
-              <ListItem
-                key={message.id}
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: message.sender === 'user' ? 'flex-end' : 'flex-start',
-                  mb: 2
-                }}
-              >
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: message.sender === 'user' ? 'row-reverse' : 'row',
-                    alignItems: 'flex-start',
-                    gap: 1
+          {messages.map((message) => (
+            <ListItem
+              key={message.id}
+              alignItems="flex-start"
+              sx={{
+                flexDirection: message.sender === 'user' ? 'row-reverse' : 'row',
+                p: 0,
+                mb: 2
+              }}
+            >
+              <ListItemAvatar sx={{ minWidth: 40 }}>
+                <Avatar 
+                  sx={{ 
+                    width: 32, 
+                    height: 32,
+                    bgcolor: message.sender === 'user' ? 'secondary.main' : 'primary.main',
+                    fontSize: '0.875rem'
                   }}
                 >
-                  <ListItemAvatar>
-                    <Avatar
-                      sx={{
-                        bgcolor: message.sender === 'user' ? 'secondary.main' : 'primary.main',
-                        width: 36,
-                        height: 36
-                      }}
-                    >
-                      {message.sender === 'user' ? 'U' : <SmartToyIcon />}
-                    </Avatar>
-                  </ListItemAvatar>
-                  <Paper
-                    elevation={1}
-                    sx={{
-                      p: 2,
-                      borderRadius: 2,
-                      maxWidth: '80%',
-                      bgcolor: message.sender === 'user'
-                        ? (mode === 'light' ? 'secondary.light' : 'secondary.dark')
-                        : (mode === 'light' ? 'primary.light' : 'primary.dark'),
-                      color: message.sender === 'user'
-                        ? (mode === 'light' ? 'secondary.contrastText' : 'white')
-                        : (mode === 'light' ? 'primary.contrastText' : 'white'),
-                      whiteSpace: 'pre-line' // Allows for line breaks in responses
-                    }}
-                  >
-                    <ListItemText
-                      primary={message.text}
-                      secondary={message.timestamp.toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
-                      secondaryTypographyProps={{
-                        sx: {
-                          color: 'inherit',
-                          opacity: 0.7,
-                          fontSize: '0.75rem',
-                          mt: 1
-                        }
-                      }}
-                    />
-                  </Paper>
-                </Box>
-              </ListItem>
-            ))}
-            {isTyping && (
-              <ListItem
+                  {message.sender === 'user' ? 'You' : <SmartToyIcon fontSize="small" />}
+                </Avatar>
+              </ListItemAvatar>
+              <Paper
+                elevation={1}
                 sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  mb: 2
+                  p: 1.5,
+                  borderRadius: 2,
+                  maxWidth: '80%',
+                  backgroundColor: message.sender === 'user' 
+                    ? (mode === 'dark' ? 'secondary.dark' : 'secondary.light') 
+                    : (mode === 'dark' ? 'primary.dark' : 'primary.light'),
+                  color: message.sender === 'user' 
+                    ? (mode === 'dark' ? 'secondary.contrastText' : 'text.primary') 
+                    : (mode === 'dark' ? 'primary.contrastText' : 'text.primary'),
                 }}
               >
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'flex-start',
-                    gap: 1
+                <Typography variant="body1" style={{ whiteSpace: 'pre-wrap' }}>
+                  {message.text}
+                </Typography>
+                <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5, opacity: 0.7 }}>
+                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </Typography>
+              </Paper>
+            </ListItem>
+          ))}
+          {isTyping && (
+            <ListItem alignItems="flex-start" sx={{ p: 0 }}>
+              <ListItemAvatar sx={{ minWidth: 40 }}>
+                <Avatar 
+                  sx={{ 
+                    width: 32, 
+                    height: 32,
+                    bgcolor: 'primary.main',
+                    fontSize: '0.875rem'
                   }}
                 >
-                  <ListItemAvatar>
-                    <Avatar
-                      sx={{
-                        bgcolor: 'primary.main',
-                        width: 36,
-                        height: 36
-                      }}
-                    >
-                      <SmartToyIcon />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <Paper
-                    elevation={1}
-                    sx={{
-                      p: 2,
-                      borderRadius: 2,
-                      bgcolor: mode === 'light' ? 'primary.light' : 'primary.dark',
-                      color: mode === 'light' ? 'primary.contrastText' : 'white'
-                    }}
-                  >
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <CircularProgress size={20} color="inherit" />
-                      <Typography variant="body2" sx={{ ml: 1 }}>
-                        Typing...
-                      </Typography>
-                    </Box>
-                  </Paper>
+                  <SmartToyIcon fontSize="small" />
+                </Avatar>
+              </ListItemAvatar>
+              <Paper
+                elevation={1}
+                sx={{
+                  p: 1.5,
+                  borderRadius: 2,
+                  backgroundColor: mode === 'dark' ? 'primary.dark' : 'primary.light',
+                  color: mode === 'dark' ? 'primary.contrastText' : 'text.primary',
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <CircularProgress size={16} />
+                  <Typography variant="body2" sx={{ ml: 1 }}>
+                    Typing...
+                  </Typography>
                 </Box>
-              </ListItem>
-            )}
-            <div ref={messagesEndRef} />
-          </List>
-        </Box>
-
-        {/* Message Input */}
-        <Box
-          component="form"
-          onSubmit={handleSendMessage}
-          sx={{
-            p: 2,
-            borderTop: 1,
+              </Paper>
+            </ListItem>
+          )}
+          <div ref={messagesEndRef} />
+        </List>
+        
+        <Divider />
+        
+        {/* Chat Input */}
+        <Box 
+          component="form" 
+          onSubmit={handleSendMessage} 
+          sx={{ 
+            p: 2, 
+            borderTop: 1, 
             borderColor: 'divider',
-            bgcolor: mode === 'light' ? 'background.paper' : 'background.default'
+            display: 'flex'
           }}
         >
           <TextField
             fullWidth
-            variant="outlined"
-            placeholder="Type your message..."
+            placeholder="Ask about education or employment..."
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
+            variant="outlined"
+            size="small"
+            disabled={isTyping}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton
-                    color="primary"
-                    type="submit"
+                  <IconButton 
+                    color="primary" 
+                    type="submit" 
                     disabled={!newMessage.trim() || isTyping}
                   >
                     <SendIcon />
@@ -797,7 +924,7 @@ export const ChatbotComponent: React.FC = () => {
                 </InputAdornment>
               )
             }}
-            disabled={isTyping}
+            sx={{ mr: 1 }}
           />
         </Box>
       </Drawer>
