@@ -159,6 +159,41 @@ const Contact = () => {
           
           <Grid container spacing={4}>
             <Grid item xs={12} md={7} data-aos="fade-right">
+              <Box 
+                sx={{ 
+                  position: 'relative', 
+                  width: '100%',
+                  height: '250px',
+                  borderRadius: 3,
+                  overflow: 'hidden',
+                  marginBottom: 4,
+                  boxShadow: '0 10px 30px rgba(0, 0, 0, 0.15)',
+                }} 
+                data-aos="zoom-in"
+              >
+                <Box 
+                  component="img"
+                  src="/images/Contact.gif" 
+                  alt="Contact Us"
+                  sx={{ 
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    borderRadius: 3,
+                    transition: 'all 0.6s ease',
+                    animation: 'pulse-contact 4s ease-in-out infinite alternate',
+                    '@keyframes pulse-contact': {
+                      '0%': { transform: 'scale(1)', filter: 'brightness(1)' },
+                      '100%': { transform: 'scale(1.05)', filter: 'brightness(1.1)' }
+                    },
+                    '&:hover': {
+                      transform: 'scale(1.03)',
+                      filter: 'brightness(1.1) drop-shadow(0 0 10px rgba(0, 87, 255, 0.3))'
+                    }
+                  }}
+                />
+              </Box>
+              
               <Card className="hover-lift" sx={{ borderRadius: 3 }}>
                 <CardContent sx={{ p: 4 }}>
                   <Typography variant="h5" fontWeight={600} gutterBottom>
