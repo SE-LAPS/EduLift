@@ -16,6 +16,7 @@ import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import PeopleIcon from '@mui/icons-material/People';
 import WorkIcon from '@mui/icons-material/Work';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import SmartToyIcon from '@mui/icons-material/SmartToy';
 import ImageSlider from '../components/ImageSlider';
 
 const Home = () => {
@@ -243,25 +244,25 @@ const Home = () => {
               <CardContent sx={{ p: 4 }}>
                 <Avatar 
                   sx={{ 
-                    bgcolor: 'primary.main', 
+                    bgcolor: 'secondary.main', 
                     width: 60, 
                     height: 60,
                     mb: 2,
-                    boxShadow: '0 10px 20px rgba(0, 87, 255, 0.15)'
+                    boxShadow: '0 10px 20px rgba(255, 92, 0, 0.2)'
                   }}
                 >
-                  <SchoolIcon fontSize="large" />
+                  <WorkIcon fontSize="large" />
                 </Avatar>
                 <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
-                  Academic Guidance
+                  Career Guidance
                 </Typography>
                 <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-                  Get personalized advice on subject selection, study strategies, and educational pathways after O/L examinations.
+                  Our AI-powered system recommends ideal career paths based on your skills, interests, and personality traits.
                 </Typography>
                 <Button 
                   endIcon={<ArrowForwardIcon />} 
                   component={Link}
-                  href="/services#academic"
+                  href="/services#career-guidance"
                   sx={{ fontWeight: 600 }}
                 >
                   Learn More
@@ -286,25 +287,25 @@ const Home = () => {
               <CardContent sx={{ p: 4 }}>
                 <Avatar 
                   sx={{ 
-                    bgcolor: 'secondary.main', 
+                    bgcolor: 'primary.main', 
                     width: 60, 
                     height: 60,
                     mb: 2,
-                    boxShadow: '0 10px 20px rgba(144, 202, 249, 0.2)'
+                    boxShadow: '0 10px 20px rgba(0, 87, 255, 0.15)'
                   }}
                 >
-                  <WorkIcon fontSize="large" />
+                  <SmartToyIcon fontSize="large" />
                 </Avatar>
                 <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
-                  Career Counseling
+                  Talent Identification
                 </Typography>
                 <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-                  Explore career options, understand industry requirements, and plan your educational path to reach your professional goals.
+                  Our AI analyzes your strengths and potential areas of excellence through comprehensive assessment.
                 </Typography>
                 <Button 
                   endIcon={<ArrowForwardIcon />} 
                   component={Link}
-                  href="/services#career"
+                  href="/services#talent-identification"
                   sx={{ fontWeight: 600 }}
                 >
                   Learn More
@@ -333,21 +334,21 @@ const Home = () => {
                     width: 60, 
                     height: 60,
                     mb: 2,
-                    boxShadow: '0 10px 20px rgba(255, 167, 38, 0.2)'
+                    boxShadow: '0 10px 20px rgba(0, 184, 169, 0.2)'
                   }}
                 >
                   <AssignmentIcon fontSize="large" />
                 </Avatar>
                 <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
-                  Skills Assessment
+                  Test Management
                 </Typography>
                 <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-                  Discover your strengths, interests, and aptitudes through comprehensive assessments to make informed decisions about your future.
+                  Create personalized assessments with automated grading, analytics, and adaptive testing technology.
                 </Typography>
                 <Button 
                   endIcon={<ArrowForwardIcon />} 
                   component={Link}
-                  href="/services#skills"
+                  href="/services#test-management"
                   sx={{ fontWeight: 600 }}
                 >
                   Learn More
@@ -357,6 +358,122 @@ const Home = () => {
           </Grid>
         </Grid>
       </Container>
+      
+      {/* AI & ML Technology Section */}
+      <Box 
+        sx={{ 
+          bgcolor: mode === 'light' ? '#f8fafc' : '#111827', 
+          py: { xs: 8, md: 10 },
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        <Container maxWidth="lg">
+          <Grid container spacing={5} alignItems="center">
+            <Grid item xs={12} md={6} data-aos="fade-right">
+              <Typography 
+                variant="h2" 
+                sx={{ 
+                  mb: 3,
+                  fontWeight: 700,
+                  fontSize: { xs: '2rem', md: '2.5rem' }
+                }}
+              >
+                Powered by <span style={{ color: '#FF9800' }}>AI & ML</span> Technology
+              </Typography>
+              
+              <Typography variant="body1" paragraph>
+                Our platform leverages cutting-edge Artificial Intelligence and Machine Learning to provide personalized educational guidance and career recommendations.
+              </Typography>
+              
+              <Box sx={{ my: 4 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <CheckCircleIcon sx={{ color: 'primary.main', mr: 2 }} />
+                  <Typography variant="body1">
+                    <strong>AI-Powered Career Matching</strong> - Personalized career recommendations
+                  </Typography>
+                </Box>
+                
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <CheckCircleIcon sx={{ color: 'primary.main', mr: 2 }} />
+                  <Typography variant="body1">
+                    <strong>ML Skill Assessment</strong> - Identify strengths and growth areas
+                  </Typography>
+                </Box>
+                
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <CheckCircleIcon sx={{ color: 'primary.main', mr: 2 }} />
+                  <Typography variant="body1">
+                    <strong>Adaptive Testing</strong> - Adjusts to your individual performance
+                  </Typography>
+                </Box>
+              </Box>
+              
+              <Button 
+                variant="contained" 
+                color="primary" 
+                size="large"
+                component={Link}
+                href="/services"
+                sx={{ 
+                  py: 1.5, 
+                  px: 4,
+                  fontSize: '1rem',
+                  fontWeight: 600,
+                  borderRadius: '8px'
+                }}
+              >
+                Explore Our Technology
+              </Button>
+            </Grid>
+            
+            <Grid item xs={12} md={6} data-aos="fade-left">
+              <Box 
+                sx={{ 
+                  position: 'relative',
+                  height: { xs: '300px', md: '400px' },
+                  width: '100%',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
+                }}
+              >
+                <Box
+                  sx={{
+                    position: 'relative',
+                    width: '100%',
+                    height: '100%',
+                    overflow: 'hidden',
+                    animation: 'pulsate 3s ease-in-out infinite alternate',
+                    '@keyframes pulsate': {
+                      '0%': { transform: 'scale(1)', filter: 'brightness(1)' },
+                      '100%': { transform: 'scale(1.03)', filter: 'brightness(1.1)' }
+                    }
+                  }}
+                >
+                  <Image 
+                    src="/images/Home AI.gif" 
+                    alt="AI Technology" 
+                    layout="fill" 
+                    objectFit="cover"
+                    priority
+                    className="hover-glow"
+                  />
+                  <style jsx global>{`
+                    .hover-glow {
+                      transition: all 0.5s ease-in-out;
+                    }
+                    .hover-glow:hover {
+                      filter: drop-shadow(0 0 15px rgba(0, 87, 255, 0.6));
+                      transform: scale(1.02);
+                    }
+                  `}</style>
+                </Box>
+              </Box>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
       
       {/* About Section */}
       <Box 
