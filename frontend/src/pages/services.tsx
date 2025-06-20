@@ -162,23 +162,57 @@ const Services = () => {
             
             <Grid item xs={12} md={6} data-aos="fade-left" sx={{ textAlign: 'center' }}>
               <Box 
-                component="img"
-                src="/images/service.gif" 
-                alt="EduLift Services"
-                sx={{ 
-                  maxWidth: '80%',
-                  height: 'auto',
-                  filter: 'drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.15))',
-                  borderRadius: '8px',
-                  animation: 'rotate 4s infinite ease-in-out',
-                  '@keyframes rotate': {
-                    '0%': { transform: 'rotate(0deg)' },
-                    '25%': { transform: 'rotate(1deg)' },
-                    '75%': { transform: 'rotate(-1deg)' },
-                    '100%': { transform: 'rotate(0deg)' }
+                sx={{
+                  position: 'relative',
+                  display: 'inline-block',
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: '-15px',
+                    left: '-15px',
+                    right: '-15px',
+                    bottom: '-15px',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(135deg, #0057FF, #8A2BE2, #FF5C00, #0057FF)',
+                    backgroundSize: '400% 400%',
+                    animation: 'service-border 10s ease infinite',
+                    zIndex: -1,
+                    opacity: 0.8,
+                    filter: 'blur(8px)',
+                  },
+                  '@keyframes service-border': {
+                    '0%': { backgroundPosition: '0% 50%', transform: 'rotate(0deg)' },
+                    '50%': { backgroundPosition: '100% 50%', transform: 'rotate(3deg)' },
+                    '100%': { backgroundPosition: '0% 50%', transform: 'rotate(0deg)' }
                   }
                 }}
-              />
+              >
+                <Box 
+                  component="img"
+                  src="/images/service.gif" 
+                  alt="EduLift Services"
+                  sx={{ 
+                    maxWidth: '80%',
+                    height: 'auto',
+                    filter: 'drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.15))',
+                    borderRadius: '8px',
+                    animation: 'rotate 4s infinite ease-in-out',
+                    transition: 'all 0.5s ease',
+                    '@keyframes rotate': {
+                      '0%': { transform: 'rotate(0deg)' },
+                      '25%': { transform: 'rotate(1deg)' },
+                      '75%': { transform: 'rotate(-1deg)' },
+                      '100%': { transform: 'rotate(0deg)' }
+                    },
+                    '&:hover': {
+                      transform: 'scale(1.1) rotate(2deg)',
+                      filter: 'drop-shadow(0px 20px 30px rgba(0, 87, 255, 0.3)) brightness(1.05)',
+                      cursor: 'pointer'
+                    }
+                  }}
+                  onClick={() => handleNavigation('/contact', '/images/service.gif')}
+                />
+              </Box>
             </Grid>
           </Grid>
         </Container>
@@ -233,12 +267,40 @@ const Services = () => {
                   <Button 
                     variant="outlined" 
                     color="primary"
-                    endIcon={<ArrowForwardIcon />}
+                    endIcon={<ArrowForwardIcon className="arrow-icon" />}
                     onClick={() => handleNavigation('/contact', '/images/service.gif')}
+                    className="animated-button"
                     sx={{ 
                       mt: 2,
                       textTransform: 'none',
-                      borderRadius: 2
+                      borderRadius: 2,
+                      position: 'relative',
+                      overflow: 'hidden',
+                      '&::before': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0,
+                        left: '-100%',
+                        width: '100%',
+                        height: '100%',
+                        background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+                        transition: 'all 0.5s',
+                      },
+                      '&:hover': {
+                        borderColor: '#8A2BE2',
+                        color: '#8A2BE2',
+                        boxShadow: '0 5px 15px rgba(138, 43, 226, 0.2)',
+                        '&::before': {
+                          left: '100%',
+                          transition: 'all 0.5s',
+                        },
+                        '& .arrow-icon': {
+                          transform: 'translateX(4px)',
+                        }
+                      },
+                      '& .arrow-icon': {
+                        transition: 'transform 0.3s ease',
+                      }
                     }}
                   >
                     Learn More
