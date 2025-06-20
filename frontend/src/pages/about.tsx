@@ -95,22 +95,54 @@ const About = () => {
             
             <Grid item xs={12} md={6} data-aos="fade-left" sx={{ textAlign: 'center' }}>
               <Box 
-                component="img"
-                src="/images/vision.gif" 
-                alt="EduLift Mission"
-                sx={{ 
-                  maxWidth: '80%',
-                  height: 'auto',
-                  filter: 'drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.15))',
-                  borderRadius: '8px',
-                  animation: 'pulse 2s infinite ease-in-out',
-                  '@keyframes pulse': {
-                    '0%': { transform: 'scale(1)' },
-                    '50%': { transform: 'scale(1.05)' },
-                    '100%': { transform: 'scale(1)' }
+                sx={{
+                  position: 'relative',
+                  display: 'inline-block',
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: '-15px',
+                    left: '-15px',
+                    right: '-15px',
+                    bottom: '-15px',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(45deg, #FF5C00, #0057FF, #8A2BE2, #FF5C00)',
+                    backgroundSize: '400% 400%',
+                    animation: 'gradient-border 8s ease infinite',
+                    zIndex: -1,
+                  },
+                  '@keyframes gradient-border': {
+                    '0%': { backgroundPosition: '0% 50%' },
+                    '50%': { backgroundPosition: '100% 50%' },
+                    '100%': { backgroundPosition: '0% 50%' }
                   }
                 }}
-              />
+              >
+                <Box 
+                  component="img"
+                  src="/images/vision.gif" 
+                  alt="EduLift Mission"
+                  sx={{ 
+                    maxWidth: '80%',
+                    height: 'auto',
+                    filter: 'drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.15))',
+                    borderRadius: '8px',
+                    animation: 'pulse 2s infinite ease-in-out',
+                    transition: 'all 0.5s ease',
+                    '@keyframes pulse': {
+                      '0%': { transform: 'scale(1)' },
+                      '50%': { transform: 'scale(1.05)' },
+                      '100%': { transform: 'scale(1)' }
+                    },
+                    '&:hover': {
+                      transform: 'scale(1.08) translateY(-10px)',
+                      filter: 'drop-shadow(0px 25px 30px rgba(0, 0, 0, 0.25)) brightness(1.05)',
+                      cursor: 'pointer'
+                    }
+                  }}
+                  onClick={() => handleNavigation('/contact', '/images/vision.gif')}
+                />
+              </Box>
             </Grid>
           </Grid>
         </Container>
