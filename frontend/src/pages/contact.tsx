@@ -23,7 +23,7 @@ import PhoneInTalkIcon from '@mui/icons-material/PhoneInTalk';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import Head from 'next/head';
 import { useThemeContext } from '../contexts/ThemeContext';
-import AOS from 'aos';
+import AOS from 'aos';\nimport '../styles/contact-animation.css';
 import 'aos/dist/aos.css';
 
 const Contact = () => {
@@ -458,4 +458,4 @@ const Contact = () => {
   );
 };
 
-export default Contact; 
+export default Contact; // Modified with colorful animation
