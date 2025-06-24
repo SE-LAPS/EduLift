@@ -452,7 +452,7 @@ const Home = () => {
                   }}
                 >
                   <Image 
-                    src="/images/Home AI.gif" 
+                    src="/images/Home AI-1.gif" 
                     alt="AI Technology" 
                     layout="fill" 
                     objectFit="cover"
