@@ -18,25 +18,103 @@ import WorkIcon from '@mui/icons-material/Work';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import ImageSlider from '../components/ImageSlider';
+import { useRouter } from 'next/router';
+import usePageTransition from '../hooks/usePageTransition';
+
+// Preload important images
+const preloadImages = (): void => {
+  if (typeof window === 'undefined') return;
+  
+  const images = [
+    '/images/1.gif',
+    '/images/2.gif',
+    '/images/3.gif',
+    '/images/Home AI-1.gif'
+  ];
+  
+  images.forEach(src => {
+    const img: HTMLImageElement = document.createElement('img');
+    img.src = src;
+    img.style.display = 'none'; // Don't show the preloaded image
+    img.onload = () => document.body.removeChild(img); // Clean up after loading
+    document.body.appendChild(img); // Add to DOM to trigger load
+  });
+};
+
+// Common routes for prefetching
+const commonRoutes = [
+  '/services',
+  '/about',
+  '/contact',
+  '/register'
+];
 
 const Home = () => {
   const { mode } = useThemeContext();
+  const router = useRouter();
+  const { handleNavigation, prefetchRoutes } = usePageTransition();
   
   // Initialize AOS animation library
   useEffect(() => {
+    // Initialize AOS with optimized settings
     AOS.init({
-      duration: 1000,
-      once: false,
-      mirror: true,
+      duration: 800, // Reduced duration for faster animations
+      once: true, // Only animate once to improve performance
+      mirror: false, // Don't mirror animations on scroll up
+      offset: 100,
+      easing: 'ease-out',
+      delay: 50, // Reduced delay
     });
-    AOS.refresh();
-  }, []);
+    
+    // Preload important images
+    preloadImages();
+    
+    // Prefetch common routes
+    prefetchRoutes(commonRoutes);
+    
+    // Refresh AOS after window loads completely
+    window.addEventListener('load', () => {
+      AOS.refresh();
+    });
+    
+    // Cleanup function
+    return () => {
+      window.removeEventListener('load', () => {
+        AOS.refresh();
+      });
+    };
+  }, [prefetchRoutes]);
 
   return (
     <>
       <Head>
         <title>EduLift - Guiding Sri Lankan Students to a Brighter Future</title>
         <meta name="description" content="EduLift provides guidance, resources, and opportunities for Sri Lankan students after O/L examinations to help them make informed decisions about their future." />
+        
+        {/* Add preload for critical resources */}
+        <link rel="preload" href="/images/1.gif" as="image" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <style jsx global>{`
+          .page-transition {
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+          }
+          @media (prefers-reduced-motion: no-preference) {
+            * {
+              scroll-behavior: smooth;
+            }
+          }
+          
+          /* Optimize image loading */
+          img.blur-load {
+            filter: blur(10px);
+            transition: filter 0.3s ease-out;
+          }
+          img.blur-load.loaded {
+            filter: blur(0);
+          }
+        `}</style>
       </Head>
       
       {/* Hero Section */}
@@ -49,10 +127,11 @@ const Home = () => {
           overflow: 'hidden',
           position: 'relative'
         }}
+        data-aos="fade-in"
       >
         <Container maxWidth="lg">
           <Grid container spacing={4} alignItems="center">
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} data-aos="fade-right" data-aos-delay="100" className="will-animate">
               <Box sx={{ position: 'relative', zIndex: 2 }}>
                 <Typography 
                   variant="h1" 
@@ -82,8 +161,8 @@ const Home = () => {
                     variant="contained" 
                     color="primary" 
                     size="large"
-                    component={Link}
-                    href="/services"
+                    onClick={handleNavigation('/services')}
+                    className="fast-button"
                     sx={{ 
                       py: 1.5, 
                       px: 4,
@@ -92,6 +171,8 @@ const Home = () => {
                       borderRadius: '8px',
                       boxShadow: '0 10px 20px rgba(0, 87, 255, 0.15)'
                     }}
+                    data-aos="fade-up" 
+                    data-aos-delay="300"
                   >
                     Explore Services
                   </Button>
@@ -99,8 +180,8 @@ const Home = () => {
                     variant="outlined" 
                     color="primary" 
                     size="large"
-                    component={Link}
-                    href="/contact"
+                    onClick={handleNavigation('/contact')}
+                    className="fast-button"
                     sx={{ 
                       py: 1.5, 
                       px: 4,
@@ -108,13 +189,15 @@ const Home = () => {
                       fontWeight: 600,
                       borderRadius: '8px'
                     }}
+                    data-aos="fade-up" 
+                    data-aos-delay="400"
                   >
                     Contact Us
                   </Button>
                 </Box>
               </Box>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} data-aos="fade-left" data-aos-delay="200">
               <Box 
                 sx={{ 
                   position: 'relative',
@@ -192,6 +275,9 @@ const Home = () => {
                     width={500}
                     height={500}
                     objectFit="contain"
+                    className="blur-load"
+                    onLoadingComplete={(img) => img.classList.add('loaded')}
+                    priority
                   />
                 </Box>
               </Box>
@@ -201,7 +287,7 @@ const Home = () => {
       </Box>
       
       {/* Features Section */}
-      <Container maxWidth="lg" sx={{ py: { xs: 8, md: 12 } }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 8, md: 12 } }} data-aos="fade-up">
         <Box sx={{ textAlign: 'center', mb: 8 }}>
           <Typography 
             variant="h2" 
@@ -210,6 +296,8 @@ const Home = () => {
               fontWeight: 700,
               fontSize: { xs: '2rem', md: '2.75rem' }
             }}
+            data-aos="fade-up"
+            data-aos-delay="100"
           >
             How We Can Help You
           </Typography>
@@ -228,7 +316,7 @@ const Home = () => {
         </Box>
         
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={6} md={4} data-aos="fade-up" data-aos-delay="100">
             <Card 
               className="feature-card"
               sx={{ 
@@ -261,8 +349,8 @@ const Home = () => {
                 </Typography>
                 <Button 
                   endIcon={<ArrowForwardIcon />} 
-                  component={Link}
-                  href="/services#career-guidance"
+                  onClick={handleNavigation('/services#career-guidance')}
+                  className="fast-button"
                   sx={{ fontWeight: 600 }}
                 >
                   Learn More
@@ -271,7 +359,7 @@ const Home = () => {
             </Card>
           </Grid>
           
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={6} md={4} data-aos="fade-up" data-aos-delay="200">
             <Card 
               className="feature-card"
               sx={{ 
@@ -304,8 +392,7 @@ const Home = () => {
                 </Typography>
                 <Button 
                   endIcon={<ArrowForwardIcon />} 
-                  component={Link}
-                  href="/services#talent-identification"
+                  onClick={handleNavigation('/services#talent-identification')}
                   sx={{ fontWeight: 600 }}
                 >
                   Learn More
@@ -314,7 +401,7 @@ const Home = () => {
             </Card>
           </Grid>
           
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid item xs={12} sm={6} md={4} data-aos="fade-up" data-aos-delay="300">
             <Card 
               className="feature-card"
               sx={{ 
@@ -347,8 +434,7 @@ const Home = () => {
                 </Typography>
                 <Button 
                   endIcon={<ArrowForwardIcon />} 
-                  component={Link}
-                  href="/services#test-management"
+                  onClick={handleNavigation('/services#test-management')}
                   sx={{ fontWeight: 600 }}
                 >
                   Learn More
@@ -367,6 +453,7 @@ const Home = () => {
           position: 'relative',
           overflow: 'hidden'
         }}
+        data-aos="fade-up"
       >
         <Container maxWidth="lg">
           <Grid container spacing={5} alignItems="center">
@@ -413,8 +500,7 @@ const Home = () => {
                 variant="contained" 
                 color="primary" 
                 size="large"
-                component={Link}
-                href="/services"
+                onClick={handleNavigation('/services')}
                 sx={{ 
                   py: 1.5, 
                   px: 4,
@@ -483,6 +569,7 @@ const Home = () => {
             : 'linear-gradient(135deg, #1f2937 0%, #111827 100%)',
           py: { xs: 8, md: 12 }
         }}
+        data-aos="fade-up"
       >
         <Container maxWidth="lg">
           <Grid container spacing={6} alignItems="center">
@@ -584,8 +671,7 @@ const Home = () => {
                 variant="contained" 
                 color="primary" 
                 size="large"
-                component={Link}
-                href="/about"
+                onClick={handleNavigation('/about')}
                 sx={{ 
                   py: 1.5, 
                   px: 4,
@@ -602,8 +688,8 @@ const Home = () => {
       </Box>
       
       {/* Testimonials Section */}
-      <Container maxWidth="lg" sx={{ py: { xs: 8, md: 12 } }}>
-        <Box sx={{ textAlign: 'center', mb: 8 }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 8, md: 12 } }} data-aos="fade-up">
+        <Box sx={{ textAlign: 'center', mb: 8 }} data-aos="fade-up" data-aos-delay="100">
           <Typography 
             variant="h2" 
             sx={{ 
@@ -629,7 +715,7 @@ const Home = () => {
         </Box>
         
         <Grid container spacing={4}>
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={4} data-aos="fade-up" data-aos-delay="100">
             <Card 
               className="testimonial-card"
               sx={{ 
@@ -664,7 +750,7 @@ const Home = () => {
             </Card>
           </Grid>
           
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={4} data-aos="fade-up" data-aos-delay="200">
             <Card 
               className="testimonial-card"
               sx={{ 
@@ -699,7 +785,7 @@ const Home = () => {
             </Card>
           </Grid>
           
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={4} data-aos="fade-up" data-aos-delay="300">
             <Card 
               className="testimonial-card"
               sx={{ 
@@ -749,6 +835,7 @@ const Home = () => {
           overflow: 'hidden',
           position: 'relative'
         }}
+        data-aos="fade-up"
       >
         <Container maxWidth="lg">
           <Grid container spacing={4} alignItems="center">
@@ -911,7 +998,7 @@ const Home = () => {
       </Box>
       
       {/* First Image Slider - Right to Left */}
-      <Box sx={{ my: 8 }}>
+      <Box sx={{ my: 8 }} data-aos="fade-up">
         <Typography 
           variant="h3" 
           sx={{ 
@@ -973,7 +1060,7 @@ const Home = () => {
       </Box>
       
       {/* Second Image Slider - Left to Right */}
-      <Box sx={{ my: 8 }}>
+      <Box sx={{ my: 8 }} data-aos="fade-up">
         <Typography 
           variant="h3" 
           sx={{ 
@@ -1036,7 +1123,7 @@ const Home = () => {
       </Box>
       
       {/* CTA Section */}
-      <Container maxWidth="md" sx={{ py: { xs: 8, md: 12 }, textAlign: 'center' }}>
+      <Container maxWidth="md" sx={{ py: { xs: 8, md: 12 }, textAlign: 'center' }} data-aos="fade-up">
         <Typography 
           variant="h2" 
           sx={{ 
@@ -1044,6 +1131,8 @@ const Home = () => {
             fontWeight: 700,
             fontSize: { xs: '2rem', md: '2.75rem' }
           }}
+          data-aos="fade-up" 
+          data-aos-delay="100"
         >
           Ready to Shape Your Future?
         </Typography>
@@ -1064,8 +1153,7 @@ const Home = () => {
             variant="contained" 
             color="primary" 
             size="large"
-            component={Link}
-            href="/register"
+            onClick={handleNavigation('/register')}
             sx={{ 
               py: 1.5, 
               px: 4,
@@ -1074,6 +1162,8 @@ const Home = () => {
               borderRadius: '8px',
               boxShadow: '0 10px 20px rgba(0, 87, 255, 0.15)'
             }}
+            data-aos="fade-up" 
+            data-aos-delay="200"
           >
             Register Now
           </Button>
@@ -1081,8 +1171,7 @@ const Home = () => {
             variant="outlined" 
             color="primary" 
             size="large"
-            component={Link}
-            href="/contact"
+            onClick={handleNavigation('/contact')}
             sx={{ 
               py: 1.5, 
               px: 4,
@@ -1090,6 +1179,8 @@ const Home = () => {
               fontWeight: 600,
               borderRadius: '8px'
             }}
+            data-aos="fade-up" 
+            data-aos-delay="300"
           >
             Contact Us
           </Button>
