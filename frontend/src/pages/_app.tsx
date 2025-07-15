@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/globals.css';
+import '../styles/performance.css';
 import type { AppProps } from 'next/app';
 import { ThemeProvider } from '../contexts/ThemeContext';
 import { AuthProvider } from '../contexts/AuthContext';
