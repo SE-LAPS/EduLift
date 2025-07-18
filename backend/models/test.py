@@ -74,7 +74,7 @@ class TestQuestion(db.Model):
             'points': self.points,
             'created_at': self.created_at.isoformat() if self.created_at else None,
             'updated_at': self.updated_at.isoformat() if self.updated_at else None,
-            'options': [option.to_dict() for option in self.options]
+            'options': [option.to_dict() for option in self.options.all()]
         }
     
     def __repr__(self):
