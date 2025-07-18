@@ -21,6 +21,46 @@ import ImageSlider from '../components/ImageSlider';
 import { useRouter } from 'next/router';
 import usePageTransition from '../hooks/usePageTransition';
 
+// Circular Wave Background Component
+const CircularWaveBackground = ({ mode }: { mode: string }) => {
+  return (
+    <>
+      <Box
+        className="circular-wave wave1"
+        sx={{
+          background: mode === 'light'
+            ? 'radial-gradient(circle, rgba(0, 87, 255, 0.2) 0%, rgba(0, 87, 255, 0) 70%)'
+            : 'radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, rgba(59, 130, 246, 0) 70%)'
+        }}
+      />
+      <Box
+        className="circular-wave wave2"
+        sx={{
+          background: mode === 'light'
+            ? 'radial-gradient(circle, rgba(255, 92, 0, 0.15) 0%, rgba(255, 92, 0, 0) 70%)'
+            : 'radial-gradient(circle, rgba(249, 115, 22, 0.2) 0%, rgba(249, 115, 22, 0) 70%)'
+        }}
+      />
+      <Box
+        className="circular-wave wave3"
+        sx={{
+          background: mode === 'light'
+            ? 'radial-gradient(circle, rgba(0, 184, 169, 0.2) 0%, rgba(0, 184, 169, 0) 70%)'
+            : 'radial-gradient(circle, rgba(20, 184, 166, 0.25) 0%, rgba(20, 184, 166, 0) 70%)'
+        }}
+      />
+      <Box
+        className="circular-wave wave4"
+        sx={{
+          background: mode === 'light'
+            ? 'radial-gradient(circle, rgba(0, 87, 255, 0.15) 0%, rgba(0, 87, 255, 0) 70%)'
+            : 'radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0) 70%)'
+        }}
+      />
+    </>
+  );
+};
+
 // Preload important images
 const preloadImages = (): void => {
   if (typeof window === 'undefined') return;
@@ -114,6 +154,56 @@ const Home = () => {
           img.blur-load.loaded {
             filter: blur(0);
           }
+          
+          /* Circular wave animation */
+          @keyframes circularWave {
+            0% {
+              transform: translate(-50%, -50%) scale(0.1);
+              opacity: 0.9;
+            }
+            100% {
+              transform: translate(-50%, -50%) scale(3);
+              opacity: 0;
+            }
+          }
+          
+          .circular-wave {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+          }
+          
+          .wave1 {
+            animation: circularWave 8s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+          }
+          
+          .wave2 {
+            animation: circularWave 8s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite 2s;
+          }
+          
+          .wave3 {
+            animation: circularWave 8s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite 4s;
+          }
+          
+          .wave4 {
+            animation: circularWave 8s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite 6s;
+          }
+
+          /* Wave speed variations for different sections */
+          .wave-slow .wave1 { animation-duration: 12s; }
+          .wave-slow .wave2 { animation-duration: 12s; }
+          .wave-slow .wave3 { animation-duration: 12s; }
+          .wave-slow .wave4 { animation-duration: 12s; }
+          
+          .wave-medium .wave1 { animation-duration: 10s; }
+          .wave-medium .wave2 { animation-duration: 10s; }
+          .wave-medium .wave3 { animation-duration: 10s; }
+          .wave-medium .wave4 { animation-duration: 10s; }
         `}</style>
       </Head>
       
@@ -125,10 +215,14 @@ const Home = () => {
             : 'linear-gradient(135deg, #1f2937 0%, #111827 100%)',
           py: { xs: 10, md: 15 },
           overflow: 'hidden',
-          position: 'relative'
+          position: 'relative',
+          minHeight: '80vh', // Ensure enough height for waves to be visible
         }}
         data-aos="fade-in"
       >
+        {/* Circular Wave Animation */}
+        <CircularWaveBackground mode={mode} />
+        
         <Container maxWidth="lg">
           <Grid container spacing={4} alignItems="center">
             <Grid item xs={12} md={6} data-aos="fade-right" data-aos-delay="100" className="will-animate">
@@ -287,174 +381,165 @@ const Home = () => {
       </Box>
       
       {/* Features Section */}
-      <Container maxWidth="lg" sx={{ py: { xs: 8, md: 12 } }} data-aos="fade-up">
-        <Box sx={{ textAlign: 'center', mb: 8 }}>
-          <Typography 
-            variant="h2" 
-            sx={{ 
-              mb: 2,
-              fontWeight: 700,
-              fontSize: { xs: '2rem', md: '2.75rem' }
-            }}
-            data-aos="fade-up"
-            data-aos-delay="100"
-          >
-            How We Can Help You
-          </Typography>
-          <Typography 
-            variant="h3" 
-            sx={{ 
-              mb: 2,
-              color: 'text.secondary',
-              fontSize: { xs: '1.1rem', md: '1.25rem' },
-              maxWidth: '800px',
-              mx: 'auto'
-            }}
-          >
-            Comprehensive guidance and resources to support your educational journey
-          </Typography>
+      <Box 
+        sx={{ 
+          py: 10, 
+          bgcolor: mode === 'light' ? '#fff' : '#1E293B',
+          position: 'relative',
+          overflow: 'hidden'
+        }}
+      >
+        {/* Circular Wave Animation - Medium Speed */}
+        <Box className="wave-medium">
+          <CircularWaveBackground mode={mode} />
         </Box>
-        
-        <Grid container spacing={4}>
-          <Grid item xs={12} sm={6} md={4} data-aos="fade-up" data-aos-delay="100">
-            <Card 
-              className="feature-card"
-              sx={{ 
-                height: '100%',
-                borderRadius: '12px',
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  transform: 'translateY(-10px)',
-                  boxShadow: '0 20px 30px rgba(0, 0, 0, 0.1)'
-                }
-              }}
-            >
-              <CardContent sx={{ p: 4 }}>
-                <Avatar 
-                  sx={{ 
-                    bgcolor: 'secondary.main', 
-                    width: 60, 
-                    height: 60,
-                    mb: 2,
-                    boxShadow: '0 10px 20px rgba(255, 92, 0, 0.2)'
-                  }}
-                >
-                  <WorkIcon fontSize="large" />
-                </Avatar>
-                <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
-                  Career Guidance
-                </Typography>
-                <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-                  Our AI-powered system recommends ideal career paths based on your skills, interests, and personality traits.
-                </Typography>
-                <Button 
-                  endIcon={<ArrowForwardIcon />} 
-                  onClick={handleNavigation('/services#career-guidance')}
-                  className="fast-button"
-                  sx={{ fontWeight: 600 }}
-                >
-                  Learn More
-                </Button>
-              </CardContent>
-            </Card>
+
+        <Container maxWidth="lg">
+          <Grid container spacing={4} justifyContent="center">
+            <Grid item xs={12} sm={6} md={4} data-aos="fade-up" data-aos-delay="100">
+              <Card 
+                className="feature-card"
+                sx={{ 
+                  height: '100%',
+                  borderRadius: '12px',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    transform: 'translateY(-10px)',
+                    boxShadow: '0 20px 30px rgba(0, 0, 0, 0.1)'
+                  }
+                }}
+              >
+                <CardContent sx={{ p: 4 }}>
+                  <Avatar 
+                    sx={{ 
+                      bgcolor: 'secondary.main', 
+                      width: 60, 
+                      height: 60,
+                      mb: 2,
+                      boxShadow: '0 10px 20px rgba(255, 92, 0, 0.2)'
+                    }}
+                  >
+                    <WorkIcon fontSize="large" />
+                  </Avatar>
+                  <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
+                    Career Guidance
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+                    Our AI-powered system recommends ideal career paths based on your skills, interests, and personality traits.
+                  </Typography>
+                  <Button 
+                    endIcon={<ArrowForwardIcon />} 
+                    onClick={handleNavigation('/services#career-guidance')}
+                    className="fast-button"
+                    sx={{ fontWeight: 600 }}
+                  >
+                    Learn More
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
+            
+            <Grid item xs={12} sm={6} md={4} data-aos="fade-up" data-aos-delay="200">
+              <Card 
+                className="feature-card"
+                sx={{ 
+                  height: '100%',
+                  borderRadius: '12px',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    transform: 'translateY(-10px)',
+                    boxShadow: '0 20px 30px rgba(0, 0, 0, 0.1)'
+                  }
+                }}
+              >
+                <CardContent sx={{ p: 4 }}>
+                  <Avatar 
+                    sx={{ 
+                      bgcolor: 'primary.main', 
+                      width: 60, 
+                      height: 60,
+                      mb: 2,
+                      boxShadow: '0 10px 20px rgba(0, 87, 255, 0.15)'
+                    }}
+                  >
+                    <SmartToyIcon fontSize="large" />
+                  </Avatar>
+                  <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
+                    Talent Identification
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+                    Our AI analyzes your strengths and potential areas of excellence through comprehensive assessment.
+                  </Typography>
+                  <Button 
+                    endIcon={<ArrowForwardIcon />} 
+                    onClick={handleNavigation('/services#talent-identification')}
+                    sx={{ fontWeight: 600 }}
+                  >
+                    Learn More
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
+            
+            <Grid item xs={12} sm={6} md={4} data-aos="fade-up" data-aos-delay="300">
+              <Card 
+                className="feature-card"
+                sx={{ 
+                  height: '100%',
+                  borderRadius: '12px',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    transform: 'translateY(-10px)',
+                    boxShadow: '0 20px 30px rgba(0, 0, 0, 0.1)'
+                  }
+                }}
+              >
+                <CardContent sx={{ p: 4 }}>
+                  <Avatar 
+                    sx={{ 
+                      bgcolor: 'tertiary.main', 
+                      width: 60, 
+                      height: 60,
+                      mb: 2,
+                      boxShadow: '0 10px 20px rgba(0, 184, 169, 0.2)'
+                    }}
+                  >
+                    <AssignmentIcon fontSize="large" />
+                  </Avatar>
+                  <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
+                    Test Management
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+                    Create personalized assessments with automated grading, analytics, and adaptive testing technology.
+                  </Typography>
+                  <Button 
+                    endIcon={<ArrowForwardIcon />} 
+                    onClick={handleNavigation('/services#test-management')}
+                    sx={{ fontWeight: 600 }}
+                  >
+                    Learn More
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
-          
-          <Grid item xs={12} sm={6} md={4} data-aos="fade-up" data-aos-delay="200">
-            <Card 
-              className="feature-card"
-              sx={{ 
-                height: '100%',
-                borderRadius: '12px',
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  transform: 'translateY(-10px)',
-                  boxShadow: '0 20px 30px rgba(0, 0, 0, 0.1)'
-                }
-              }}
-            >
-              <CardContent sx={{ p: 4 }}>
-                <Avatar 
-                  sx={{ 
-                    bgcolor: 'primary.main', 
-                    width: 60, 
-                    height: 60,
-                    mb: 2,
-                    boxShadow: '0 10px 20px rgba(0, 87, 255, 0.15)'
-                  }}
-                >
-                  <SmartToyIcon fontSize="large" />
-                </Avatar>
-                <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
-                  Talent Identification
-                </Typography>
-                <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-                  Our AI analyzes your strengths and potential areas of excellence through comprehensive assessment.
-                </Typography>
-                <Button 
-                  endIcon={<ArrowForwardIcon />} 
-                  onClick={handleNavigation('/services#talent-identification')}
-                  sx={{ fontWeight: 600 }}
-                >
-                  Learn More
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-          
-          <Grid item xs={12} sm={6} md={4} data-aos="fade-up" data-aos-delay="300">
-            <Card 
-              className="feature-card"
-              sx={{ 
-                height: '100%',
-                borderRadius: '12px',
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  transform: 'translateY(-10px)',
-                  boxShadow: '0 20px 30px rgba(0, 0, 0, 0.1)'
-                }
-              }}
-            >
-              <CardContent sx={{ p: 4 }}>
-                <Avatar 
-                  sx={{ 
-                    bgcolor: 'tertiary.main', 
-                    width: 60, 
-                    height: 60,
-                    mb: 2,
-                    boxShadow: '0 10px 20px rgba(0, 184, 169, 0.2)'
-                  }}
-                >
-                  <AssignmentIcon fontSize="large" />
-                </Avatar>
-                <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
-                  Test Management
-                </Typography>
-                <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-                  Create personalized assessments with automated grading, analytics, and adaptive testing technology.
-                </Typography>
-                <Button 
-                  endIcon={<ArrowForwardIcon />} 
-                  onClick={handleNavigation('/services#test-management')}
-                  sx={{ fontWeight: 600 }}
-                >
-                  Learn More
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </Container>
+        </Container>
+      </Box>
       
       {/* AI & ML Technology Section */}
       <Box 
         sx={{ 
-          bgcolor: mode === 'light' ? '#f8fafc' : '#111827', 
-          py: { xs: 8, md: 10 },
+          py: 10,
+          bgcolor: mode === 'light' ? '#f8fafc' : '#111827',
           position: 'relative',
           overflow: 'hidden'
         }}
-        data-aos="fade-up"
       >
+        {/* Circular Wave Animation - Slow Speed */}
+        <Box className="wave-slow">
+          <CircularWaveBackground mode={mode} />
+        </Box>
+        
         <Container maxWidth="lg">
           <Grid container spacing={5} alignItems="center">
             <Grid item xs={12} md={6} data-aos="fade-right">
@@ -564,15 +649,19 @@ const Home = () => {
       {/* About Section */}
       <Box 
         sx={{ 
-          background: mode === 'light' 
-            ? 'linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%)' 
-            : 'linear-gradient(135deg, #1f2937 0%, #111827 100%)',
-          py: { xs: 8, md: 12 }
+          py: 12,
+          bgcolor: mode === 'light' ? '#ffffff' : '#1E293B',
+          position: 'relative',
+          overflow: 'hidden'
         }}
-        data-aos="fade-up"
       >
+        {/* Circular Wave Animation - Medium Speed */}
+        <Box className="wave-medium">
+          <CircularWaveBackground mode={mode} />
+        </Box>
+        
         <Container maxWidth="lg">
-          <Grid container spacing={6} alignItems="center">
+          <Grid container spacing={5} alignItems="center">
             <Grid item xs={12} md={6}>
               <Box 
                 sx={{ 
@@ -823,22 +912,19 @@ const Home = () => {
       </Container>
       
       {/* Chatbot Promotion Section */}
-      <Box 
-        sx={{ 
-          background: mode === 'light' 
-            ? 'linear-gradient(135deg, #e0f2fe 0%, #bfdbfe 100%)' 
-            : 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
-          py: { xs: 8, md: 10 },
-          borderRadius: { md: '20px' },
-          mx: { md: 4 },
-          mb: 8,
-          overflow: 'hidden',
-          position: 'relative'
-        }}
-        data-aos="fade-up"
-      >
+      <Box sx={{ 
+        bgcolor: mode === 'light' ? '#ffffff' : '#1E293B', 
+        py: 12,
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        {/* Circular Wave Animation */}
+        <Box className="wave-medium">
+          <CircularWaveBackground mode={mode} />
+        </Box>
+
         <Container maxWidth="lg">
-          <Grid container spacing={4} alignItems="center">
+          <Grid container spacing={5} alignItems="center">
             <Grid item xs={12} md={7}>
               <Typography 
                 variant="h2" 
