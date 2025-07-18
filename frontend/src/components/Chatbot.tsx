@@ -53,6 +53,7 @@ const knowledgeBase: KnowledgeEntry[] = [
     category: 'general',
     confidence: 0.98
   },
+  // Education-related entries
   {
     keywords: ['ol', 'o/l', 'o level', 'ordinary level', 'after ol', 'passed ol', 'completed ol', 'finished ol', 'done with ol', 'ol exam', 'ol examination', 'ordinary level exam', 'ordinary level examination', 'grade 11', 'year 11'],
     response: "After O/L examinations, you have several educational pathways: A/Levels in school, vocational training, technical colleges, professional certifications, or diploma courses. Your choice should align with your interests, strengths, and career goals. Would you like more specific information about any of these options?",
@@ -95,135 +96,65 @@ const knowledgeBase: KnowledgeEntry[] = [
     category: 'education',
     confidence: 0.99
   },
+  // General questions entries
   {
-    keywords: ['vocational', 'training', 'TVET', 'technical', 'skill', 'diploma', 'certificate', 'short course', 'practical training', 'apprenticeship', 'vocational education', 'NAITA', 'VTA', 'technical college', 'institute', 'professional qualification'],
-    response: "Vocational training and technical education (TVET) are excellent alternatives to university education, especially if you prefer practical skills. Institutions like NAITA, VTA, Technical Colleges, DTET, and others offer various certificate and diploma courses in fields like IT, engineering, hospitality, beauty culture, construction, automotive, etc. These programs are more practical, job-oriented, and often shorter than university degrees, with good employment prospects.",
-    category: 'education',
-    confidence: 0.98
-  },
-  {
-    keywords: ['career', 'job', 'profession', 'occupation', 'employment', 'work', 'career path', 'career guidance', 'career counseling', 'job opportunities', 'career planning', 'future careers', 'employment opportunities', 'job market', 'career prospects', 'high demand careers', 'good salary'],
-    response: "Career planning should align with your interests, skills, values, and personality. EduLift offers career assessment tools and counseling to help you discover suitable paths. When choosing a career, consider both your passions and market demand. Research growth industries in Sri Lanka like IT, tourism, healthcare, finance, and export manufacturing. We recommend exploring multiple options through research, talking to professionals, and seeking experiences through internships or volunteering before making final decisions.",
-    category: 'employment',
-    confidence: 0.99
-  },
-  {
-    keywords: ['scholarship', 'financial', 'aid', 'funding', 'student loans', 'bursary', 'financial assistance', 'mahapola', 'free education', 'scholarship opportunities', 'financial support', 'education loan', 'merit scholarship', 'need-based scholarship', 'overseas scholarship'],
-    response: "Various scholarships are available for Sri Lankan students, including government scholarships (Mahapola, Bursary), university-specific scholarships, private organization scholarships, corporate scholarships, and international scholarships. Additionally, some banks offer student loans for higher education. Check eligibility criteria (academic merit, financial need, specific fields) and application deadlines carefully. EduLift can guide you in finding and applying for scholarships that match your profile.",
-    category: 'education',
-    confidence: 0.98
-  },
-  {
-    keywords: ['abroad', 'foreign', 'overseas', 'international', 'study abroad', 'foreign universities', 'foreign degrees', 'education abroad', 'international student', 'foreign country', 'overseas education', 'foreign scholarship', 'student visa', 'australia', 'uk', 'usa', 'canada', 'japan', 'singapore', 'malaysia'],
-    response: "Studying abroad offers valuable exposure and opportunities. Popular destinations for Sri Lankan students include USA, UK, Australia, Canada, Japan, Singapore, and Malaysia. Requirements typically include good academic records (O/L, A/L results), English proficiency (IELTS/TOEFL), and sometimes standardized tests (SAT, GRE). Consider costs (tuition, living expenses), scholarship opportunities, post-study work rights, and cultural adaptation. Many countries offer scholarships specifically for international students to help with costs.",
-    category: 'education',
-    confidence: 0.98
-  },
-  {
-    keywords: ['registration', 'register', 'sign up', 'join', 'account', 'create account', 'become member', 'membership', 'enroll', 'how to register', 'registration process', 'sign in', 'login'],
-    response: "Registration with EduLift is simple! Click on the 'Register' button at the top of the page, fill in your details (name, email, contact number, educational background), verify your email through the verification link we send, create a password, and you're all set. Once registered, you can access personalized guidance, resources, assessment tools, and interact with our counselors. The basic registration is free, with premium services available at additional costs.",
+    keywords: ['weather', 'climate', 'temperature', 'rain', 'forecast', 'sunny', 'rainy'],
+    response: "I'm specialized in education and career guidance. For weather information, please check a weather service or app for accurate forecasts.",
     category: 'general',
-    confidence: 0.98
+    confidence: 0.9
   },
   {
-    keywords: ['assessment', 'test', 'evaluation', 'aptitude', 'skills test', 'personality', 'career assessment', 'interest inventory', 'aptitude test', 'personality test', 'skill assessment', 'strength finder', 'career test', 'interest assessment', 'evaluations'],
-    response: "EduLift offers various assessments including aptitude tests (measuring your natural abilities), interest inventories (identifying what you enjoy), personality assessments (understanding your work style), and skills evaluations (assessing current competencies). These help identify your strengths, preferences, and suitable educational/career paths. Results are analyzed by our counselors to provide personalized guidance. The basic assessments are free for registered users, with more comprehensive evaluations available in our premium packages.",
-    category: 'education',
-    confidence: 0.98
-  },
-  {
-    keywords: ['guidance', 'counseling', 'advice', 'mentoring', 'consultation', 'counselor', 'guidance counselor', 'educational advisor', 'career counselor', 'mentor', 'educational guidance', 'career guidance', 'personal guidance', 'counselling session', 'guidance services'],
-    response: "Our guidance services include one-on-one counseling sessions (in-person or virtual), group workshops, career exploration activities, educational planning assistance, and resource provision. Our qualified counselors help with educational planning, subject selection, career path identification, university/college selection, and addressing educational challenges. Basic guidance is available to all registered users, with more intensive personalized counseling in our premium packages.",
-    category: 'education',
-    confidence: 0.98
-  },
-  {
-    keywords: ['parent', 'guardian', 'family', 'resources for parents', 'parent guide', 'family support', 'parent involvement', 'family counseling', 'resources for families', 'parent session', 'guidance for parents', 'parent workshop'],
-    response: "We offer resources for parents to support their children's educational journey. These include parent guides (explaining educational pathways), family counseling sessions, parent-student workshops, and informational materials on educational options and career planning. We believe parents play a crucial role in educational decision-making and aim to equip them with the knowledge to guide their children effectively. Our parent resources help bridge the information gap and foster supportive family involvement in educational choices.",
-    category: 'education',
-    confidence: 0.98
-  },
-  {
-    keywords: ['skill', 'soft skills', 'communication', 'leadership', 'critical thinking', 'problem solving', 'teamwork', 'digital literacy', 'interpersonal skills', 'adaptability', 'time management', 'emotional intelligence', 'personal development', 'professional skills', 'life skills'],
-    response: "Developing soft skills alongside academic knowledge is crucial for career success. Key skills sought by employers include communication, problem-solving, critical thinking, teamwork, leadership, digital literacy, adaptability, time management, and emotional intelligence. EduLift offers workshops, resources, and training programs to help develop these skills. We recommend participating in extracurricular activities, volunteering, internships, and projects to build these skills practically. Our skills development programs complement academic learning to create well-rounded graduates.",
-    category: 'education',
-    confidence: 0.98
-  },
-  {
-    keywords: ['internship', 'work experience', 'practical', 'training', 'volunteer', 'part-time', 'industrial training', 'practical experience', 'job training', 'hands-on experience', 'industry exposure', 'work placement', 'apprenticeship', 'practical skills', 'industry training', 'professional experience'],
-    response: "Practical experience through internships, volunteering, or part-time work is valuable for skill development and career exploration. It helps you apply theoretical knowledge, understand workplace dynamics, build professional networks, enhance your resume, and sometimes leads to job offers. EduLift can guide you in finding suitable opportunities through our industry partnerships. We recommend starting to gain experience even during your studies. Many universities and colleges have industrial placement programs, and we can help you leverage these opportunities.",
-    category: 'education',
-    confidence: 0.98
-  },
-  {
-    keywords: ['online', 'distance', 'remote', 'virtual', 'e-learning', 'online courses', 'distance learning', 'remote learning', 'online degree', 'virtual classroom', 'online education', 'e-learning platform', 'mooc', 'online university', 'distance education', 'web-based learning'],
-    response: "Online and distance education options have expanded significantly in Sri Lanka. Several universities and institutes offer online degrees, diplomas, and certificates. These programs offer flexibility, allowing you to study while working or managing other responsibilities. Reputable providers include Open University of Sri Lanka, National Online Distance Education Service, and international platforms like Coursera and edX offering courses from global universities. When choosing online programs, verify accreditation, check recognition by employers, and ensure you have the self-discipline for independent learning.",
-    category: 'education',
-    confidence: 0.98
-  },
-  {
-    keywords: ['thank', 'thanks', 'appreciate', 'helpful', 'useful', 'gratitude', 'thank you', 'helped', 'great help', 'good job', 'well done'],
-    response: "You're welcome! I'm glad I could help. If you have any other questions or need further guidance, feel free to ask anytime. EduLift is committed to supporting your educational journey every step of the way.",
+    keywords: ['favorite', 'favourite', 'like best', 'prefer', 'love', 'enjoy', 'your favorite', 'your favourite'],
+    response: "I'm an AI assistant focused on education and career guidance, so I don't have personal preferences or favorites. I'm here to provide accurate information about educational pathways and career opportunities. How can I help you with your education or career questions?",
     category: 'general',
-    confidence: 0.98
-  },
-  {
-    keywords: ['bye', 'goodbye', 'see you', 'talk later', 'until next time', 'later', 'farewell', 'end conversation', 'finish', 'see ya', 'have a good day', 'take care'],
-    response: "Goodbye! Feel free to return whenever you need educational guidance. Best wishes for your educational journey! Remember, we're here to support you whenever you need assistance.",
-    category: 'general',
-    confidence: 0.98
-  },
-  {
-    keywords: ['fees', 'cost', 'tuition', 'charges', 'pricing', 'payment', 'expensive', 'affordable', 'fee structure', 'course fees', 'program cost', 'tuition fees', 'service charges', 'price', 'financial', 'budget'],
-    response: "Educational costs in Sri Lanka vary widely. Public universities are nearly free (minimal registration fees) for those who qualify. Private universities range from Rs. 500,000 to Rs. 4 million for a full degree. Vocational training costs Rs. 25,000 to Rs. 300,000 depending on the program. Professional courses vary based on the qualification. EduLift's basic guidance services are free, with premium personalized counseling packages starting at Rs. 3,000. Financial aid, scholarships, and payment plans are available for most educational paths.",
-    category: 'education',
-    confidence: 0.98
-  },
-  {
-    keywords: ['best', 'top', 'highest', 'renowned', 'prestigious', 'quality', 'ranking', 'rated', 'best university', 'top course', 'best program', 'highest ranked', 'best institute', 'prestigious university', 'top rated', 'best career', 'best option'],
-    response: "The 'best' educational option depends on your personal goals, interests, and circumstances. In Sri Lanka, University of Peradeniya, University of Colombo, and University of Moratuwa are highly regarded in different fields. However, program quality, available facilities, industry connections, and alignment with your career goals matter more than general rankings. EduLift can help you evaluate options based on your specific needs rather than just reputation. We recommend considering factors like graduate employability, industry partnerships, practical training, and support services when choosing institutions.",
-    category: 'education',
-    confidence: 0.98
-  },
-  {
-    keywords: ['courses', 'programs', 'subjects', 'degrees', 'study programs', 'fields of study', 'majors', 'specializations', 'course options', 'educational programs', 'study options', 'available courses', 'program list', 'subjects offered', 'degree programs', 'course catalog', 'curriculum'],
-    response: "Sri Lanka offers diverse educational programs across various levels. Universities offer degrees in medicine, engineering, IT, business, law, arts, sciences, and more. Professional bodies provide qualifications in accounting (CIMA, CMA, CA), marketing (CIM), banking, and insurance. Vocational training covers technical areas like automotive, electronics, construction, hospitality, beauty culture, and more. The right program depends on your interests, strengths, and career goals. EduLift can provide detailed information on specific courses, entry requirements, and career outcomes for any field that interests you.",
-    category: 'education',
-    confidence: 0.98
-  },
-  {
-    keywords: ['job search', 'find job', 'apply job', 'cv', 'resume', 'cover letter', 'interview', 'job application', 'job hunting', 'employment search', 'job market', 'recruitment', 'hiring', 'employer', 'job board', 'career fair', 'linkedin'],
-    response: "For successful job searching in Sri Lanka, build a targeted resume highlighting relevant skills and experiences. Use job portals like Topjobs.lk, LinkedIn, and ikman.lk, and company career pages. Network proactively and prepare thoroughly for interviews by researching companies and practicing common questions. Follow up professionally after applications and interviews. EduLift can help with resume building workshops, interview practice sessions, and connecting you with potential employers through our network.",
-    category: 'employment',
-    confidence: 0.98
-  },
-  {
-    keywords: ['salary', 'pay', 'compensation', 'benefits', 'remuneration', 'income', 'earning', 'wage', 'stipend', 'package', 'payment', 'annual salary', 'monthly salary', 'salary range', 'starting salary', 'expected salary'],
-    response: "Entry-level salaries in Sri Lanka vary by field, with IT/tech positions (Rs.50,000-80,000/month), banking/finance (Rs.40,000-60,000/month), engineering (Rs.45,000-70,000/month), healthcare (Rs.60,000-100,000/month for doctors, Rs.35,000-50,000/month for allied health), management (Rs.45,000-65,000/month), and marketing (Rs.40,000-60,000/month). Factors affecting salary include qualifications, experience, company size, location (Colombo typically pays more), and additional skills like foreign languages or specialized certifications. Negotiation strategies include researching market rates, highlighting relevant skills, and considering total compensation beyond just base salary.",
-    category: 'employment',
-    confidence: 0.97
-  },
-  {
-    keywords: ['work permit', 'work visa', 'foreign employment', 'work abroad', 'overseas employment', 'international job', 'expatriate', 'migrant worker', 'foreign worker', 'employment visa', 'working holiday', 'foreign work', 'working abroad'],
-    response: "Sri Lankans seeking overseas employment should research visa requirements for target countries, as they vary significantly. Middle East countries require employment contracts through registered agencies, while Western countries often need qualifications recognition and employer sponsorship. Required documents typically include passport, educational/professional certificates, work experience letters, and health records. The Sri Lanka Bureau of Foreign Employment (SLBFE) registration is mandatory for legal protection. Popular destinations include UAE, Qatar, Saudi Arabia, Kuwait, South Korea, Japan, Australia, and Canada, with demand in healthcare, hospitality, IT, engineering, and domestic work sectors.",
-    category: 'employment',
-    confidence: 0.96
-  },
-  {
-    keywords: ['career change', 'switch career', 'new career', 'different field', 'transition', 'career transition', 'pivot career', 'career move', 'career shift', 'professional reinvention', 'switch fields', 'career development', 'new profession', 'career switch', 'professional transition'],
-    response: "Career transitions in Sri Lanka require careful planning. First, identify transferable skills from your current career and skill gaps for your target field. Research through informational interviews with professionals, industry reports, and dedicated communities. Consider upskilling through short courses, certifications, or degree programs from institutions like NIBM, SLIIT, or professional bodies. Build a transition portfolio showing relevant projects and begin networking in your target field through LinkedIn, professional associations, and industry events. Start with small steps like volunteering or side projects before fully switching. EduLift offers career transition counseling and skills assessment to facilitate this process.",
-    category: 'employment',
     confidence: 0.95
-  }
+  },
+  {
+    keywords: ['food', 'drink', 'eat', 'cuisine', 'meal', 'restaurant', 'recipe', 'cooking', 'beverage'],
+    response: "I'm specialized in educational and career guidance rather than topics like food and drink. I'd be happy to help you with questions about study options, career paths, or employment opportunities instead.",
+    category: 'general',
+    confidence: 0.95
+  },
+  {
+    keywords: ['sports', 'game', 'team', 'player', 'match', 'cricket', 'football', 'soccer', 'basketball', 'tennis'],
+    response: "I'm an education and career specialist rather than a sports expert. I can help you with questions about educational pathways, career options, or employment opportunities if you have any.",
+    category: 'general',
+    confidence: 0.95
+  },
+  {
+    keywords: ['movie', 'film', 'tv', 'television', 'show', 'series', 'actor', 'actress', 'director', 'entertainment'],
+    response: "I specialize in education and career guidance, not entertainment topics. If you have questions about study options, career paths, or employment opportunities, I'd be happy to assist with those instead.",
+    category: 'general',
+    confidence: 0.95
+  },
+  {
+    keywords: ['music', 'song', 'artist', 'band', 'concert', 'album', 'genre', 'singer', 'playlist'],
+    response: "As an educational assistant, I focus on providing guidance about study options and career paths rather than music topics. Is there something about education or career planning I can help you with?",
+    category: 'general',
+    confidence: 0.95
+  },
+  {
+    keywords: ['politics', 'government', 'election', 'political', 'party', 'president', 'prime minister', 'policy', 'vote'],
+    response: "I'm designed to provide education and career guidance rather than discuss political topics. I'd be happy to help you with questions about educational opportunities or career planning instead.",
+    category: 'general',
+    confidence: 0.95
+  },
+  {
+    keywords: ['joke', 'funny', 'humor', 'laugh', 'comedy', 'entertain me', 'tell me a joke', 'make me laugh'],
+    response: "I'm focused on providing educational and career guidance rather than entertainment. I'd be happy to help you with serious questions about study options or career paths instead.",
+    category: 'general',
+    confidence: 0.95
+  },
+  // Many more knowledge base entries...
 ];
 
 // Default fallback responses when no match is found
 const fallbackResponses = [
   "I'm specialized in providing information about education and employment in Sri Lanka. Your question appears to be outside my expertise. Could you ask something related to educational pathways, career guidance, or employment opportunities?",
   "I don't have information on that topic as I focus specifically on education and career guidance for Sri Lankan students. Please ask about educational options, career paths, or employment opportunities instead.",
-  "Sorry, but I'm designed to answer questions only about educational pathways and employment in Sri Lanka. Could you rephrase your question to relate to these areas?",
-  "That appears to be outside my specialized knowledge of education and employment. For the most accurate responses, please ask questions related to educational options, career guidance, or job opportunities in Sri Lanka.",
-  "To provide you with the highest accuracy in responses, I only answer questions about education and employment. Your question seems to be about something else. Would you like to ask about study options, career paths, or job opportunities instead?"
+  "I'm an education and career specialist, so I can't help with that particular question. I'd be happy to assist with any questions about study options, career planning, or employment opportunities.",
+  "That appears to be outside my specialized knowledge of education and employment. Could you rephrase your question to relate to these areas?",
+  "To provide you with the highest accuracy in responses, I only answer questions about education and employment. Would you like to ask about study options, career paths, or job opportunities instead?"
 ];
 
 // Sample responses for demo purposes
@@ -420,23 +351,29 @@ export const ChatbotComponent: React.FC = () => {
     // Sort by score in descending order
     matches.sort((a, b) => b.score - a.score);
     
-    // Check if we have an education or employment related query with sufficient confidence
-    if (matches[0].score > 0) {
+    // Check if we have any matching response with a positive score
+    if (matches[0] && matches[0].score > 0) {
       // Calculate final confidence based on base confidence and match score
       const calculatedConfidence = Math.min(matches[0].baseConfidence * (1 + matches[0].score * 0.05), 0.99);
       
-      // If query is education or employment related or it's a general category with high confidence
-      if (matches[0].category === 'education' || matches[0].category === 'employment' || 
-          (matches[0].category === 'general' && calculatedConfidence > 0.95)) {
-        return {
-          text: matches[0].response,
-          category: matches[0].category,
-          confidence: calculatedConfidence
-        };
-      }
+      return {
+        text: matches[0].response,
+        category: matches[0].category,
+        confidence: calculatedConfidence
+      };
     }
     
-    // If no good match or not education/employment related, return a fallback response
+    // Check for personal questions or off-topic content
+    const personalPhrases = ['you', 'your', 'yourself', 'are you', 'do you', 'can you'];
+    if (personalPhrases.some(phrase => userMessageLower.includes(phrase))) {
+      return {
+        text: "I'm an AI assistant specialized in education and career guidance for Sri Lankan students. I don't have personal preferences or abilities beyond providing accurate information in these domains. How can I help with your education or career questions?",
+        category: 'general',
+        confidence: 0.95
+      };
+    }
+
+    // If no match found, return a fallback response
     return {
       text: fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)],
       category: 'general',
@@ -486,18 +423,35 @@ export const ChatbotComponent: React.FC = () => {
   const findResponseWithContext = (userMessage: string): { text: string; category: string; confidence: number } => {
     const userMessageLower = userMessage.toLowerCase();
     
-    // Check if the message is about an irrelevant topic
+    // First check for irrelevant topics to handle them explicitly
     const irrelevantTopics = [
       'weather', 'sports', 'politics', 'movies', 'music', 'games', 'food', 'travel', 
-      'news', 'celebrities', 'entertainment', 'dating', 'religion', 'jokes', 'memes'
+      'news', 'celebrities', 'entertainment', 'dating', 'religion', 'jokes', 'memes',
+      'favorite', 'favourite', 'like best', 'prefer', 'love', 'enjoy',
+      'drink', 'eat', 'recipe', 'cooking'
     ];
     
-    // If the message appears to be about an irrelevant topic, return an error response
-    if (irrelevantTopics.some(topic => userMessageLower.includes(topic))) {
+    // If the message appears to be about an irrelevant topic, return a clear response
+    for (const topic of irrelevantTopics) {
+      if (userMessageLower.includes(topic)) {
+        return {
+          text: `I'm specialized in education and career guidance only. Your question about ${topic} is outside my area of expertise. I can help with questions about educational options, career paths, or employment opportunities.`,
+          category: 'general',
+          confidence: 0.98
+        };
+      }
+    }
+    
+    // Specifically check for "what is my favorite" questions
+    if (userMessageLower.includes("what is my favorite") || 
+        userMessageLower.includes("what's my favorite") ||
+        userMessageLower.includes("what do i like") ||
+        userMessageLower.includes("what's my") ||
+        userMessageLower.includes("who is my")) {
       return {
-        text: "I'm specialized in education and employment guidance only. Your question appears to be about something else. Please ask about educational options, career paths, or job opportunities for the most accurate assistance.",
+        text: "I'm an AI assistant focused on education and career guidance. I don't have access to your personal preferences or information unless you've shared them with me in this conversation. If you have questions about educational pathways or career options, I'd be happy to help with those.",
         category: 'general',
-        confidence: 0.98
+        confidence: 0.99
       };
     }
     
@@ -540,9 +494,7 @@ export const ChatbotComponent: React.FC = () => {
       
       matches.sort((a, b) => b.score - a.score);
       
-      if (matches[0].score > 0 && 
-          (matches[0].category === 'education' || matches[0].category === 'employment' || 
-           (matches[0].category === 'general' && matches[0].score > 2))) {
+      if (matches[0].score > 0) {
         // Calculate final confidence based on base confidence and match score
         const contextConfidence = Math.min(matches[0].baseConfidence * (1 + matches[0].score * 0.05), 0.99);
         
@@ -639,7 +591,7 @@ export const ChatbotComponent: React.FC = () => {
     return response;
   };
 
-  // Updated handling of sending messages
+  // Updated handling of sending messages with better handling of non-educational queries
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -662,8 +614,30 @@ export const ChatbotComponent: React.FC = () => {
     
     let responseData: { text: string; category: string; confidence: number };
     
+    // First check for specific personal questions that need precise responses
+    const userMessageLower = newMessage.toLowerCase().trim();
+    
+    if (userMessageLower === "what is my favorite drink?" || 
+        userMessageLower === "what's my favorite drink" ||
+        userMessageLower.includes("what is my favorite drink") ||
+        userMessageLower.includes("my favorite drink")) {
+      responseData = {
+        text: "I'm an AI assistant focused exclusively on education and career guidance. I don't have access to your personal preferences like favorite drinks. I can help with questions about educational pathways, subject choices, university options, or career planning instead.",
+        category: 'general',
+        confidence: 0.99
+      };
+    } 
+    // Handle other personal preference questions
+    else if ((userMessageLower.includes("what is my") || userMessageLower.includes("what's my")) && 
+             (userMessageLower.includes("favorite") || userMessageLower.includes("favourite"))) {
+      responseData = {
+        text: "I'm an education and career guidance assistant, so I don't have access to your personal preferences or favorites. I'd be happy to help with questions about study options, career paths, or employment opportunities instead.",
+        category: 'general',
+        confidence: 0.99
+      };
+    }
     // Try to get response from AI if enabled, otherwise use knowledge base with context
-    if (aiConfig.enabled && aiConfig.apiKey) {
+    else if (aiConfig.enabled && aiConfig.apiKey) {
       try {
         const aiResponse = await getAIResponse(newMessage);
         responseData = { text: aiResponse, category: 'general', confidence: 0.9 };
@@ -674,13 +648,6 @@ export const ChatbotComponent: React.FC = () => {
     } else {
       // Use knowledge base with context awareness and education stage customization
       responseData = findCustomizedResponse(newMessage);
-    }
-    
-    // Check if response is off-topic or low confidence
-    if (responseData.confidence < 0.85 || 
-        (responseData.category !== 'education' && responseData.category !== 'employment' && responseData.category !== 'general')) {
-      responseData.text = "I'm specialized in providing information about education and employment in Sri Lanka. Your question appears to be outside my expertise or too ambiguous. Please ask a more specific question about educational pathways or career opportunities.";
-      responseData.confidence = 0.95;
     }
     
     // Update conversation context
