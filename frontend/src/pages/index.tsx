@@ -429,7 +429,7 @@ const Home = () => {
                   </Typography>
                   <Button 
                     endIcon={<ArrowForwardIcon />} 
-                    onClick={handleNavigation('/services#career-guidance')}
+                    onClick={handleNavigation('/career-guidance')}
                     className="fast-button"
                     sx={{ fontWeight: 600 }}
                   >
@@ -472,7 +472,7 @@ const Home = () => {
                   </Typography>
                   <Button 
                     endIcon={<ArrowForwardIcon />} 
-                    onClick={handleNavigation('/services#talent-identification')}
+                    onClick={handleNavigation('/talent-identification')}
                     sx={{ fontWeight: 600 }}
                   >
                     Learn More
@@ -514,7 +514,7 @@ const Home = () => {
                   </Typography>
                   <Button 
                     endIcon={<ArrowForwardIcon />} 
-                    onClick={handleNavigation('/services#test-management')}
+                    onClick={handleNavigation('/test-management')}
                     sx={{ fontWeight: 600 }}
                   >
                     Learn More
