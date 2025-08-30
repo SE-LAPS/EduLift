@@ -3,557 +3,342 @@ import {
   Box,
   Container,
   Typography,
+  Paper,
   Grid,
-  Card,
-  CardContent,
   TextField,
   Button,
-  Avatar,
-  Tabs,
-  Tab,
-  Divider,
   Alert,
-  CircularProgress,
-  InputAdornment,
-  IconButton,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
+  Avatar,
+  Divider,
+  Chip,
+  Card,
+  CardContent
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Cancel';
-import PersonIcon from '@mui/icons-material/Person';
-import EmailIcon from '@mui/icons-material/Email';
-import SchoolIcon from '@mui/icons-material/School';
-import LockIcon from '@mui/icons-material/Lock';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useAuth } from '../contexts/AuthContext';
-import { useRouter } from 'next/router';
+import { userAPI } from '../utils/api';
 import Head from 'next/head';
 import { useThemeContext } from '../contexts/ThemeContext';
+import PersonIcon from '@mui/icons-material/Person';
+import EmailIcon from '@mui/icons-material/Email';
+import BadgeIcon from '@mui/icons-material/Badge';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`profile-tabpanel-${index}`}
-      aria-labelledby={`profile-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ py: 3 }}>{children}</Box>}
-    </div>
-  );
+interface ProfileData {
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
 }
 
 const Profile = () => {
-  const { currentUser, updateUserProfile, updateUserPassword, loading } = useAuth();
-  const router = useRouter();
+  const { user, isAuthenticated, isLoading } = useAuth();
   const { mode } = useThemeContext();
-  const [tabValue, setTabValue] = useState(0);
-  const [editMode, setEditMode] = useState(false);
-  const [success, setSuccess] = useState('');
-  const [error, setError] = useState('');
-
-  // Profile form state
-  const [profileForm, setProfileForm] = useState({
-    fullName: '',
+  const [profileData, setProfileData] = useState<ProfileData>({
+    username: '',
     email: '',
-    role: '',
-    school: '',
-    grade: '',
-    avatar: '',
+    first_name: '',
+    last_name: ''
   });
-
-  // Password form state
-  const [passwordForm, setPasswordForm] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: '',
-  });
-
-  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [message, setMessage] = useState({ type: '', text: '' });
 
   useEffect(() => {
-    if (!currentUser) {
-      router.push('/login');
-      return;
+    if (user) {
+      setProfileData({
+        username: user.username || '',
+        email: user.email || '',
+        first_name: user.first_name || '',
+        last_name: user.last_name || ''
+    });
     }
+  }, [user]);
 
-    // Populate form with user data
-    setProfileForm({
-      fullName: currentUser.displayName || '',
-      email: currentUser.email || '',
-      role: currentUser.role || 'student',
-      school: currentUser.school || '',
-      grade: currentUser.grade || '',
-      avatar: currentUser.photoURL || '',
-    });
-  }, [currentUser, router]);
-
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
-    setSuccess('');
-    setError('');
+  const handleInputChange = (field: keyof ProfileData, value: string) => {
+    setProfileData(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
-  const handleProfileFormChange = (e: React.ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>) => {
-    const { name, value } = e.target;
-    setProfileForm({
-      ...profileForm,
-      [name as string]: value,
-    });
-  };
-
-  const handlePasswordFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setPasswordForm({
-      ...passwordForm,
-      [name]: value,
-    });
-  };
-
-  const handleProfileSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSuccess('');
-    setError('');
+  const handleSave = async () => {
+    setIsSaving(true);
+    setMessage({ type: '', text: '' });
 
     try {
-      await updateUserProfile({
-        displayName: profileForm.fullName,
-        photoURL: profileForm.avatar,
-        role: profileForm.role,
-        school: profileForm.school,
-        grade: profileForm.grade,
+      const response = await userAPI.updateProfile(profileData);
+      setMessage({ type: 'success', text: 'Profile updated successfully!' });
+      setIsEditing(false);
+      
+      // Update localStorage with new user data
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+    } catch (error: any) {
+      setMessage({
+        type: 'error',
+        text: error.response?.data?.message || 'Failed to update profile'
       });
-      setSuccess('Profile updated successfully!');
-      setEditMode(false);
-    } catch (err) {
-      setError('Failed to update profile. Please try again.');
-      console.error('Profile update error:', err);
+    } finally {
+      setIsSaving(false);
     }
   };
 
-  const handlePasswordSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSuccess('');
-    setError('');
-
-    // Validate passwords
-    if (passwordForm.newPassword.length < 6) {
-      setError('New password must be at least 6 characters');
-      return;
-    }
-
-    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-
-    try {
-      await updateUserPassword(passwordForm.currentPassword, passwordForm.newPassword);
-      setSuccess('Password updated successfully!');
-      setPasswordForm({
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: '',
+  const handleCancel = () => {
+    if (user) {
+      setProfileData({
+        username: user.username || '',
+        email: user.email || '',
+        first_name: user.first_name || '',
+        last_name: user.last_name || ''
       });
-    } catch (err) {
-      setError('Failed to update password. Please check your current password and try again.');
-      console.error('Password update error:', err);
+    }
+    setIsEditing(false);
+    setMessage({ type: '', text: '' });
+  };
+
+  const getRoleColor = (role: string) => {
+    switch (role) {
+      case 'admin': return 'error';
+      case 'teacher': return 'primary';
+      case 'assistant': return 'secondary';
+      case 'supersub': return 'warning';
+      case 'student': return 'success';
+      default: return 'default';
     }
   };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+      });
+  };
+
+  if (!isAuthenticated && !isLoading) {
+    return (
+      <Container>
+        <Box sx={{ my: 4, textAlign: 'center' }}>
+          <Typography variant="h6">Please log in to view your profile.</Typography>
+        </Box>
+      </Container>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <Container>
+        <Box sx={{ my: 4, textAlign: 'center' }}>
+          <Typography>Loading...</Typography>
+        </Box>
+      </Container>
+    );
+    }
 
   return (
     <>
       <Head>
-        <title>My Profile | EduLift</title>
-        <meta name="description" content="Manage your EduLift profile settings and account information." />
+        <title>Profile | EduLift</title>
+        <meta name="description" content="Manage your EduLift profile and account settings." />
       </Head>
       
-      <Box 
+      <Container maxWidth="md">
+        <Box sx={{ my: 4 }}>
+          {/* Header */}
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+            <Avatar
         sx={{ 
-          minHeight: 'calc(100vh - 64px)',
-          py: 6,
-          background: mode === 'light' 
-            ? 'linear-gradient(135deg, #F8FAFC 0%, #EEF2FF 100%)'
-            : 'linear-gradient(135deg, #111827 0%, #1E293B 100%)',
+                width: 80,
+                height: 80,
+                mr: 3,
+                bgcolor: 'primary.main',
+                fontSize: '2rem'
         }}
       >
-        <Container>
-          <Typography variant="h4" fontWeight={700} gutterBottom>
-            My Profile
+              {user?.first_name?.[0]}{user?.last_name?.[0]}
+            </Avatar>
+            <Box>
+              <Typography variant="h4" component="h1" gutterBottom>
+                {user?.first_name} {user?.last_name}
           </Typography>
-          <Typography variant="body1" color="text.secondary" paragraph>
-            Manage your account settings and preferences
-          </Typography>
-
-          <Grid container spacing={4} sx={{ mt: 2 }}>
-            <Grid item xs={12} md={4}>
-              <Card className="hover-lift" sx={{ borderRadius: 3, height: '100%' }}>
-                <CardContent sx={{ p: 4, textAlign: 'center' }}>
-                  <Avatar
-                    src={profileForm.avatar || '/images/avatar-placeholder.jpg'}
-                    alt={profileForm.fullName}
-                    sx={{ 
-                      width: 120, 
-                      height: 120, 
-                      mx: 'auto',
-                      mb: 2,
-                      border: 3,
-                      borderColor: 'primary.main'
-                    }}
-                  />
-                  
-                  <Typography variant="h5" fontWeight={600} gutterBottom>
-                    {profileForm.fullName}
-                  </Typography>
-                  
-                  <Typography variant="body1" color="text.secondary" gutterBottom>
-                    {profileForm.email}
-                  </Typography>
-                  
-                  <Box sx={{ 
-                    display: 'inline-block', 
-                    px: 2, 
-                    py: 0.5, 
-                    borderRadius: 2, 
-                    bgcolor: 'primary.main', 
-                    color: 'white',
-                    textTransform: 'capitalize',
-                    mt: 1
-                  }}>
-                    {profileForm.role}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Chip
+                  label={user?.role?.toUpperCase()}
+                  color={getRoleColor(user?.role || '')}
+                  size="small"
+                />
+                <Chip
+                  label={user?.is_active ? 'Active' : 'Inactive'}
+                  color={user?.is_active ? 'success' : 'error'}
+                  size="small"
+                  variant="outlined"
+                />
+              </Box>
+            </Box>
                   </Box>
                   
-                  {profileForm.school && (
-                    <Typography variant="body2" sx={{ mt: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <SchoolIcon sx={{ mr: 1, fontSize: 18 }} />
-                      {profileForm.school}
-                      {profileForm.grade && ` • Grade ${profileForm.grade}`}
-                    </Typography>
+          {message.text && (
+            <Alert severity={message.type as any} sx={{ mb: 3 }}>
+              {message.text}
+            </Alert>
                   )}
-                </CardContent>
-              </Card>
-            </Grid>
-            
+
+          <Grid container spacing={3}>
+            {/* Profile Information */}
             <Grid item xs={12} md={8}>
-              <Card className="hover-lift" sx={{ borderRadius: 3 }}>
-                <CardContent sx={{ p: 0 }}>
-                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <Tabs 
-                      value={tabValue} 
-                      onChange={handleTabChange} 
-                      aria-label="profile tabs"
-                      sx={{
-                        '& .MuiTab-root': {
-                          py: 2,
-                          px: 3,
-                          textTransform: 'none',
-                          fontWeight: 500
-                        }
-                      }}
-                    >
-                      <Tab label="Personal Information" />
-                      <Tab label="Security" />
-                    </Tabs>
-                  </Box>
-                  
-                  <Box sx={{ p: 3 }}>
-                    {(success || error) && (
-                      <Alert 
-                        severity={success ? "success" : "error"} 
-                        sx={{ mb: 3 }}
-                        onClose={() => success ? setSuccess('') : setError('')}
+              <Paper elevation={1} sx={{ p: 3 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                  <Typography variant="h6">Profile Information</Typography>
+                  {!isEditing ? (
+                    <Button
+                      variant="outlined"
+                      onClick={() => setIsEditing(true)}
                       >
-                        {success || error}
-                      </Alert>
-                    )}
-                    
-                    <TabPanel value={tabValue} index={0}>
-                      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
-                        {editMode ? (
-                          <>
+                      Edit Profile
+                    </Button>
+                  ) : (
+                    <Box sx={{ display: 'flex', gap: 1 }}>
                             <Button 
-                              startIcon={<CancelIcon />} 
-                              onClick={() => setEditMode(false)}
-                              sx={{ mr: 1 }}
+                        variant="outlined"
+                        onClick={handleCancel}
+                        disabled={isSaving}
                             >
                               Cancel
                             </Button>
                             <Button 
                               variant="contained" 
-                              color="primary" 
-                              startIcon={<SaveIcon />}
-                              onClick={handleProfileSubmit}
-                              disabled={loading}
+                        onClick={handleSave}
+                        disabled={isSaving}
                             >
-                              {loading ? 'Saving...' : 'Save Changes'}
+                        {isSaving ? 'Saving...' : 'Save Changes'}
                             </Button>
-                          </>
-                        ) : (
-                          <Button 
-                            variant="outlined" 
-                            startIcon={<EditIcon />} 
-                            onClick={() => setEditMode(true)}
-                          >
-                            Edit Profile
-                          </Button>
+                    </Box>
                         )}
                       </Box>
                       
-                      <form onSubmit={handleProfileSubmit}>
                         <Grid container spacing={3}>
-                          <Grid item xs={12}>
+                  <Grid item xs={12} sm={6}>
                             <TextField
                               fullWidth
-                              label="Full Name"
-                              name="fullName"
-                              value={profileForm.fullName}
-                              onChange={handleProfileFormChange}
-                              disabled={!editMode}
-                              required
+                      label="First Name"
+                      value={profileData.first_name}
+                      onChange={(e) => handleInputChange('first_name', e.target.value)}
+                      disabled={!isEditing}
                               InputProps={{
-                                startAdornment: (
-                                  <InputAdornment position="start">
-                                    <PersonIcon color="primary" />
-                                  </InputAdornment>
-                                ),
+                        startAdornment: <PersonIcon sx={{ mr: 1, color: 'text.secondary' }} />
                               }}
                             />
                           </Grid>
-                          
-                          <Grid item xs={12}>
-                            <TextField
-                              fullWidth
-                              label="Email Address"
-                              name="email"
-                              value={profileForm.email}
-                              disabled
-                              InputProps={{
-                                startAdornment: (
-                                  <InputAdornment position="start">
-                                    <EmailIcon color="primary" />
-                                  </InputAdornment>
-                                ),
-                              }}
-                              helperText="Email cannot be changed"
-                            />
-                          </Grid>
-                          
-                          <Grid item xs={12} sm={6}>
-                            <FormControl fullWidth disabled={!editMode}>
-                              <InputLabel id="role-label">Role</InputLabel>
-                              <Select
-                                labelId="role-label"
-                                name="role"
-                                value={profileForm.role}
-                                onChange={handleProfileFormChange}
-                                label="Role"
-                              >
-                                <MenuItem value="student">Student</MenuItem>
-                                <MenuItem value="teacher">Teacher</MenuItem>
-                                <MenuItem value="admin">Administrator</MenuItem>
-                              </Select>
-                            </FormControl>
-                          </Grid>
-                          
-                          {profileForm.role === 'student' && (
                             <Grid item xs={12} sm={6}>
                               <TextField
                                 fullWidth
-                                label="Grade"
-                                name="grade"
-                                value={profileForm.grade}
-                                onChange={handleProfileFormChange}
-                                disabled={!editMode}
+                      label="Last Name"
+                      value={profileData.last_name}
+                      onChange={(e) => handleInputChange('last_name', e.target.value)}
+                      disabled={!isEditing}
+                      InputProps={{
+                        startAdornment: <PersonIcon sx={{ mr: 1, color: 'text.secondary' }} />
+                      }}
                               />
                             </Grid>
-                          )}
-                          
                           <Grid item xs={12}>
                             <TextField
                               fullWidth
-                              label="School"
-                              name="school"
-                              value={profileForm.school}
-                              onChange={handleProfileFormChange}
-                              disabled={!editMode}
+                      label="Username"
+                      value={profileData.username}
+                      onChange={(e) => handleInputChange('username', e.target.value)}
+                      disabled={!isEditing}
                               InputProps={{
-                                startAdornment: (
-                                  <InputAdornment position="start">
-                                    <SchoolIcon color="primary" />
-                                  </InputAdornment>
-                                ),
+                        startAdornment: <BadgeIcon sx={{ mr: 1, color: 'text.secondary' }} />
                               }}
                             />
                           </Grid>
-                          
                           <Grid item xs={12}>
                             <TextField
                               fullWidth
-                              label="Avatar URL"
-                              name="avatar"
-                              value={profileForm.avatar}
-                              onChange={handleProfileFormChange}
-                              disabled={!editMode}
-                              helperText="Enter a URL for your profile image"
+                      label="Email"
+                      type="email"
+                      value={profileData.email}
+                      onChange={(e) => handleInputChange('email', e.target.value)}
+                      disabled={!isEditing}
+                      InputProps={{
+                        startAdornment: <EmailIcon sx={{ mr: 1, color: 'text.secondary' }} />
+                      }}
                             />
                           </Grid>
                         </Grid>
-                      </form>
-                    </TabPanel>
-                    
-                    <TabPanel value={tabValue} index={1}>
-                      <Typography variant="h6" fontWeight={600} gutterBottom>
-                        Change Password
+              </Paper>
+            </Grid>
+
+            {/* Account Details */}
+            <Grid item xs={12} md={4}>
+              <Paper elevation={1} sx={{ p: 3 }}>
+                <Typography variant="h6" gutterBottom>Account Details</Typography>
+                <Divider sx={{ mb: 2 }} />
+                
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    Account ID
                       </Typography>
+                  <Typography variant="body1">#{user?.id}</Typography>
+                </Box>
                       
-                      <Typography variant="body2" color="text.secondary" paragraph>
-                        Ensure your account is using a strong password to keep your account secure.
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    Role
                       </Typography>
-                      
-                      <Divider sx={{ my: 3 }} />
-                      
-                      <form onSubmit={handlePasswordSubmit}>
-                        <Grid container spacing={3}>
-                          <Grid item xs={12}>
-                            <TextField
-                              fullWidth
-                              label="Current Password"
-                              name="currentPassword"
-                              type={showCurrentPassword ? 'text' : 'password'}
-                              value={passwordForm.currentPassword}
-                              onChange={handlePasswordFormChange}
-                              required
-                              InputProps={{
-                                startAdornment: (
-                                  <InputAdornment position="start">
-                                    <LockIcon color="primary" />
-                                  </InputAdornment>
-                                ),
-                                endAdornment: (
-                                  <InputAdornment position="end">
-                                    <IconButton
-                                      aria-label="toggle current password visibility"
-                                      onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                                      edge="end"
-                                    >
-                                      {showCurrentPassword ? <VisibilityOff /> : <Visibility />}
-                                    </IconButton>
-                                  </InputAdornment>
-                                ),
-                              }}
+                  <Chip
+                    label={user?.role?.toUpperCase()}
+                    color={getRoleColor(user?.role || '')}
+                    size="small"
+                  />
+                </Box>
+
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                    Account Status
+                  </Typography>
+                  <Chip
+                    label={user?.is_active ? 'Active' : 'Inactive'}
+                    color={user?.is_active ? 'success' : 'error'}
+                    size="small"
+                    variant="outlined"
                             />
-                          </Grid>
+                </Box>
                           
-                          <Grid item xs={12}>
-                            <TextField
-                              fullWidth
-                              label="New Password"
-                              name="newPassword"
-                              type={showNewPassword ? 'text' : 'password'}
-                              value={passwordForm.newPassword}
-                              onChange={handlePasswordFormChange}
-                              required
-                              InputProps={{
-                                startAdornment: (
-                                  <InputAdornment position="start">
-                                    <LockIcon color="primary" />
-                                  </InputAdornment>
-                                ),
-                                endAdornment: (
-                                  <InputAdornment position="end">
-                                    <IconButton
-                                      aria-label="toggle new password visibility"
-                                      onClick={() => setShowNewPassword(!showNewPassword)}
-                                      edge="end"
-                                    >
-                                      {showNewPassword ? <VisibilityOff /> : <Visibility />}
-                                    </IconButton>
-                                  </InputAdornment>
-                                ),
-                              }}
-                              helperText="Password must be at least 6 characters"
-                            />
-                          </Grid>
-                          
-                          <Grid item xs={12}>
-                            <TextField
-                              fullWidth
-                              label="Confirm New Password"
-                              name="confirmPassword"
-                              type={showConfirmPassword ? 'text' : 'password'}
-                              value={passwordForm.confirmPassword}
-                              onChange={handlePasswordFormChange}
-                              required
-                              InputProps={{
-                                startAdornment: (
-                                  <InputAdornment position="start">
-                                    <LockIcon color="primary" />
-                                  </InputAdornment>
-                                ),
-                                endAdornment: (
-                                  <InputAdornment position="end">
-                                    <IconButton
-                                      aria-label="toggle confirm password visibility"
-                                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                      edge="end"
-                                    >
-                                      {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                                    </IconButton>
-                                  </InputAdornment>
-                                ),
-                              }}
-                            />
-                          </Grid>
-                          
-                          <Grid item xs={12}>
-                            <Button
-                              type="submit"
-                              variant="contained"
-                              color="primary"
-                              disabled={loading}
-                              sx={{ 
-                                py: 1.5, 
-                                px: 4, 
-                                borderRadius: 2,
-                                textTransform: 'none'
-                              }}
-                            >
-                              {loading ? (
-                                <>
-                                  <CircularProgress size={24} sx={{ mr: 1 }} />
-                                  Updating...
-                                </>
-                              ) : (
-                                'Update Password'
-                              )}
+                {user?.created_at && (
+                  <Box sx={{ mb: 2 }}>
+                    <Typography variant="body2" color="text.secondary" gutterBottom>
+                      <CalendarTodayIcon sx={{ fontSize: 16, mr: 0.5, verticalAlign: 'middle' }} />
+                      Member Since
+                    </Typography>
+                    <Typography variant="body1">
+                      {formatDate(user.created_at)}
+                    </Typography>
+                  </Box>
+                )}
+              </Paper>
+
+              {/* Quick Actions */}
+              <Card sx={{ mt: 2 }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>Quick Actions</Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                    <Button variant="outlined" size="small" fullWidth>
+                      Change Password
+                    </Button>
+                    <Button variant="outlined" size="small" fullWidth>
+                      Download Data
+                    </Button>
+                    <Button variant="outlined" size="small" fullWidth color="error">
+                      Delete Account
                             </Button>
-                          </Grid>
-                        </Grid>
-                      </form>
-                    </TabPanel>
                   </Box>
                 </CardContent>
               </Card>
             </Grid>
           </Grid>
+        </Box>
         </Container>
-      </Box>
     </>
   );
 };
