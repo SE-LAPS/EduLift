@@ -15,25 +15,48 @@ class Config:
 class DevelopmentConfig(Config):
     """Development configuration"""
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.getenv('DEV_DATABASE_URL', 'sqlite:///edulift_dev.db')
+    # MySQL configuration for XAMPP (default XAMPP settings)
+    SQLALCHEMY_DATABASE_URI = os.getenv(
+        'DEV_DATABASE_URL', 
+        'mysql+pymysql://root:@localhost:3306/edulift_dev'
+    )
     REDIS_URL = os.getenv('DEV_REDIS_URL', 'redis://localhost:6379/0')
 
 class TestingConfig(Config):
     """Testing configuration"""
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.getenv('TEST_DATABASE_URL', 'sqlite:///edulift_test.db')
+    SQLALCHEMY_DATABASE_URI = os.getenv(
+        'TEST_DATABASE_URL', 
+        'mysql+pymysql://root:@localhost:3306/edulift_test'
+    )
     REDIS_URL = os.getenv('TEST_REDIS_URL', 'redis://localhost:6379/1')
 
 class ProductionConfig(Config):
     """Production configuration"""
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
     REDIS_URL = os.getenv('REDIS_URL')
     JWT_COOKIE_SECURE = True
     
-    # Override these in production with strong keys
-    SECRET_KEY = os.getenv('SECRET_KEY')
-    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
+    @property
+    def SQLALCHEMY_DATABASE_URI(self):
+        """Get database URI and validate it exists for production"""
+        database_url = os.getenv('DATABASE_URL')
+        if not database_url:
+            raise ValueError("DATABASE_URL environment variable is required for production")
+        return database_url
+    
+    def __init__(self):
+        super().__init__()
+        # Validate required environment variables when config is actually used
+        secret_key = os.getenv('SECRET_KEY')
+        jwt_secret_key = os.getenv('JWT_SECRET_KEY')
+        
+        if not secret_key or not jwt_secret_key:
+            raise ValueError("SECRET_KEY and JWT_SECRET_KEY are required for production")
+        
+        # Override these in production with strong keys
+        self.SECRET_KEY = secret_key
+        self.JWT_SECRET_KEY = jwt_secret_key
 
 # Configuration dictionary
 config = {
