@@ -10,6 +10,9 @@ from routes.user_routes import user_bp
 from routes.test_routes import test_bp
 from routes.exam_routes import exam_bp
 from routes.ml_routes import ml_bp
+from routes.career_guidance import career_guidance_bp
+from routes.talent_identification import talent_identification_bp
+from routes.test_management import test_management_bp
 
 # Load environment variables
 load_dotenv()
@@ -31,6 +34,9 @@ def create_app(config_name='development'):
     app.register_blueprint(test_bp, url_prefix='/api/tests')
     app.register_blueprint(exam_bp, url_prefix='/api/exams')
     app.register_blueprint(ml_bp, url_prefix='/api/ml')
+    app.register_blueprint(career_guidance_bp, url_prefix='/api/career-guidance')
+    app.register_blueprint(talent_identification_bp, url_prefix='/api/talent-identification')
+    app.register_blueprint(test_management_bp, url_prefix='/api/test-management')
     
     @app.route('/api/health')
     def health_check():
