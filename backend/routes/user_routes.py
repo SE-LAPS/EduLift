@@ -209,3 +209,63 @@ def delete_user(user_id):
     return jsonify({
         'message': 'User deleted successfully'
     }), 200
+
+@user_bp.route('/me', methods=['GET'])
+@jwt_required()
+def get_current_user():
+    """Get current user profile"""
+    current_user_id = get_jwt_identity()
+    current_user = User.query.get(current_user_id)
+    
+    if not current_user:
+        return jsonify({'message': 'User not found'}), 404
+    
+    return jsonify({
+        'user': current_user.to_dict()
+    }), 200
+
+@user_bp.route('/me', methods=['PUT'])
+@jwt_required()
+def update_current_user():
+    """Update current user profile"""
+    current_user_id = get_jwt_identity()
+    current_user = User.query.get(current_user_id)
+    
+    if not current_user:
+        return jsonify({'message': 'User not found'}), 404
+    
+    data = request.get_json()
+    
+    if not data:
+        return jsonify({'message': 'No data provided'}), 400
+    
+    # Update allowed fields for self
+    if 'username' in data and data['username'] != current_user.username:
+        if User.query.filter_by(username=data['username']).first():
+            return jsonify({'message': 'Username already exists'}), 400
+        current_user.username = data['username']
+    
+    if 'email' in data and data['email'] != current_user.email:
+        if User.query.filter_by(email=data['email']).first():
+            return jsonify({'message': 'Email already exists'}), 400
+        current_user.email = data['email']
+    
+    if 'first_name' in data:
+        current_user.first_name = data['first_name']
+    
+    if 'last_name' in data:
+        current_user.last_name = data['last_name']
+    
+    # Users cannot update their own role or active status
+    if 'role' in data or 'is_active' in data:
+        return jsonify({'message': 'Cannot update role or active status'}), 403
+    
+    try:
+        db.session.commit()
+        return jsonify({
+            'message': 'Profile updated successfully',
+            'user': current_user.to_dict()
+        }), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'message': f'Update failed: {str(e)}'}), 500
