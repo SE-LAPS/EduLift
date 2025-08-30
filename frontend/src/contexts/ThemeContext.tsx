@@ -104,7 +104,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
       lineHeight: 1.6,
     },
     button: {
-      textTransform: 'none',
+      textTransform: 'none' as const,
       fontWeight: 600,
       letterSpacing: '0.02em',
     },
