@@ -453,9 +453,7 @@ const CareerGuidance = () => {
       <Box
         sx={{
           py: 15,
-          background: mode === 'light'
-            ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-            : 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)',
+          background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)',
           color: 'white',
           position: 'relative',
           overflow: 'hidden'
@@ -479,7 +477,31 @@ const CareerGuidance = () => {
             </Grid>
             <Grid item xs={12} md={6} data-aos="fade-left">
               <Box sx={{ textAlign: 'center' }}>
-                <WorkIcon sx={{ fontSize: 200, opacity: 0.3 }} />
+                <Box 
+                  component="img"
+                  src="/images/Career.gif" 
+                  alt="AI-Powered Career Guidance"
+                  sx={{ 
+                    width: '100%',
+                    maxWidth: 400,
+                    height: 'auto',
+                    borderRadius: 3,
+                    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
+                    transform: 'perspective(1000px) rotateY(-5deg)',
+                    transition: 'all 0.8s ease',
+                    animation: 'float-career 6s ease-in-out infinite',
+                    '@keyframes float-career': {
+                      '0%': { transform: 'perspective(1000px) rotateY(-5deg) translateY(0)' },
+                      '50%': { transform: 'perspective(1000px) rotateY(-2deg) translateY(-15px)' },
+                      '100%': { transform: 'perspective(1000px) rotateY(-5deg) translateY(0)' }
+                    },
+                    '&:hover': {
+                      transform: 'perspective(1000px) rotateY(0deg) scale(1.02)',
+                      boxShadow: '0 25px 50px rgba(255, 215, 0, 0.25)',
+                      filter: 'brightness(1.05)'
+                    }
+                  }}
+                />
               </Box>
             </Grid>
           </Grid>
