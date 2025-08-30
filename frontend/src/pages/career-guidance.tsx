@@ -42,7 +42,6 @@ import {
   Assessment as AssessmentIcon,
 } from '@mui/icons-material';
 import { useThemeContext } from '../contexts/ThemeContext';
-import Layout from '../components/Layout';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import axios from 'axios';
@@ -153,9 +152,9 @@ const CareerGuidance = () => {
       const updated = [...prev];
       const existingIndex = updated.findIndex(s => s.skill === skill.name);
       if (existingIndex >= 0) {
-        updated[existingIndex] = { ...skill, level };
+        updated[existingIndex] = { skill: skill.name, category: skill.category, level };
       } else {
-        updated.push({ ...skill, level });
+        updated.push({ skill: skill.name, category: skill.category, level });
       }
       return updated;
     });
@@ -449,7 +448,7 @@ const CareerGuidance = () => {
   );
 
   return (
-    <Layout>
+    <>
       {/* Hero Section */}
       <Box
         sx={{
@@ -555,7 +554,7 @@ const CareerGuidance = () => {
           </Card>
         </Container>
       </Box>
-    </Layout>
+    </>
   );
 };
 
