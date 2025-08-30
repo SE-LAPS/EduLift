@@ -49,7 +49,6 @@ import {
   Nature as NatureIcon,
 } from '@mui/icons-material';
 import { useThemeContext } from '../contexts/ThemeContext';
-import Layout from '../components/Layout';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import axios from 'axios';
@@ -557,7 +556,7 @@ const TalentIdentification = () => {
   );
 
   return (
-    <Layout>
+    <>
       {/* Hero Section */}
       <Box
         sx={{
@@ -664,7 +663,7 @@ const TalentIdentification = () => {
           </Card>
         </Container>
       </Box>
-    </Layout>
+    </>
   );
 };
 
