@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "aos": "^2.3.4",
+    "react-chatbot-kit": "^2.2.2"
+  },
+  "devDependencies": {
+    "@types/aos": "^3.0.7"
+  }
+}
