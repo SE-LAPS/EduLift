@@ -64,12 +64,48 @@ import {
   Speed as SpeedIcon,
   Psychology as PsychologyIcon,
   AutoAwesome as AutoAwesomeIcon,
+  Computer as ComputerIcon,
+  Memory as AIIcon,
+  Science as ScienceIcon,
+  Calculate as MathIcon,
+  MusicNote as MusicIcon,
+  Business as CommerceIcon,
+  Palette as ArtIcon,
+  Router as NetworkIcon,
+  BarChart as StatsIcon,
+  Public as SocialScienceIcon,
 } from '@mui/icons-material';
 import { useThemeContext } from '../contexts/ThemeContext';
-import Layout from '../components/Layout';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import axios from 'axios';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip as ChartTooltip,
+  Legend,
+  ArcElement,
+  PointElement,
+  LineElement,
+  RadialLinearScale,
+} from 'chart.js';
+import { Bar, Doughnut, Line, Radar } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  ChartTooltip,
+  Legend,
+  ArcElement,
+  PointElement,
+  LineElement,
+  RadialLinearScale
+);
 
 interface Question {
   id: string;
@@ -256,8 +292,120 @@ const TestManagement = () => {
     }
   };
 
+  const getSubjectIcon = (subject: string) => {
+    switch (subject) {
+      case 'Information Technology': return <ComputerIcon />;
+      case 'Artificial Intelligence': return <AIIcon />;
+      case 'Machine Learning': return <PsychologyIcon />;
+      case 'IQ Test': return <PsychologyIcon />;
+      case 'Science Test': return <ScienceIcon />;
+      case 'Statistics': return <StatsIcon />;
+      case 'Mathematics': return <MathIcon />;
+      case 'Network': return <NetworkIcon />;
+      case 'Music': return <MusicIcon />;
+      case 'Commerce': return <CommerceIcon />;
+      case 'Art': return <ArtIcon />;
+      case 'Social Science': return <SocialScienceIcon />;
+      default: return <QuizIcon />;
+    }
+  };
+
+  const getSubjectColor = (subject: string) => {
+    const colors: { [key: string]: string } = {
+      'Information Technology': '#2196F3',
+      'Artificial Intelligence': '#9C27B0',
+      'Machine Learning': '#FF9800',
+      'IQ Test': '#E91E63',
+      'Science Test': '#4CAF50',
+      'Statistics': '#00BCD4',
+      'Mathematics': '#3F51B5',
+      'Network': '#607D8B',
+      'Music': '#795548',
+      'Commerce': '#009688',
+      'Art': '#FF5722',
+      'Social Science': '#673AB7'
+    };
+    return colors[subject] || '#757575';
+  };
+
+  const getProgressData = () => {
+    const totalQuestions = questions.length;
+    const totalTests = tests.length;
+    const totalResults = testResults.length;
+    
+    switch (activeTab) {
+      case 0: // Test Management
+        return [
+          { label: 'Published Tests', value: tests.filter(t => t.status === 'published').length, total: totalTests, color: '#4CAF50' },
+          { label: 'Draft Tests', value: tests.filter(t => t.status === 'draft').length, total: totalTests, color: '#FF9800' },
+          { label: 'Active Categories', value: Object.keys(tests.reduce((acc, test) => ({ ...acc, [test.subject]: true }), {})).length, total: 12, color: '#2196F3' }
+        ];
+      case 1: // Question Bank
+        return [
+          { label: 'Total Questions', value: totalQuestions, total: Math.max(totalQuestions, 100), color: '#9C27B0' },
+          { label: 'Easy Questions', value: questions.filter(q => q.difficulty === 'easy').length, total: totalQuestions, color: '#4CAF50' },
+          { label: 'Hard Questions', value: questions.filter(q => q.difficulty === 'hard').length, total: totalQuestions, color: '#F44336' }
+        ];
+      case 2: // Analytics
+        return [
+          { label: 'Test Attempts', value: totalResults, total: Math.max(totalResults, 50), color: '#00BCD4' },
+          { label: 'High Performers', value: testResults.filter(r => (r.score / r.total_points) >= 0.8).length, total: totalResults, color: '#4CAF50' },
+          { label: 'Completion Rate', value: Math.round((totalResults / (totalTests * 10)) * 100), total: 100, color: '#FF9800' }
+        ];
+      default:
+        return [];
+    }
+  };
+
+  const renderProgressBar = () => {
+    const progressData = getProgressData();
+    
+    return (
+      <Card sx={{ mb: 3, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white' }}>
+        <CardContent>
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+            {activeTab === 0 ? 'Test Management Progress' : activeTab === 1 ? 'Question Bank Progress' : 'Analytics Overview'}
+          </Typography>
+          <Grid container spacing={3}>
+            {progressData.map((item, index) => (
+              <Grid item xs={12} md={4} key={index}>
+                <Box>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
+                    <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                      {item.label}
+                    </Typography>
+                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                      {item.value}/{item.total}
+                    </Typography>
+                  </Box>
+                  <LinearProgress
+                    variant="determinate"
+                    value={(item.value / item.total) * 100}
+                    sx={{
+                      height: 8,
+                      borderRadius: 4,
+                      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                      '& .MuiLinearProgress-bar': {
+                        backgroundColor: item.color,
+                        borderRadius: 4,
+                      },
+                    }}
+                  />
+                  <Typography variant="caption" sx={{ opacity: 0.8, mt: 0.5, display: 'block' }}>
+                    {Math.round((item.value / item.total) * 100)}% Complete
+                  </Typography>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </CardContent>
+      </Card>
+    );
+  };
+
   const renderTestManagement = () => (
     <Box>
+      {renderProgressBar()}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h4" sx={{ fontWeight: 600 }}>
           Test Management
@@ -273,36 +421,81 @@ const TestManagement = () => {
       
       <Grid container spacing={3}>
         {tests.map((test) => (
-          <Grid item xs={12} md={6} lg={4} key={test.id}>
-            <Card>
-              <CardContent>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                  <Typography variant="h6">{test.title}</Typography>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={test.id}>
+            <Card 
+              sx={{ 
+                height: '100%', 
+                display: 'flex', 
+                flexDirection: 'column',
+                borderLeft: `4px solid ${getSubjectColor(test.subject)}`,
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                  transition: 'transform 0.3s ease-in-out',
+                  boxShadow: 4
+                }
+              }}
+            >
+              <CardContent sx={{ flexGrow: 1 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <Avatar 
+                    sx={{ 
+                      bgcolor: getSubjectColor(test.subject), 
+                      mr: 2, 
+                      width: 48, 
+                      height: 48 
+                    }}
+                  >
+                    {getSubjectIcon(test.subject)}
+                  </Avatar>
+                  <Box sx={{ flexGrow: 1 }}>
+                    <Typography variant="h6" sx={{ fontSize: '1rem', lineHeight: 1.2 }}>
+                      {test.title}
+                    </Typography>
                   <Chip 
                     label={test.status} 
                     color={test.status === 'published' ? 'success' : test.status === 'draft' ? 'warning' : 'default'}
                     size="small"
                   />
+                  </Box>
                 </Box>
                 
-                <Typography variant="body2" sx={{ mb: 2, color: 'text.secondary' }}>
+                <Typography variant="body2" sx={{ mb: 2, color: 'text.secondary', height: 40, overflow: 'hidden' }}>
                   {test.description}
                 </Typography>
                 
                 <Box sx={{ mb: 2 }}>
-                  <Chip label={test.subject} size="small" sx={{ mr: 1 }} />
+                  <Chip 
+                    label={test.subject} 
+                    size="small" 
+                    sx={{ 
+                      mr: 1, 
+                      bgcolor: `${getSubjectColor(test.subject)}20`,
+                      color: getSubjectColor(test.subject),
+                      fontWeight: 600
+                    }} 
+                  />
                   <Chip 
                     label={test.adaptive ? 'Adaptive' : 'Fixed'} 
                     size="small" 
                     color={test.adaptive ? 'primary' : 'default'}
                     sx={{ mr: 1 }}
                   />
-                  <Chip label={`${test.duration}min`} size="small" />
                 </Box>
                 
-                <Typography variant="body2" sx={{ mb: 2 }}>
-                  Questions: {test.total_questions} | Level: {test.difficulty_level}
-                </Typography>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+                  <Box sx={{ textAlign: 'center' }}>
+                    <Typography variant="caption" color="text.secondary">Questions</Typography>
+                    <Typography variant="h6" color="primary">{test.total_questions}</Typography>
+                  </Box>
+                  <Box sx={{ textAlign: 'center' }}>
+                    <Typography variant="caption" color="text.secondary">Duration</Typography>
+                    <Typography variant="h6" color="secondary">{test.duration}min</Typography>
+                  </Box>
+                  <Box sx={{ textAlign: 'center' }}>
+                    <Typography variant="caption" color="text.secondary">Level</Typography>
+                    <Typography variant="h6" color="warning.main">{test.difficulty_level}</Typography>
+                  </Box>
+                </Box>
                 
                 <Box sx={{ display: 'flex', gap: 1 }}>
                   <Button
@@ -311,6 +504,8 @@ const TestManagement = () => {
                     startIcon={<PlayIcon />}
                     onClick={() => handleStartTest(test)}
                     disabled={test.status !== 'published'}
+                    fullWidth
+                    sx={{ bgcolor: getSubjectColor(test.subject) }}
                   >
                     Take Test
                   </Button>
@@ -331,6 +526,7 @@ const TestManagement = () => {
 
   const renderQuestionBank = () => (
     <Box>
+      {renderProgressBar()}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Typography variant="h4" sx={{ fontWeight: 600 }}>
           Question Bank
@@ -397,67 +593,346 @@ const TestManagement = () => {
     </Box>
   );
 
+  const getAnalyticsData = () => {
+    // Subject distribution data
+    const subjectCounts = tests.reduce((acc, test) => {
+      acc[test.subject] = (acc[test.subject] || 0) + 1;
+      return acc;
+    }, {} as { [key: string]: number });
+
+    // Difficulty distribution
+    const difficultyCount = tests.reduce((acc, test) => {
+      acc[test.difficulty_level] = (acc[test.difficulty_level] || 0) + 1;
+      return acc;
+    }, {} as { [key: string]: number });
+
+    // Test performance over time (sample data)
+    const performanceData = [
+      { month: 'Jan', avgScore: 75, totalAttempts: 45 },
+      { month: 'Feb', avgScore: 78, totalAttempts: 52 },
+      { month: 'Mar', avgScore: 82, totalAttempts: 61 },
+      { month: 'Apr', avgScore: 79, totalAttempts: 58 },
+      { month: 'May', avgScore: 85, totalAttempts: 67 },
+      { month: 'Jun', avgScore: 88, totalAttempts: 73 }
+    ];
+
+    // Subject performance radar data
+    const subjectPerformance = {
+      'Information Technology': 82,
+      'Artificial Intelligence': 75,
+      'Machine Learning': 79,
+      'IQ Test': 85,
+      'Science Test': 81,
+      'Statistics': 78,
+      'Mathematics': 83,
+      'Network': 77,
+      'Music': 86,
+      'Commerce': 80,
+      'Art': 84,
+      'Social Science': 79
+    };
+
+    return {
+      subjectCounts,
+      difficultyCount,
+      performanceData,
+      subjectPerformance
+    };
+  };
+
+  const analyticsData = getAnalyticsData();
+
+  const subjectDistributionChart = {
+    labels: Object.keys(analyticsData.subjectCounts),
+    datasets: [
+      {
+        data: Object.values(analyticsData.subjectCounts),
+        backgroundColor: [
+          '#2196F3', '#9C27B0', '#FF9800', '#E91E63', '#4CAF50', 
+          '#00BCD4', '#3F51B5', '#607D8B', '#795548', '#009688', '#FF5722', '#673AB7'
+        ],
+        borderWidth: 0,
+      },
+    ],
+  };
+
+  const difficultyChart = {
+    labels: Object.keys(analyticsData.difficultyCount),
+    datasets: [
+      {
+        label: 'Number of Tests',
+        data: Object.values(analyticsData.difficultyCount),
+        backgroundColor: ['#4CAF50', '#FF9800', '#F44336'],
+        borderColor: ['#4CAF50', '#FF9800', '#F44336'],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const performanceChart = {
+    labels: analyticsData.performanceData.map(d => d.month),
+    datasets: [
+      {
+        label: 'Average Score (%)',
+        data: analyticsData.performanceData.map(d => d.avgScore),
+        borderColor: '#2196F3',
+        backgroundColor: 'rgba(33, 150, 243, 0.1)',
+        tension: 0.4,
+        yAxisID: 'y',
+      },
+      {
+        label: 'Test Attempts',
+        data: analyticsData.performanceData.map(d => d.totalAttempts),
+        borderColor: '#FF9800',
+        backgroundColor: 'rgba(255, 152, 0, 0.1)',
+        tension: 0.4,
+        yAxisID: 'y1',
+      },
+    ],
+  };
+
+  const radarChart = {
+    labels: Object.keys(analyticsData.subjectPerformance),
+    datasets: [
+      {
+        label: 'Average Performance (%)',
+        data: Object.values(analyticsData.subjectPerformance),
+        backgroundColor: 'rgba(33, 150, 243, 0.2)',
+        borderColor: '#2196F3',
+        borderWidth: 2,
+        pointBackgroundColor: '#2196F3',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: '#2196F3',
+      },
+    ],
+  };
+
   const renderAnalytics = () => (
     <Box>
+      {renderProgressBar()}
       <Typography variant="h4" sx={{ fontWeight: 600, mb: 3 }}>
-        Test Analytics & Results
+        Advanced Test Analytics & Insights
       </Typography>
       
+      {/* Key Performance Indicators */}
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} md={3}>
-          <Card>
+          <Card sx={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white' }}>
             <CardContent>
-              <Typography variant="h6" color="primary">
-                Total Tests
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Box>
+                  <Typography variant="h6">Total Tests</Typography>
               <Typography variant="h3" sx={{ fontWeight: 600 }}>
                 {tests.length}
               </Typography>
+                  <Typography variant="body2" sx={{ opacity: 0.8 }}>
+                    Active: {tests.filter(t => t.status === 'published').length}
+                  </Typography>
+                </Box>
+                <AssignmentIcon sx={{ fontSize: 48, opacity: 0.7 }} />
+              </Box>
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={12} md={3}>
-          <Card>
+          <Card sx={{ background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', color: 'white' }}>
             <CardContent>
-              <Typography variant="h6" color="secondary">
-                Questions
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Box>
+                  <Typography variant="h6">Question Bank</Typography>
               <Typography variant="h3" sx={{ fontWeight: 600 }}>
                 {questions.length}
               </Typography>
+                  <Typography variant="body2" sx={{ opacity: 0.8 }}>
+                    {Object.keys(analyticsData.subjectCounts).length} Subjects
+                  </Typography>
+                </Box>
+                <QuizIcon sx={{ fontSize: 48, opacity: 0.7 }} />
+              </Box>
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={12} md={3}>
-          <Card>
+          <Card sx={{ background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', color: 'white' }}>
             <CardContent>
-              <Typography variant="h6" color="success.main">
-                Test Attempts
-              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Box>
+                  <Typography variant="h6">Test Attempts</Typography>
               <Typography variant="h3" sx={{ fontWeight: 600 }}>
                 {testResults.length}
               </Typography>
+                  <Typography variant="body2" sx={{ opacity: 0.8 }}>
+                    This Month: 245
+                  </Typography>
+                </Box>
+                <TrendingUpIcon sx={{ fontSize: 48, opacity: 0.7 }} />
+              </Box>
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={12} md={3}>
+          <Card sx={{ background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)', color: 'white' }}>
+            <CardContent>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Box>
+                  <Typography variant="h6">Avg Success Rate</Typography>
+                  <Typography variant="h3" sx={{ fontWeight: 600 }}>
+                    82%
+                  </Typography>
+                  <Typography variant="body2" sx={{ opacity: 0.8 }}>
+                    +5% from last month
+                  </Typography>
+                </Box>
+                <AssessmentIcon sx={{ fontSize: 48, opacity: 0.7 }} />
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+
+      {/* Charts Section */}
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid item xs={12} md={6}>
           <Card>
             <CardContent>
-              <Typography variant="h6" color="warning.main">
-                Avg Score
+              <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+                Test Distribution by Subject
               </Typography>
-              <Typography variant="h3" sx={{ fontWeight: 600 }}>
-                {testResults.length > 0 
-                  ? Math.round(testResults.reduce((sum, result) => sum + (result.score / result.total_points * 100), 0) / testResults.length)
-                  : 0}%
+              <Box sx={{ height: 300, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Doughnut 
+                  data={subjectDistributionChart} 
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                      legend: {
+                        position: 'bottom',
+                      },
+                    },
+                  }}
+                />
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+                Difficulty Level Distribution
               </Typography>
+              <Box sx={{ height: 300 }}>
+                <Bar 
+                  data={difficultyChart} 
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                      legend: {
+                        display: false,
+                      },
+                    },
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                      },
+                    },
+                  }}
+                />
+              </Box>
             </CardContent>
           </Card>
         </Grid>
       </Grid>
       
-      <Typography variant="h5" sx={{ mb: 2 }}>Recent Test Results</Typography>
-      <TableContainer component={Paper}>
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid item xs={12} md={8}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+                Performance Trends Over Time
+              </Typography>
+              <Box sx={{ height: 300 }}>
+                <Line 
+                  data={performanceChart} 
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                      mode: 'index' as const,
+                      intersect: false,
+                    },
+                    scales: {
+                      x: {
+                        display: true,
+                        title: {
+                          display: true,
+                          text: 'Month'
+                        }
+                      },
+                      y: {
+                        type: 'linear' as const,
+                        display: true,
+                        position: 'left' as const,
+                        title: {
+                          display: true,
+                          text: 'Average Score (%)'
+                        }
+                      },
+                      y1: {
+                        type: 'linear' as const,
+                        display: true,
+                        position: 'right' as const,
+                        title: {
+                          display: true,
+                          text: 'Test Attempts'
+                        },
+                        grid: {
+                          drawOnChartArea: false,
+                        },
+                      },
+                    },
+                  }}
+                />
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+                Subject Performance Radar
+              </Typography>
+              <Box sx={{ height: 300 }}>
+                <Radar 
+                  data={radarChart} 
+                  options={{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                      r: {
+                        angleLines: {
+                          display: false
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                      }
+                    }
+                  }}
+                />
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+      
+      {/* Recent Test Results Table */}
+      <Card>
+        <CardContent>
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>Recent Test Results</Typography>
+          <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
@@ -467,7 +942,7 @@ const TestManagement = () => {
               <TableCell>Completion Time</TableCell>
               <TableCell>Accuracy Rate</TableCell>
               <TableCell>Date</TableCell>
-              <TableCell>Details</TableCell>
+                  <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -475,9 +950,25 @@ const TestManagement = () => {
               const test = tests.find(t => t.id === result.test_id);
               const percentage = Math.round((result.score / result.total_points) * 100);
               return (
-                <TableRow key={index}>
-                  <TableCell>{result.student_name}</TableCell>
-                  <TableCell>{test?.title || 'Unknown Test'}</TableCell>
+                    <TableRow key={index} hover>
+                      <TableCell>
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                          <Avatar sx={{ mr: 1, bgcolor: 'primary.main' }}>
+                            {result.student_name.charAt(0)}
+                          </Avatar>
+                          {result.student_name}
+                        </Box>
+                      </TableCell>
+                      <TableCell>
+                        <Box>
+                          <Typography variant="body2" fontWeight={600}>
+                            {test?.title || 'Unknown Test'}
+                          </Typography>
+                          <Typography variant="caption" color="text.secondary">
+                            {test?.subject}
+                          </Typography>
+                        </Box>
+                      </TableCell>
                   <TableCell>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                       <Typography variant="body2" sx={{ mr: 1 }}>
@@ -490,13 +981,28 @@ const TestManagement = () => {
                       />
                     </Box>
                   </TableCell>
-                  <TableCell>{result.completion_time} min</TableCell>
-                  <TableCell>{Math.round(result.adaptive_performance.accuracy_rate * 100)}%</TableCell>
+                      <TableCell>
+                        <Chip 
+                          label={`${result.completion_time} min`} 
+                          size="small" 
+                          variant="outlined"
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <LinearProgress 
+                          variant="determinate" 
+                          value={result.adaptive_performance.accuracy_rate * 100} 
+                          sx={{ mr: 1, width: 60 }}
+                        />
+                        {Math.round(result.adaptive_performance.accuracy_rate * 100)}%
+                      </TableCell>
                   <TableCell>{new Date(result.date_taken).toLocaleDateString()}</TableCell>
                   <TableCell>
-                    <Button size="small" variant="outlined">
-                      View Details
-                    </Button>
+                        <Tooltip title="View Detailed Analysis">
+                          <IconButton size="small" color="primary">
+                            <AnalyticsIcon />
+                          </IconButton>
+                        </Tooltip>
                   </TableCell>
                 </TableRow>
               );
@@ -504,6 +1010,8 @@ const TestManagement = () => {
           </TableBody>
         </Table>
       </TableContainer>
+        </CardContent>
+      </Card>
     </Box>
   );
 
@@ -609,7 +1117,7 @@ const TestManagement = () => {
   };
 
   return (
-    <Layout>
+    <>
       {/* Hero Section */}
       <Box
         sx={{
@@ -871,7 +1379,7 @@ const TestManagement = () => {
           {renderTestTaking()}
         </DialogContent>
               </Dialog>
-    </Layout>
+    </>
   );
 };
 
