@@ -50,36 +50,39 @@ const Services = () => {
   const mainServices = [
     {
       icon: <SchoolIcon sx={{ fontSize: 40 }} />,
-      title: 'Academic Guidance',
+      title: 'Career Guidance',
       description: 'Expert guidance on choosing the right educational path after O/L examinations, including A/L subject selection and university options.',
       features: [
         'Personalized academic planning',
         'Subject selection assistance',
         'University application support',
         'Scholarship opportunities'
-      ]
+      ],
+      learnMoreLink: '/career-guidance'
     },
     {
       icon: <WorkIcon sx={{ fontSize: 40 }} />,
-      title: 'Career Development',
+      title: 'Talent Identification',
       description: 'Comprehensive career counseling to help students discover their strengths and interests, and match them with suitable career paths.',
       features: [
         'Career assessment tests',
         'Industry exploration sessions',
         'Job shadowing opportunities',
         'Resume building workshops'
-      ]
+      ],
+      learnMoreLink: '/talent-identification'
     },
     {
       icon: <PsychologyIcon sx={{ fontSize: 40 }} />,
-      title: 'Skills Assessment',
+      title: 'Test Management',
       description: 'Identify and develop essential skills needed for academic and professional success in today\'s competitive environment.',
       features: [
         'Aptitude testing',
         'Soft skills evaluation',
         'Personalized skill development plans',
         'Progress tracking and reporting'
-      ]
+      ],
+      learnMoreLink: '/test-management'
     }
   ];
   
@@ -268,7 +271,7 @@ const Services = () => {
                     variant="outlined" 
                     color="primary"
                     endIcon={<ArrowForwardIcon className="arrow-icon" />}
-                    onClick={() => handleNavigation('/contact', '/images/service.gif')}
+                    onClick={() => handleNavigation(service.learnMoreLink, '/images/service.gif')}
                     className="animated-button"
                     sx={{ 
                       mt: 2,
@@ -900,7 +903,7 @@ const Services = () => {
               <Card className="testimonial-card hover-lift" sx={{ height: '100%', borderRadius: 3 }}>
                 <CardContent sx={{ p: 4 }}>
                   <Typography variant="body1" paragraph sx={{ mb: 4, fontStyle: 'italic' }}>
-                    "{testimonial.quote}"
+                    &ldquo;{testimonial.quote}&rdquo;
                   </Typography>
                   
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
