@@ -32,14 +32,10 @@ class TestingConfig(Config):
     REDIS_URL = os.getenv('TEST_REDIS_URL', 'redis://localhost:6379/1')
 
 class ProductionConfig(Config):
-    """Production configuration for Railway/cloud deployment"""
+    """Production configuration"""
     DEBUG = False
     REDIS_URL = os.getenv('REDIS_URL')
     JWT_COOKIE_SECURE = True
-    JWT_COOKIE_CSRF_PROTECT = True
-    
-    # Production security headers
-    SEND_FILE_MAX_AGE_DEFAULT = 31536000  # 1 year
     
     @property
     def SQLALCHEMY_DATABASE_URI(self):
@@ -47,11 +43,6 @@ class ProductionConfig(Config):
         database_url = os.getenv('DATABASE_URL')
         if not database_url:
             raise ValueError("DATABASE_URL environment variable is required for production")
-        
-        # Handle Railway PostgreSQL URL format
-        if database_url.startswith('postgres://'):
-            database_url = database_url.replace('postgres://', 'postgresql://', 1)
-        
         return database_url
     
     def __init__(self):
