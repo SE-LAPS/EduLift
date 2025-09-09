@@ -110,4 +110,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## Contact
 
-Project Link: [https://github.com/yourusername/EduLift](https://github.com/yourusername/EduLift)
+Project Link: [Lahiru Senavirathna](https://www.linkedin.com/in/lahiru-senavirathna-39b11a215/)
