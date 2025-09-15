@@ -184,6 +184,7 @@ EduLift addresses these challenges through:
    # Edit .env file with your MySQL configuration
    ```
 
+<<<<<<< HEAD
 5. **Initialize database**
    ```bash
    python setup_db.py
@@ -569,3 +570,6 @@ For academic collaboration, research partnerships, or publication inquiries, ple
 **Made with ❤️ for Sri Lankan students by the EduLift Team**
 
 *EduLift - Elevating Education Through Technology*
+=======
+Project Link: [Lahiru Senavirathna](https://www.linkedin.com/in/lahiru-senavirathna-39b11a215/)
+>>>>>>> 9b7bb567de9ed6c909ee448aa8fd762b8bed25fd
