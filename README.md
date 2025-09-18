@@ -184,7 +184,6 @@ EduLift addresses these challenges through:
    # Edit .env file with your MySQL configuration
    ```
 
-<<<<<<< HEAD
 5. **Initialize database**
    ```bash
    python setup_db.py
@@ -496,57 +495,6 @@ Please use the GitHub issue tracker to report bugs or request features. Include:
 - Expected vs actual behavior
 - System information (OS, browser, versions)
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-```
-MIT License
-
-Copyright (c) 2024 EduLift Project
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
-## 📞 Contact
-
-**Project Maintainers**:
-- **Primary Contact**: [Your Name] - [your.email@example.com]
-- **Technical Lead**: [Tech Lead Name] - [tech.lead@example.com]
-
-**Project Links**:
-- **Repository**: [https://github.com/yourusername/EduLift](https://github.com/yourusername/EduLift)
-- **Documentation**: [https://edulift-docs.example.com](https://edulift-docs.example.com)
-- **Live Demo**: [https://edulift-demo.example.com](https://edulift-demo.example.com)
-- **Issues**: [https://github.com/yourusername/EduLift/issues](https://github.com/yourusername/EduLift/issues)
-
-**Research Collaboration**:
-For academic collaboration, research partnerships, or publication inquiries, please contact our research team at [research@edulift.com](mailto:research@edulift.com).
-
----
-
-## 🌟 Acknowledgments
-
-- **University of [Your University]** for research support
-- **Sri Lankan Ministry of Education** for domain expertise
-- **Open Source Community** for the amazing tools and libraries
-- **Beta Testing Schools** for valuable feedback and testing
 
 ## 📈 Future Roadmap
 
@@ -567,9 +515,9 @@ For academic collaboration, research partnerships, or publication inquiries, ple
 
 ---
 
-**Made with ❤️ for Sri Lankan students by the EduLift Team**
+**Made with ❤️ for Sri Lankan students by the EduLift**
 
 *EduLift - Elevating Education Through Technology*
-=======
+
 Project Link: [Lahiru Senavirathna](https://www.linkedin.com/in/lahiru-senavirathna-39b11a215/)
->>>>>>> 9b7bb567de9ed6c909ee448aa8fd762b8bed25fd
+
