@@ -519,5 +519,5 @@ Please use the GitHub issue tracker to report bugs or request features. Include:
 
 *EduLift - Elevating Education Through Technology*
 
-Project Link: [Lahiru Senavirathna](https://www.linkedin.com/in/lahiru-senavirathna-39b11a215/)
+📲Contact Me: [Lahiru Senavirathna](https://www.linkedin.com/in/lahiru-senavirathna-39b11a215/)
 
