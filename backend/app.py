@@ -113,8 +113,28 @@ def create_app(config_name='development'):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
     
-    # Initialize extensions with explicit CORS configuration
-    CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
+    # Initialize extensions with CORS configuration
+    # In production, restrict origins to your actual domain
+    allowed_origins = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+    if config_name == 'production':
+        # Parse frontend URL and include common variations
+        frontend_url = os.getenv('FRONTEND_URL', 'https://yourdomain.com')
+        cors_origins = [
+            frontend_url,
+            frontend_url.replace('https://', 'http://'),  # HTTP version
+            frontend_url.replace('www.', ''),  # Non-www version
+            'https://www.' + frontend_url.replace('https://', '').replace('http://', ''),  # www version
+        ]
+    else:
+        cors_origins = "*"
+    
+    CORS(app, resources={r"/api/*": {
+        "origins": cors_origins,
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "supports_credentials": True
+    }})
+    
     db.init_app(app)
     migrate.init_app(app, db)
     jwt = JWTManager(app)
